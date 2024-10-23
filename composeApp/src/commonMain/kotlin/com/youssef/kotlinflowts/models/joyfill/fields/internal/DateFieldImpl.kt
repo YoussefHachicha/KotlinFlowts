@@ -8,3 +8,4 @@ internal open class DateFieldImpl(
 ) : AbstractValueBasedField<Long>(wrapped), DateField {
     override val format: String? get() = wrapped["format"] as String?
 }
+

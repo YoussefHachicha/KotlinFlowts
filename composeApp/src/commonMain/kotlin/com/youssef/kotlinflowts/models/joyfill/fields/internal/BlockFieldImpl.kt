@@ -1,6 +1,6 @@
 package com.youssef.kotlinflowts.models.joyfill.fields.internal
 
-import joyfill.fields.BlockField
+import com.youssef.kotlinflowts.models.joyfill.fields.BlockField
 
 @PublishedApi
 internal open class BlockFieldImpl(

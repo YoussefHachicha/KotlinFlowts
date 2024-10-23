@@ -1,11 +1,11 @@
 package com.youssef.kotlinflowts.models.joyfill.internal
 
-import com.youssef.kotlinflowts.models.joyfill.Document
 import com.youssef.kotlinflowts.models.joyfill.MutableDocument
 import com.youssef.kotlinflowts.models.joyfill.MutableFile
 import com.youssef.kotlinflowts.models.joyfill.fields.AbstractMappable
 import com.youssef.kotlinflowts.models.joyfill.toDocument
 import com.youssef.kotlinflowts.models.joyfill.toField
+import com.youssef.kotlinflowts.models.joyfill.utils.Document
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 import com.youssef.kotlinflowts.models.joyfill.utils.JsonList
 

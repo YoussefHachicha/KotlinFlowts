@@ -43,6 +43,7 @@ import com.youssef.kotlinflowts.models.joyfill.internal.DocumentImpl
 import com.youssef.kotlinflowts.models.joyfill.internal.FieldPositionImpl
 import com.youssef.kotlinflowts.models.joyfill.internal.FileImpl
 import com.youssef.kotlinflowts.models.joyfill.internal.PageImpl
+import com.youssef.kotlinflowts.models.joyfill.utils.Document
 import com.youssef.kotlinflowts.models.joyfill.utils.toMap
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
