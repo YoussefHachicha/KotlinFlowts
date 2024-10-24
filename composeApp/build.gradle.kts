@@ -32,7 +32,9 @@ kotlin {
             with(compose) {
                 implementation(runtime)
                 implementation(foundation)
+                implementation(material3)
                 implementation(material)
+                implementation(materialIconsExtended)
                 implementation(ui)
                 implementation(components.resources)
                 implementation(components.uiToolingPreview)
@@ -46,6 +48,11 @@ kotlin {
                 with(kotlinx){
                     implementation(serialization.json)
                     implementation(datetime)
+                }
+                with(coil){
+                    implementation(mp)
+                    implementation(compose)
+                    implementation(network)
                 }
             }
         }
