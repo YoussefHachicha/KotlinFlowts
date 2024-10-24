@@ -27,16 +27,27 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }
+
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.kotlinx.serialization.json)
+            with(compose) {
+                implementation(runtime)
+                implementation(foundation)
+                implementation(material)
+                implementation(ui)
+                implementation(components.resources)
+                implementation(components.uiToolingPreview)
+            }
+
+            with(libs){
+                with(androidx){
+                    implementation(lifecycle.viewmodel)
+                    implementation(lifecycle.runtime.compose)
+                }
+                with(kotlinx){
+                    implementation(serialization.json)
+                    implementation(datetime)
+                }
+            }
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -54,7 +65,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.0.1"
     }
     packaging {
         resources {
