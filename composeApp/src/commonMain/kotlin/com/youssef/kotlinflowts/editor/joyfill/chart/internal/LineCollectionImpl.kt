@@ -5,19 +5,19 @@ import com.youssef.kotlinflowts.editor.joyfill.chart.LineEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.internal.EventTrigger
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.fields.ChartField
+import com.youssef.kotlinflowts.models.joyfill.fields.ChartComponent
 import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
 import com.youssef.kotlinflowts.models.joyfill.toLine
-import com.youssef.kotlinflowts.models.joyfill.utils.Document
+import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 
 @PublishedApi
 internal class LineCollectionImpl(
-    document: Document,
+    app: App,
     val identity: IdentityGenerator,
-    field: ChartField,
+    field: ChartComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : EventTrigger<ChartField>(document, field, onChange), LineCollection {
+) : EventTrigger<ChartComponent>(app, field, onChange), LineCollection {
 
     override fun all(): List<LineEditor> = field.value?.map { LineEditorImpl(identity, it) } ?: emptyList()
 

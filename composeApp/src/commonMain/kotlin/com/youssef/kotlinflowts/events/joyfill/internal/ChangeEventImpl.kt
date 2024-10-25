@@ -4,8 +4,8 @@ import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.events.joyfill.ChangeLog
 import com.youssef.kotlinflowts.events.joyfill.toChangeLog
 import com.youssef.kotlinflowts.models.joyfill.fields.AbstractMappable
-import com.youssef.kotlinflowts.models.joyfill.toDocument
-import com.youssef.kotlinflowts.models.joyfill.utils.Document
+import com.youssef.kotlinflowts.models.joyfill.toApp
+import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.JsonList
 import com.youssef.kotlinflowts.models.joyfill.utils.toJsonObject
 import kotlinx.serialization.encodeToString
@@ -18,7 +18,7 @@ internal class ChangeEventImpl(
 
     override val changelogs: List<ChangeLog> = JsonList(wrapped[ChangeEvent::changelogs.name]) { it.toChangeLog() }
 
-    override val document: Document = (wrapped[ChangeEvent::document.name] as MutableMap<String, Any?>).toDocument()
+    override val app: App = (wrapped[ChangeEvent::app.name] as MutableMap<String, Any?>).toApp()
 
     override fun toMap() = wrapped
 

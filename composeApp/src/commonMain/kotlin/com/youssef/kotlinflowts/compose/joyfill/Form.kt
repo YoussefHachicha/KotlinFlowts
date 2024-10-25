@@ -13,26 +13,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.youssef.kotlinflowts.editor.joyfill.editors.BlockFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.ChartFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.DateFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.DocumentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.DropdownFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.FieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.ImageFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.MultiSelectFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.NumberFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.RichTextFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.SignatureFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.TableFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.TextAreaFieldEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.TextFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.BlockComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.ChartComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.DateComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.AppEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.DropdownComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.ComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.ImageComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.MultiSelectComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.NumberComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.RichTextComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.SignatureComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.TableComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.TextAreaComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.TextComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.FieldEvent
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
 fun Form(
-    editor: DocumentEditor,
+    editor: AppEditor,
     mode: Mode = Mode.fill,
     onUpload: (suspend (FieldEvent) -> List<String>)? = null,
     pageId: String? = null,
@@ -48,104 +48,104 @@ fun Form(
     }
 
     val pages = remember(editor, view) {
-        view?.pages ?: editor.pages.raw()
+        view?.screens ?: editor.screens.raw()
     }
 
     var currentPage by remember(pages, pageId) {
         mutableStateOf(pages.find { it.id == pageId } ?: pages.first())
     }
 
-    val fields by remember(editor, currentPage) { derivedStateOf { editor.fields.from(currentPage) } }
+    val fields by remember(editor, currentPage) { derivedStateOf { editor.components.from(currentPage) } }
 
-    fun <T> FieldEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus -> onFocus?.invoke(FieldEvent(field, currentPage))
-        is Signal.Blur -> onBlur?.invoke(FieldEvent(field, currentPage))
-        is Signal.Change -> onFieldChange?.invoke(FieldEvent(field, currentPage))
+    fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
+        is Signal.Focus -> onFocus?.invoke(FieldEvent(component, currentPage))
+        is Signal.Blur -> onBlur?.invoke(FieldEvent(component, currentPage))
+        is Signal.Change -> onFieldChange?.invoke(FieldEvent(component, currentPage))
     }
 
     LazyColumn(modifier = modifier) {
         if (navigation) item {
             JoyPageSelector(
-                pages = pages,
-                page = currentPage,
+                screens = pages,
+                screen = currentPage,
                 onChange = { currentPage = it }
             )
             Spacer(modifier = Modifier.height(12.dp))
         }
         items(fields, key = { it.id }) { it ->
             when (it) {
-                is TextFieldEditor -> JoyTextField(
+                is TextComponentEditor -> JoyTextField(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit,
                 )
 
-                is NumberFieldEditor -> JoyNumberField(
+                is NumberComponentEditor -> JoyNumberField(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is DateFieldEditor -> JoyDateTimeField(
+                is DateComponentEditor -> JoyDateTimeField(
                     editor = it,
                     mode = mode,
-                    format = currentPage.positions.firstOrNull { it.field == it.id }?.format ?: it.field.format,
+                    format = currentPage.positions.firstOrNull { it.componentId == it.id }?.format ?: it.component.format,
                     onSignal = it::emit
                 )
 
-                is MultiSelectFieldEditor -> JoySelectField(
+                is MultiSelectComponentEditor -> JoySelectField(
                     editor = it,
                     mode = mode,
                     multiple = true,
                     onSignal = it::emit
                 )
 
-                is DropdownFieldEditor -> JoyDropField(
+                is DropdownComponentEditor -> JoyDropField(
                     editor = it,
                     mode = mode,
                     multiple = false,
                     onSignal = it::emit
                 )
 
-                is ImageFieldEditor -> JoyImageField(
+                is ImageComponentEditor -> JoyImageField(
                     editor = it,
                     mode = mode,
-                    onUpload = onUpload?.let { call -> { call(FieldEvent(it.field, currentPage)) } },
+                    onUpload = onUpload?.let { call -> { call(FieldEvent(it.component, currentPage)) } },
                     onSignal = it::emit
                 )
 
-                is SignatureFieldEditor -> JoySignatureField(
+                is SignatureComponentEditor -> JoySignatureField(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is TableFieldEditor -> JoyTableField(
+                is TableComponentEditor -> JoyTableField(
                     editor = it,
                     mode = mode,
-                    page = currentPage,
+                    screen = currentPage,
                     onUpload = onUpload,
                     previewRows = 5,
                 )
 
-                is TextAreaFieldEditor -> JoyTextArea(
+                is TextAreaComponentEditor -> JoyTextArea(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is ChartFieldEditor -> JoyChartField(
+                is ChartComponentEditor -> JoyChartField(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is BlockFieldEditor -> JoyBlockField(
-                    field = it.field,
-                    position = currentPage.positions.find { it.field == it.id }
+                is BlockComponentEditor -> JoyBlockField(
+                    field = it.component,
+                    position = currentPage.positions.find { it.componentId == it.id }
                 )
 
-                is RichTextFieldEditor -> JoyRichTextField(it.field)
+                is RichTextComponentEditor -> JoyRichTextField(it.component)
 
                 else -> if (showUnsupportedFields) {
                     Text("Unsupported Field of type = ${it.type}")

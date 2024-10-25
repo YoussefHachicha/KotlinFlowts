@@ -43,17 +43,17 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.youssef.kotlinflowts.editor.joyfill.chart.LineEditor
 import com.youssef.kotlinflowts.editor.joyfill.chart.PointEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.ChartFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
-import com.youssef.kotlinflowts.models.joyfill.fields.ChartField
+import com.youssef.kotlinflowts.models.joyfill.fields.ChartComponent
 
 @Composable
 internal fun JoyChartField(
-    editor: ChartFieldEditor,
+    editor: ChartComponentEditor,
     mode: Mode,
     onSignal: (Signal<Any?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.field.id).fillMaxWidth()) {
-    val field = remember(editor) { editor.field }
+) = Column(modifier = Modifier.testTag(editor.component.id).fillMaxWidth()) {
+    val field = remember(editor) { editor.component }
     var capturing by remember { mutableStateOf(false) }
     val lines = remember(field.value) { mutableStateListOf(*(field.value ?: emptyList()).toTypedArray()) }
     val readonly = field.disabled || mode == Mode.readonly
@@ -133,7 +133,7 @@ internal fun JoyChartField(
 
 @Composable
 private fun LineEditor(
-    field: ChartField,
+    field: ChartComponent,
     editor: LineEditor,
     onDelete: () -> Unit,
     readonly: Boolean,
@@ -199,7 +199,7 @@ private fun LineEditor(
 
 @Composable
 private fun PointEditor(
-    field: ChartField,
+    field: ChartComponent,
     editor: PointEditor,
     onDelete: () -> Unit,
     readonly: Boolean = false,

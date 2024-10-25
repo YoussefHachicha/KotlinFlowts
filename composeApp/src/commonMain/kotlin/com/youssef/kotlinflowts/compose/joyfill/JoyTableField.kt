@@ -24,7 +24,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.ArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
@@ -55,33 +54,33 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.youssef.kotlinflowts.compose.joyfill.tables.LazyRowArrayTable
 import com.youssef.kotlinflowts.compose.joyfill.tables.RowArrayTable
-import com.youssef.kotlinflowts.editor.joyfill.editors.TableFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.TableComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.DropdownCellEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.ImageCellEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.TextCellEditor
 import com.youssef.kotlinflowts.manager.joyfill.FieldEvent
 import com.youssef.kotlinflowts.manager.joyfill.Mode
-import com.youssef.kotlinflowts.models.joyfill.Page
-import com.youssef.kotlinflowts.models.joyfill.fields.Field
+import com.youssef.kotlinflowts.models.joyfill.Screen
+import com.youssef.kotlinflowts.models.joyfill.fields.Component
 import com.youssef.kotlinflowts.models.joyfill.fields.table.Column
 import com.youssef.kotlinflowts.models.joyfill.fields.table.DropdownColumn
 import com.youssef.kotlinflowts.models.joyfill.fields.table.ImageColumn
 import com.youssef.kotlinflowts.models.joyfill.fields.table.TextColumn
-import com.youssef.kotlinflowts.models.joyfill.utils.Option
+import com.youssef.kotlinflowts.models.joyfill.utils.option
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 internal fun JoyTableField(
-    editor: TableFieldEditor,
-    page: Page,
+    editor: TableComponentEditor,
+    screen: Screen,
     previewRows: Int,
     mode: Mode,
     onUpload: (suspend (FieldEvent) -> List<String>)?,
 ) {
     var view by remember { mutableStateOf(UIView.small) }
-    val field = remember(editor) { editor.field }
-    val allRows = remember { mutableStateListOf(*(editor.field.value).toTypedArray()) }
+    val field = remember(editor) { editor.component }
+    val allRows = remember { mutableStateListOf(*(editor.component.value).toTypedArray()) }
     val rows by remember(allRows.size) { derivedStateOf { allRows.filter { !it.deleted && it.id in field.rowOrder } } }
     val selectedRow = remember { mutableStateListOf<Int>() }
     val scope = rememberCoroutineScope()
@@ -98,8 +97,8 @@ internal fun JoyTableField(
     val uploadHandler = if (onUpload != null) {
         suspend {
             val event = FieldEvent(
-                field = editor.field,
-                page = page
+                component = editor.component,
+                screen = screen
             )
             onUpload(event)
         }
@@ -108,7 +107,7 @@ internal fun JoyTableField(
     AnimatedVisibility(
         visible = view == UIView.large,
         enter = slideIn { IntOffset.Zero },
-        modifier = Modifier.testTag("${editor.field.id}-large")
+        modifier = Modifier.testTag("${editor.component.id}-large")
     ) {
         var subDialog by remember { mutableStateOf(false) }
         Dialog(
@@ -131,7 +130,7 @@ internal fun JoyTableField(
                                     contentAlignment = Alignment.CenterStart
                                 ) {
                                     RawDropField(
-                                        options = listOf("Delete").map { Option(it, it, false) },
+                                        options = listOf("Delete").map { option(it, it, false) },
                                         value = emptyList(),
                                         readonly = false,
                                         multiple = false,
@@ -350,12 +349,12 @@ private fun RowCapture(
 
 @Composable
 private fun Preview(
-    editor: TableFieldEditor,
+    editor: TableComponentEditor,
     rows: Int,
     totalRows: Int,
     onClick: () -> Unit,
 ) {
-    val field = remember(editor) { editor.field }
+    val field = remember(editor) { editor.component }
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -399,9 +398,9 @@ private fun Preview(
     }
 }
 
-private fun colWidth(type: Field.Type, preview: Boolean) = when (type) {
-    Field.Type.text -> 150.dp
-    Field.Type.dropdown -> 200.dp
-    Field.Type.image -> if (preview) 100.dp else 200.dp
+private fun colWidth(type: Component.Type, preview: Boolean) = when (type) {
+    Component.Type.text -> 150.dp
+    Component.Type.dropdown -> 200.dp
+    Component.Type.image -> if (preview) 100.dp else 200.dp
     else -> 100.dp
 }

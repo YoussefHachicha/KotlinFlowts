@@ -14,13 +14,13 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.youssef.kotlinflowts.models.joyfill.fields.RichTextField
+import com.youssef.kotlinflowts.models.joyfill.fields.RichTextComponent
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 @Composable
 internal fun JoyRichTextField(
-    field: RichTextField,
+    field: RichTextComponent,
 ) = Column(modifier = Modifier.testTag(field.id).fillMaxWidth()) {
     DraftJsRichText(field.value)
     Spacer(modifier = Modifier.height(8.dp))

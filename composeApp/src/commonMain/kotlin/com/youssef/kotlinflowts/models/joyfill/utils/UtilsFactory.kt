@@ -3,7 +3,7 @@ package com.youssef.kotlinflowts.models.joyfill.utils
 import com.youssef.kotlinflowts.models.joyfill.utils.internal.AttachmentImpl
 import com.youssef.kotlinflowts.models.joyfill.utils.internal.OptionImpl
 
-fun Option(
+fun option(
     id: String,
     value: String,
     deleted: Boolean? = null

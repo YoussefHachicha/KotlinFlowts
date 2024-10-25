@@ -12,19 +12,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.youssef.kotlinflowts.editor.joyfill.editors.TextFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.TextComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
 internal fun JoyTextField(
-    editor: TextFieldEditor,
+    editor: TextComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.field.id).fillMaxWidth()) {
-    val field = remember(editor) { editor.field }
+) = Column(modifier = Modifier.testTag(editor.component.id).fillMaxWidth()) {
+    val field = remember(editor) { editor.component }
     JoyTitle(field.title, modifier = Modifier.testTag("${field.id}-title"))
     Spacer(modifier = Modifier.height(2.dp))
-    var value by remember(editor) { mutableStateOf(editor.field.value) }
+    var value by remember(editor) { mutableStateOf(editor.component.value) }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 
     RawTextField(

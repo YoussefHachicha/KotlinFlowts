@@ -5,16 +5,16 @@ import androidx.compose.runtime.remember
 import com.youssef.kotlinflowts.editor.joyfill.editorOf
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.utils.Document
+import com.youssef.kotlinflowts.models.joyfill.utils.App
 import kotlinx.serialization.json.JsonObject
 
 @Composable
 fun rememberEditor(
-    document: Document,
+    app: App,
     identity: IdentityGenerator = IdentityGenerator.default,
     onChange: ((ChangeEvent) -> Unit)? = null
-) = remember(document, identity, onChange) {
-    editorOf(document, identity, onChange)
+) = remember(app, identity, onChange) {
+    editorOf(app, identity, onChange)
 }
 
 @Composable

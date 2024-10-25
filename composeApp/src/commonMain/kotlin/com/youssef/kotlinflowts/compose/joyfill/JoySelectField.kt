@@ -25,17 +25,17 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.youssef.kotlinflowts.editor.joyfill.editors.MultiSelectFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.MultiSelectComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
 internal fun JoySelectField(
-    editor: MultiSelectFieldEditor,
+    editor: MultiSelectComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<List<String>>) -> Unit
 ) {
-    val field = remember(editor) {  editor.field }
+    val field = remember(editor) {  editor.component }
     val options = remember(editor) { editor.options }
 
     val values = remember(editor) {

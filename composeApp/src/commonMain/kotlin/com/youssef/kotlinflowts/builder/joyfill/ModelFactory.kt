@@ -1,35 +1,35 @@
 package com.youssef.kotlinflowts.builder.joyfill
 
-import com.youssef.kotlinflowts.models.joyfill.FieldPosition
+import com.youssef.kotlinflowts.models.joyfill.ComponentPosition
 import com.youssef.kotlinflowts.models.joyfill.File
 import com.youssef.kotlinflowts.models.joyfill.MutableFile
-import com.youssef.kotlinflowts.models.joyfill.MutablePage
-import com.youssef.kotlinflowts.models.joyfill.Page
-import com.youssef.kotlinflowts.models.joyfill.fields.DateField
-import com.youssef.kotlinflowts.models.joyfill.fields.DropdownField
-import com.youssef.kotlinflowts.models.joyfill.fields.Field
-import com.youssef.kotlinflowts.models.joyfill.fields.TableField
-import com.youssef.kotlinflowts.models.joyfill.fields.ValueBasedField
+import com.youssef.kotlinflowts.models.joyfill.MutableScreen
+import com.youssef.kotlinflowts.models.joyfill.Screen
+import com.youssef.kotlinflowts.models.joyfill.fields.DateComponent
+import com.youssef.kotlinflowts.models.joyfill.fields.DropdownComponent
+import com.youssef.kotlinflowts.models.joyfill.fields.Component
+import com.youssef.kotlinflowts.models.joyfill.fields.TableComponent
+import com.youssef.kotlinflowts.models.joyfill.fields.ValueBasedComponent
 import com.youssef.kotlinflowts.models.joyfill.fields.chart.Axis
 import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
 import com.youssef.kotlinflowts.models.joyfill.fields.table.Column
 import com.youssef.kotlinflowts.models.joyfill.fields.table.Row
-import com.youssef.kotlinflowts.models.joyfill.toChartField
-import com.youssef.kotlinflowts.models.joyfill.toDateField
-import com.youssef.kotlinflowts.models.joyfill.toDropdownField
+import com.youssef.kotlinflowts.models.joyfill.toChartComponent
+import com.youssef.kotlinflowts.models.joyfill.toDateComponent
+import com.youssef.kotlinflowts.models.joyfill.toDropdownComponent
 import com.youssef.kotlinflowts.models.joyfill.toFile
-import com.youssef.kotlinflowts.models.joyfill.toFileField
-import com.youssef.kotlinflowts.models.joyfill.toImageField
-import com.youssef.kotlinflowts.models.joyfill.toMultiSelectField
+import com.youssef.kotlinflowts.models.joyfill.toFileComponent
+import com.youssef.kotlinflowts.models.joyfill.toImageComponent
+import com.youssef.kotlinflowts.models.joyfill.toMultiSelectComponent
 import com.youssef.kotlinflowts.models.joyfill.toMutableFile
-import com.youssef.kotlinflowts.models.joyfill.toMutablePage
-import com.youssef.kotlinflowts.models.joyfill.toNumberField
-import com.youssef.kotlinflowts.models.joyfill.toPage
+import com.youssef.kotlinflowts.models.joyfill.toMutableScreen
+import com.youssef.kotlinflowts.models.joyfill.toNumberComponent
+import com.youssef.kotlinflowts.models.joyfill.toScreen
 import com.youssef.kotlinflowts.models.joyfill.toPosition
-import com.youssef.kotlinflowts.models.joyfill.toSignatureField
-import com.youssef.kotlinflowts.models.joyfill.toTableField
-import com.youssef.kotlinflowts.models.joyfill.toTextAreaField
-import com.youssef.kotlinflowts.models.joyfill.toTextField
+import com.youssef.kotlinflowts.models.joyfill.toSignatureComponent
+import com.youssef.kotlinflowts.models.joyfill.toTableComponent
+import com.youssef.kotlinflowts.models.joyfill.toTextAreaComponent
+import com.youssef.kotlinflowts.models.joyfill.toTextComponent
 import com.youssef.kotlinflowts.models.joyfill.utils.AXIS_X_MAX
 import com.youssef.kotlinflowts.models.joyfill.utils.AXIS_X_MIN
 import com.youssef.kotlinflowts.models.joyfill.utils.AXIS_X_TITLE
@@ -43,89 +43,89 @@ import com.youssef.kotlinflowts.models.joyfill.utils.ID
 import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 import com.youssef.kotlinflowts.models.joyfill.utils.POSITIONS
 
-internal fun Page(
+internal fun screen(
     id: String,
     name: String,
-    positions: MutableList<FieldPosition>,
-): MutablePage = mutableMapOf<String, Any?>(
+    positions: MutableList<ComponentPosition>,
+): MutableScreen = mutableMapOf<String, Any?>(
     ID to id,
-    Page::name.name to name,
+    Screen::name.name to name,
     POSITIONS to positions
-).toPage().toMutablePage()
+).toScreen().toMutableScreen()
 
-internal fun File(
+internal fun file(
     id: String,
     name: String,
-    pages: MutableList<Page>,
+    screens: MutableList<Screen>,
     pageOrder: MutableList<String>,
 ): MutableFile = mutableMapOf<String, Any?>(
     ID to id,
     File::name.name to name,
-    File::pages.name to pages,
-    File::pageOrder.name to pageOrder
+    File::screens.name to screens,
+    File::screenOrder.name to pageOrder
 ).toFile().toMutableFile()
 
-internal fun FieldPosition(
+internal fun componentPosition(
     id: String,
-    field: String,
+    component: String,
     displayType: String?,
     format: String?
-): FieldPosition = mutableMapOf<String, Any?>(
+): ComponentPosition = mutableMapOf<String, Any?>(
     ID to id,
-    FieldPosition::field.name to field,
-    FieldPosition::displayType.name to displayType,
-    FieldPosition::format.name to format
+    ComponentPosition::componentId.name to component,
+    ComponentPosition::displayType.name to displayType,
+    ComponentPosition::format.name to format
 ).toPosition()
 
-private fun <V> ValueBasedField(
+private fun <V> valueBasedComponent(
     id: String,
     title: String,
     identifier: String,
-    type: Field.Type,
+    type: Component.Type,
     readonly: Boolean,
     value: V?
 ) = mutableMapOf(
     ID to id,
-    Field::title.name to title,
-    Field::identifier.name to identifier,
-    ValueBasedField<*>::value.name to value,
-    Field::disabled.name to readonly,
-    Field::type.name to type.name
+    Component::title.name to title,
+    Component::identifier.name to identifier,
+    ValueBasedComponent<*>::value.name to value,
+    Component::disabled.name to readonly,
+    Component::type.name to type.name
 )
 
-internal fun TextField(
+internal fun textComponent(
     id: String,
     title: String,
     identifier: String,
     readonly: Boolean,
     value: String?
-) = ValueBasedField(id, title, identifier, Field.Type.text, readonly, value).toTextField()
+) = valueBasedComponent(id, title, identifier, Component.Type.text, readonly, value).toTextComponent()
 
-internal fun TextArea(
+internal fun textAreaComponent(
     id: String,
     title: String,
     identifier: String,
     readonly: Boolean,
     value: String?
-) = ValueBasedField(id, title, identifier, Field.Type.textarea, readonly, value).toTextAreaField()
+) = valueBasedComponent(id, title, identifier, Component.Type.textarea, readonly, value).toTextAreaComponent()
 
-internal fun SignatureField(
+internal fun signatureComponent(
     id: String,
     title: String,
     identifier: String,
     readonly: Boolean,
     value: String?
-) = ValueBasedField(id, title, identifier, Field.Type.signature, readonly, value).toSignatureField()
+) = valueBasedComponent(id, title, identifier, Component.Type.signature, readonly, value).toSignatureComponent()
 
-internal fun NumberField(
+internal fun numberComponent(
     id: String,
     title: String,
     identifier: String,
     readonly: Boolean,
     value: Number?
-) = ValueBasedField(id, title, identifier, Field.Type.number, readonly, value?.toDouble()).toNumberField()
+) = valueBasedComponent(id, title, identifier, Component.Type.number, readonly, value?.toDouble()).toNumberComponent()
 
-internal fun DateField(
+internal fun dateComponent(
     id: String,
     title: String,
     identifier: String,
@@ -134,15 +134,15 @@ internal fun DateField(
     value: Long?
 ) = mutableMapOf<String, Any?>(
     ID to id,
-    Field::title.name to title,
-    Field::identifier.name to identifier,
-    ValueBasedField<*>::value.name to value,
-    Field::disabled.name to readonly,
-    DateField::format.name to format,
-    Field::type.name to Field.Type.date.name
-).toDateField()
+    Component::title.name to title,
+    Component::identifier.name to identifier,
+    ValueBasedComponent<*>::value.name to value,
+    Component::disabled.name to readonly,
+    DateComponent::format.name to format,
+    Component::type.name to Component.Type.date.name
+).toDateComponent()
 
-internal fun DropdownField(
+internal fun dropdownComponent(
     id: String,
     title: String,
     identifier: String,
@@ -151,15 +151,15 @@ internal fun DropdownField(
     selected: Option2?
 ) = mutableMapOf(
     ID to id,
-    Field::title.name to title,
-    Field::identifier.name to identifier,
-    ValueBasedField<*>::value.name to selected?.value,
-    DropdownField::options.name to options.map { it.toMap() }.toMutableList(),
-    Field::disabled.name to readonly,
-    Field::type.name to Field.Type.dropdown.name
-).toDropdownField()
+    Component::title.name to title,
+    Component::identifier.name to identifier,
+    ValueBasedComponent<*>::value.name to selected?.value,
+    DropdownComponent::options.name to options.map { it.toMap() }.toMutableList(),
+    Component::disabled.name to readonly,
+    Component::type.name to Component.Type.dropdown.name
+).toDropdownComponent()
 
-internal fun MultiSelectField(
+internal fun multiSelectComponent(
     id: String,
     title: String,
     identifier: String,
@@ -167,27 +167,27 @@ internal fun MultiSelectField(
     selected: List<String>
 ) = mutableMapOf<String, Any?>(
     ID to id,
-    Field::title.name to title,
-    Field::identifier.name to identifier,
-    ValueBasedField<*>::value.name to selected,
-    DropdownField::options.name to options.map { it.toMap() }.toMutableList(),
-    Field::type.name to Field.Type.multiSelect.name
-).toMultiSelectField()
+    Component::title.name to title,
+    Component::identifier.name to identifier,
+    ValueBasedComponent<*>::value.name to selected,
+    DropdownComponent::options.name to options.map { it.toMap() }.toMutableList(),
+    Component::type.name to Component.Type.multiSelect.name
+).toMultiSelectComponent()
 
-internal fun FileField(
+internal fun fileComponent(
     id: String,
     title: String,
     identifier: String,
     value: List<Attachment>
 ) = mutableMapOf<String, Any?>(
     ID to id,
-    Field::title.name to title,
-    Field::identifier.name to identifier,
-    ValueBasedField<*>::value.name to value,
-    Field::type.name to Field.Type.file.name
-).toFileField()
+    Component::title.name to title,
+    Component::identifier.name to identifier,
+    ValueBasedComponent<*>::value.name to value,
+    Component::type.name to Component.Type.file.name
+).toFileComponent()
 
-internal fun ImageField(
+internal fun imageComponent(
     id: String,
     title: String,
     identifier: String,
@@ -195,30 +195,30 @@ internal fun ImageField(
     value: List<Attachment>
 ) = mutableMapOf<String, Any?>(
     ID to id,
-    Field::title.name to title,
-    Field::identifier.name to identifier,
-    ValueBasedField<*>::value.name to value.map { it.toMap() }.toMutableList(),
-    Field::disabled.name to readonly,
-    Field::type.name to Field.Type.image.name
-).toImageField()
+    Component::title.name to title,
+    Component::identifier.name to identifier,
+    ValueBasedComponent<*>::value.name to value.map { it.toMap() }.toMutableList(),
+    Component::disabled.name to readonly,
+    Component::type.name to Component.Type.image.name
+).toImageComponent()
 
-internal fun TableField(
+internal fun tableComponent(
     id: String,
     title: String,
     identifier: String,
     columns: List<Column>
 ) = mutableMapOf<String, Any?>(
     ID to id,
-    Field::title.name to title,
-    Field::identifier.name to identifier,
-    ValueBasedField<*>::value.name to mutableListOf<Row>(),
-    Field::type.name to Field.Type.table.name,
+    Component::title.name to title,
+    Component::identifier.name to identifier,
+    ValueBasedComponent<*>::value.name to mutableListOf<Row>(),
+    Component::type.name to Component.Type.table.name,
     COLUMNS to columns.map { it.toMap() }.toMutableList(),
     COLUMN_ORDER to columns.map { it.id }.toMutableList(),
-    TableField::rowOrder.name to mutableListOf<String>()
-).toTableField()
+    TableComponent::rowOrder.name to mutableListOf<String>()
+).toTableComponent()
 
-internal fun ChartField(
+internal fun chartComponent(
     id: String,
     title: String,
     identifier: String,
@@ -227,14 +227,14 @@ internal fun ChartField(
     lines: List<Line>
 ) = mutableMapOf<String, Any?>(
     ID to id,
-    Field::title.name to title,
-    Field::identifier.name to identifier,
+    Component::title.name to title,
+    Component::identifier.name to identifier,
     AXIS_Y_TITLE to y.label,
     AXIS_Y_MIN to y.min,
     AXIS_Y_MAX to y.max,
     AXIS_X_TITLE to x.label,
     AXIS_X_MIN to x.min,
     AXIS_X_MAX to x.max,
-    ValueBasedField<*>::value.name to lines.map { it.toMap() }.toMutableList(),
-    Field::type.name to Field.Type.chart.name,
-).toChartField()
+    ValueBasedComponent<*>::value.name to lines.map { it.toMap() }.toMutableList(),
+    Component::type.name to Component.Type.chart.name,
+).toChartComponent()

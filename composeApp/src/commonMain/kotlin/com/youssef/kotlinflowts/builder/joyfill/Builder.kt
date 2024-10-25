@@ -2,29 +2,29 @@ package com.youssef.kotlinflowts.builder.joyfill
 
 import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilder
 import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilderImpl
-import com.youssef.kotlinflowts.builder.joyfill.internal.DocumentBuilderImpl
+import com.youssef.kotlinflowts.builder.joyfill.internal.AppBuilderImpl
 import com.youssef.kotlinflowts.models.joyfill.File
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.fields.Field
+import com.youssef.kotlinflowts.models.joyfill.fields.Component
 import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
-import com.youssef.kotlinflowts.models.joyfill.toDocument
-import com.youssef.kotlinflowts.models.joyfill.toMutableDocument
-import com.youssef.kotlinflowts.models.joyfill.utils.Document
+import com.youssef.kotlinflowts.models.joyfill.toApp
+import com.youssef.kotlinflowts.models.joyfill.toMutableApp
+import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 
-fun buildDocument(builder: DocumentBuilder.() -> Unit): Document {
+fun buildDocument(builder: AppBuilder.() -> Unit): App {
     val generator = IdentityGenerator.default
     val uid = generator.generate()
-    val document = mutableMapOf<String, Any?>(
+    val app = mutableMapOf<String, Any?>(
         ID to uid,
-        Document::identifier.name to "document-$uid",
-        Document::name.name to "New Document",
-        Document::files.name to mutableListOf<File>(),
-        Document::fields.name to mutableListOf<Field>()
-    ).toDocument().toMutableDocument()
-    val db = DocumentBuilderImpl(document, generator)
+        App::identifier.name to "document-$uid",
+        App::name.name to "New Document",
+        App::files.name to mutableListOf<File>(),
+        App::components.name to mutableListOf<Component>()
+    ).toApp().toMutableApp()
+    val db = AppBuilderImpl(app, generator)
     db.builder()
-    return db.document
+    return db.app
 }
 
 fun plot(

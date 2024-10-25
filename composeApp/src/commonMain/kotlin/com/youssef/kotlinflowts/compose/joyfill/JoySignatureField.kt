@@ -64,21 +64,21 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.youssef.kotlinflowts.compose.joyfill.utils.onDrawing
 import com.youssef.kotlinflowts.compose.joyfill.utils.toByteArray
-import com.youssef.kotlinflowts.editor.joyfill.editors.SignatureFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
-import com.youssef.kotlinflowts.models.joyfill.fields.Field
-import com.youssef.kotlinflowts.models.joyfill.fields.SignatureField
+import com.youssef.kotlinflowts.models.joyfill.fields.Component
+import com.youssef.kotlinflowts.models.joyfill.fields.SignatureComponent
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 @Composable
 internal fun JoySignatureField(
-    editor: SignatureFieldEditor,
+    editor: SignatureComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
 ) {
 
-    val field = remember(editor) { editor.field }
+    val field = remember(editor) { editor.component }
 
     var state by remember(field) {
         val s = when (val value = field.value) {
@@ -160,7 +160,7 @@ private sealed interface State {
 @OptIn(ExperimentalEncodingApi::class)
 @Composable
 private fun Capture(
-    field: SignatureField,
+    field: SignatureComponent,
     url: String? = null,
     onCaptured: (String?) -> Unit,
     onCanceled: () -> Unit,
@@ -223,7 +223,7 @@ private fun Capture(
 
 
                         if (v != null || paths.isNotEmpty() || text.isNotEmpty()) DeleteOption(
-                            field = field,
+                            component = field,
                             deleting = deleting,
                             onDelete = { deleting = true },
                             onConfirm = {
@@ -335,20 +335,20 @@ private fun Capture(
 
 @Composable
 private fun DeleteOption(
-    field: Field,
+    component: Component,
     deleting: Boolean,
     onDelete: () -> Unit,
     onCanceled: () -> Unit,
     onConfirm: () -> Unit
 ) {
     if (!deleting) IconButton(
-        modifier = Modifier.testTag("${field.id}-capture-delete"),
+        modifier = Modifier.testTag("${component.id}-capture-delete"),
         onClick = onDelete
     ) {
         Icon(Icons.Outlined.Delete, "Delete", tint = Color.Red)
     } else {
         OutlinedButton(
-            modifier = Modifier.testTag("${field.id}-capture-delete-cancel"),
+            modifier = Modifier.testTag("${component.id}-capture-delete-cancel"),
             onClick = onCanceled,
             shape = RoundedCornerShape(8.dp),
         ) {
@@ -356,7 +356,7 @@ private fun DeleteOption(
         }
         Spacer(modifier = Modifier.width(8.dp))
         OutlinedButton(
-            modifier = Modifier.testTag("${field.id}-capture-delete-confirm"),
+            modifier = Modifier.testTag("${component.id}-capture-delete-confirm"),
             onClick = onConfirm,
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red)

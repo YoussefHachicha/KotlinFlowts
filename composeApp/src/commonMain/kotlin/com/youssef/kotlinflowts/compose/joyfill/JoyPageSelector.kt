@@ -32,14 +32,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.youssef.kotlinflowts.models.joyfill.Page
+import com.youssef.kotlinflowts.models.joyfill.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun JoyPageSelector(
-    pages: List<Page>,
-    page: Page,
-    onChange: (Page) -> Unit,
+    screens: List<Screen>,
+    screen: Screen,
+    onChange: (Screen) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     Row(modifier = Modifier
@@ -49,8 +49,8 @@ internal fun JoyPageSelector(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
-            Text("Page #${pages.indexOf(page) + 1}", color = LocalContentColor.current.copy(alpha = 0.7f))
-            Text(page.name)
+            Text("Page #${screens.indexOf(screen) + 1}", color = LocalContentColor.current.copy(alpha = 0.7f))
+            Text(screen.name)
         }
         ExposedDropdownMenuDefaults.TrailingIcon(expanded)
     }
@@ -72,7 +72,7 @@ internal fun JoyPageSelector(
                             Icon(Icons.Outlined.Close, "close", modifier = Modifier.clickable { expanded = false }.padding(8.dp))
                         }
                     }
-                    itemsIndexed(pages, key = { _, p -> p.id }) { index, it ->
+                    itemsIndexed(screens, key = { _, p -> p.id }) { index, it ->
                         Box(
                             contentAlignment = Alignment.CenterStart,
                             modifier = Modifier.clickable {

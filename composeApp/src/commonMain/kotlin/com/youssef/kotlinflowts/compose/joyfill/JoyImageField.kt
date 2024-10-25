@@ -61,18 +61,18 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.youssef.kotlinflowts.compose.joyfill.internal.ActiveFocusState
 import com.youssef.kotlinflowts.compose.joyfill.internal.InActiveFocusState
-import com.youssef.kotlinflowts.editor.joyfill.editors.FileBasedFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.FileBasedComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 import com.youssef.kotlinflowts.models.joyfill.utils.Attachment
 
 @Composable
 internal fun JoyImageField(
-    editor: FileBasedFieldEditor,
+    editor: FileBasedComponentEditor,
     mode: Mode,
     onUpload: (suspend () -> List<String>)? = null,
     onSignal: (Signal<List<Attachment>>) -> Unit,
 ) {
-    val field = remember(editor) { editor.field }
+    val field = remember(editor) { editor.component }
     Text(field.title, modifier = Modifier.testTag("${field.id}-preview-title").padding(bottom = 8.dp))
     Column(modifier = Modifier.fillMaxWidth()) {
         RawImageField(

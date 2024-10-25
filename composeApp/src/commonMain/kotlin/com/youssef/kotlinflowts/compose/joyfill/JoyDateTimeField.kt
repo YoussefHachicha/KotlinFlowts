@@ -32,19 +32,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.youssef.kotlinflowts.editor.joyfill.editors.DateFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.DateComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun JoyDateTimeField(
-    editor: DateFieldEditor,
+    editor: DateComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
 ) {
-    val field = remember(editor) { editor.field }
+    val field = remember(editor) { editor.component }
     val value = field.value?.let { java.time.Instant.ofEpochMilli(it) }
     var dialog by remember { mutableStateOf(false) }
     val readonly = remember(field, mode) { field.disabled || mode == Mode.readonly }

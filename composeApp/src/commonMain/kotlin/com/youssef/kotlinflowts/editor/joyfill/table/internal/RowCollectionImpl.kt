@@ -1,31 +1,31 @@
 package com.youssef.kotlinflowts.editor.joyfill.table.internal
 
-import com.youssef.kotlinflowts.editor.joyfill.editors.TableFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.TableComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.RowCollection
 import com.youssef.kotlinflowts.editor.joyfill.table.RowEditor
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.fields.TableField
+import com.youssef.kotlinflowts.models.joyfill.fields.TableComponent
 import com.youssef.kotlinflowts.models.joyfill.fields.table.DropdownColumn
 import com.youssef.kotlinflowts.models.joyfill.fields.table.ImageColumn
 import com.youssef.kotlinflowts.models.joyfill.fields.table.Row
 import com.youssef.kotlinflowts.models.joyfill.fields.table.TextColumn
 import com.youssef.kotlinflowts.models.joyfill.toRow
-import com.youssef.kotlinflowts.models.joyfill.utils.Document
+import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 import kotlin.math.max
 
 @PublishedApi
 internal class RowCollectionImpl(
-    private val document: Document,
-    private val field: TableField,
-    private val parent: TableFieldEditor,
+    private val app: App,
+    private val field: TableComponent,
+    private val parent: TableComponentEditor,
     private val identity: IdentityGenerator,
     private val onChange: ((ChangeEvent) -> Unit)?
 ) : RowCollection {
 
     override fun all(): List<RowEditor> = field.value.map {
-        RowEditorImpl(document, field, identity, it, onChange)
+        RowEditorImpl(app, field, identity, it, onChange)
     }
 
     private fun create(index: Int): Row {
@@ -47,7 +47,7 @@ internal class RowCollectionImpl(
 
     override fun addAt(index: Int): RowEditor {
         val row = create(index)
-        return RowEditorImpl(document, field, identity, row, onChange)
+        return RowEditorImpl(app, field, identity, row, onChange)
     }
 
     override fun append() = addAt(field.value.size)
@@ -68,12 +68,12 @@ internal class RowCollectionImpl(
 
     override fun get(index: Int): RowEditor? {
         val row = field.value.getOrNull(index) ?: return null
-        return RowEditorImpl(document, field, identity, row, onChange)
+        return RowEditorImpl(app, field, identity, row, onChange)
     }
 
     override fun get(id: String): RowEditor? {
         val row = field.value.find { it.id == id } ?: return null
-        return RowEditorImpl(document, field, identity, row, onChange)
+        return RowEditorImpl(app, field, identity, row, onChange)
     }
 
     override fun deleteAt(index: Int): Row? = try {

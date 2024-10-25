@@ -25,19 +25,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import com.youssef.kotlinflowts.editor.joyfill.editors.DropdownFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.DropdownComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 
 @Composable
 internal fun JoyDropField(
-    editor: DropdownFieldEditor,
+    editor: DropdownComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(Modifier.fillMaxWidth()) {
 
-    val field = remember(editor) { editor.field }
+    val field = remember(editor) { editor.component }
 
     var selected by remember(editor) { mutableStateOf(editor.selected()?.value) }
 

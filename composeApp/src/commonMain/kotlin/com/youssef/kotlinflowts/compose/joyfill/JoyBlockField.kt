@@ -14,13 +14,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.youssef.kotlinflowts.models.joyfill.FieldPosition
-import com.youssef.kotlinflowts.models.joyfill.fields.BlockField
+import com.youssef.kotlinflowts.models.joyfill.ComponentPosition
+import com.youssef.kotlinflowts.models.joyfill.fields.BlockComponent
 
 @Composable
 internal fun JoyBlockField(
-    field: BlockField,
-    position: FieldPosition?
+    field: BlockComponent,
+    position: ComponentPosition?
 ) = Column(modifier = Modifier.testTag(field.id).fillMaxWidth()) {
     val color = position?.fontColor?.toColor() ?: Color.Unspecified
     val weight = position?.fontWeight?.toFontWeight()

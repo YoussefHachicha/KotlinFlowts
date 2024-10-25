@@ -3,19 +3,19 @@ package com.youssef.kotlinflowts.editor.joyfill.table.internal
 import com.youssef.kotlinflowts.editor.joyfill.editors.internal.EventTrigger
 import com.youssef.kotlinflowts.editor.joyfill.table.DropdownCellEditor
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
-import com.youssef.kotlinflowts.models.joyfill.fields.TableField
+import com.youssef.kotlinflowts.models.joyfill.fields.TableComponent
 import com.youssef.kotlinflowts.models.joyfill.fields.table.DropdownColumn
 import com.youssef.kotlinflowts.models.joyfill.fields.table.Row
-import com.youssef.kotlinflowts.models.joyfill.utils.Document
+import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 
 internal class DropdownCellEditorImpl(
-    document: Document,
-    field: TableField,
+    app: App,
+    field: TableComponent,
     val column: DropdownColumn,
     val row: Row,
     onChange: ((ChangeEvent) -> Unit)?
-) : EventTrigger<TableField>(document, field, onChange), DropdownCellEditor {
+) : EventTrigger<TableComponent>(app, field, onChange), DropdownCellEditor {
 
     override val options: List<Option2> = column.options
 

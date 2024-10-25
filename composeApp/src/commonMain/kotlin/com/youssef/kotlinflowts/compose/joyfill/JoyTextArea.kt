@@ -15,16 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.youssef.kotlinflowts.editor.joyfill.editors.TextAreaFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.TextAreaComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
 internal fun JoyTextArea(
-    editor: TextAreaFieldEditor,
+    editor: TextAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
 ) {
-    val field = remember(editor) { editor.field }
+    val field = remember(editor) { editor.component }
     var value by remember { mutableStateOf(field.value ?: "") }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 

@@ -1,11 +1,11 @@
 package com.youssef.kotlinflowts.editor.joyfill
 
-import com.youssef.kotlinflowts.editor.joyfill.editors.DocumentEditor
-import com.youssef.kotlinflowts.editor.joyfill.internal.DocumentEditorImpl
+import com.youssef.kotlinflowts.editor.joyfill.editors.AppEditor
+import com.youssef.kotlinflowts.editor.joyfill.internal.AppEditorImpl
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.toDocument
-import com.youssef.kotlinflowts.models.joyfill.utils.Document
+import com.youssef.kotlinflowts.models.joyfill.toApp
+import com.youssef.kotlinflowts.models.joyfill.utils.App
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 
@@ -20,25 +20,25 @@ fun editorOf(
     json: String,
     identity: IdentityGenerator = DEFAULT_GENERATOR,
     onChange: ((ChangeEvent) -> Unit)? = null
-): DocumentEditor {
+): AppEditor {
     val doc = Json.decodeFromString(JsonObject.serializer(), json)
-    return DocumentEditorImpl(doc.toDocument(), identity, onChange)
+    return AppEditorImpl(doc.toApp(), identity, onChange)
 }
 
 fun editorOf(
     json: JsonObject,
     identity: IdentityGenerator = DEFAULT_GENERATOR,
     onChange: ((ChangeEvent) -> Unit)? = null
-): DocumentEditor = DocumentEditorImpl(json.toDocument(), identity, onChange)
+): AppEditor = AppEditorImpl(json.toApp(), identity, onChange)
 
 fun editorOf(
     map: MutableMap<String, Any?>,
     identity: IdentityGenerator = DEFAULT_GENERATOR,
     onChange: ((ChangeEvent) -> Unit)? = null
-): DocumentEditor = DocumentEditorImpl(map.toDocument(), identity, onChange)
+): AppEditor = AppEditorImpl(map.toApp(), identity, onChange)
 
 fun editorOf(
-    document: Document,
+    app: App,
     identity: IdentityGenerator = DEFAULT_GENERATOR,
     onChange: ((ChangeEvent) -> Unit)? = null
-): DocumentEditor = DocumentEditorImpl(document, identity, onChange)
+): AppEditor = AppEditorImpl(app, identity, onChange)

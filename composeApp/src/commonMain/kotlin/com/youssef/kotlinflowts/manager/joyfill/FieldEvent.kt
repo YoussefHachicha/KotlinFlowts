@@ -1,9 +1,9 @@
 package com.youssef.kotlinflowts.manager.joyfill
 
-import com.youssef.kotlinflowts.models.joyfill.Page
-import com.youssef.kotlinflowts.models.joyfill.fields.Field
+import com.youssef.kotlinflowts.models.joyfill.Screen
+import com.youssef.kotlinflowts.models.joyfill.fields.Component
 
 class FieldEvent(
-    val field: Field,
-    val page: Page
+    val component: Component,
+    val screen: Screen
 )

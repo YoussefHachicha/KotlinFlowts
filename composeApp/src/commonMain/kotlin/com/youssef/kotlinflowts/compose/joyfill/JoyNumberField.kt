@@ -13,16 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
-import com.youssef.kotlinflowts.editor.joyfill.editors.NumberFieldEditor
+import com.youssef.kotlinflowts.editor.joyfill.editors.NumberComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
 internal fun JoyNumberField(
-    editor: NumberFieldEditor,
+    editor: NumberComponentEditor,
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
 ) {
-    val field = remember(editor) { editor.field }
+    val field = remember(editor) { editor.component }
     var value by remember { mutableStateOf(field.value?.toString() ?: "") }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value.toTolerableNumber() ?: 0.0 } }
     Column(modifier = Modifier.fillMaxWidth()) {
