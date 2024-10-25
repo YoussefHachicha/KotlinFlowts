@@ -2,7 +2,7 @@ package com.youssef.kotlinflowts.models.joyfill.internal
 
 import com.youssef.kotlinflowts.models.joyfill.MutableApp
 import com.youssef.kotlinflowts.models.joyfill.MutableFile
-import com.youssef.kotlinflowts.models.joyfill.fields.AbstractMappable
+import com.youssef.kotlinflowts.models.joyfill.components.AbstractMappable
 import com.youssef.kotlinflowts.models.joyfill.toApp
 import com.youssef.kotlinflowts.models.joyfill.toComponent
 import com.youssef.kotlinflowts.models.joyfill.utils.App

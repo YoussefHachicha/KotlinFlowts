@@ -1,6 +1,6 @@
 package com.youssef.kotlinflowts.models.joyfill.utils.internal
 
-import com.youssef.kotlinflowts.models.joyfill.fields.AbstractMappable
+import com.youssef.kotlinflowts.models.joyfill.components.AbstractMappable
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 

@@ -3,7 +3,7 @@ package com.youssef.kotlinflowts.events.joyfill.internal
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.events.joyfill.ChangeLog
 import com.youssef.kotlinflowts.events.joyfill.toChangeLog
-import com.youssef.kotlinflowts.models.joyfill.fields.AbstractMappable
+import com.youssef.kotlinflowts.models.joyfill.components.AbstractMappable
 import com.youssef.kotlinflowts.models.joyfill.toApp
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.JsonList

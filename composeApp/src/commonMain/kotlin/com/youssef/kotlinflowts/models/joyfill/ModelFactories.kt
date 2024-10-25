@@ -1,44 +1,48 @@
 package com.youssef.kotlinflowts.models.joyfill
 
 
-import com.youssef.kotlinflowts.models.joyfill.fields.ChartComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.DateComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.DropdownComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.Component
-import com.youssef.kotlinflowts.models.joyfill.fields.FileComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.ImageComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.MultiSelectComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.NumberComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.SignatureComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.TableComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.TextAreaComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.TextComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.UnknownComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Point
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.internal.LineImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.internal.PointImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.BlockComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.ChartComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.DateComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.DropdownComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.FileComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.ImageComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.MultiSelectComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.NumberComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.RichTextComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.SignatureComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.TableComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.TextAreaComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.TextComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.internal.UnknownComponentImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.table.Column
-import com.youssef.kotlinflowts.models.joyfill.fields.table.Row
-import com.youssef.kotlinflowts.models.joyfill.fields.table.internal.ImageColumnImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.table.internal.DropDownColumnImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.table.internal.TextColumnImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.table.internal.RowImpl
-import com.youssef.kotlinflowts.models.joyfill.fields.table.internal.UnknownColumnImpl
+import com.youssef.kotlinflowts.models.joyfill.components.BlockComponent
+import com.youssef.kotlinflowts.models.joyfill.components.ChartComponent
+import com.youssef.kotlinflowts.models.joyfill.components.ColumnComponent
+import com.youssef.kotlinflowts.models.joyfill.components.DateComponent
+import com.youssef.kotlinflowts.models.joyfill.components.DropdownComponent
+import com.youssef.kotlinflowts.models.joyfill.components.core.Component
+import com.youssef.kotlinflowts.models.joyfill.components.FileComponent
+import com.youssef.kotlinflowts.models.joyfill.components.ImageComponent
+import com.youssef.kotlinflowts.models.joyfill.components.MultiSelectComponent
+import com.youssef.kotlinflowts.models.joyfill.components.NumberComponent
+import com.youssef.kotlinflowts.models.joyfill.components.RichTextComponent
+import com.youssef.kotlinflowts.models.joyfill.components.SignatureComponent
+import com.youssef.kotlinflowts.models.joyfill.components.TableComponent
+import com.youssef.kotlinflowts.models.joyfill.components.TextAreaComponent
+import com.youssef.kotlinflowts.models.joyfill.components.TextComponent
+import com.youssef.kotlinflowts.models.joyfill.components.UnknownComponent
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Point
+import com.youssef.kotlinflowts.models.joyfill.components.chart.internal.LineImpl
+import com.youssef.kotlinflowts.models.joyfill.components.chart.internal.PointImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.BlockComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.ChartComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.ColumnComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.DateComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.DropdownComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.FileComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.ImageComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.MultiSelectComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.NumberComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.RichTextComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.SignatureComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.TableComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.TextAreaComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.TextComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.UnknownComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.table.Column
+import com.youssef.kotlinflowts.models.joyfill.components.table.Row
+import com.youssef.kotlinflowts.models.joyfill.components.table.internal.ImageColumnImpl
+import com.youssef.kotlinflowts.models.joyfill.components.table.internal.DropDownColumnImpl
+import com.youssef.kotlinflowts.models.joyfill.components.table.internal.TextColumnImpl
+import com.youssef.kotlinflowts.models.joyfill.components.table.internal.RowImpl
+import com.youssef.kotlinflowts.models.joyfill.components.table.internal.UnknownColumnImpl
 import com.youssef.kotlinflowts.models.joyfill.internal.AppImpl
 import com.youssef.kotlinflowts.models.joyfill.internal.ComponentPositionImpl
 import com.youssef.kotlinflowts.models.joyfill.internal.FileImpl
@@ -49,7 +53,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 
-// Document
+// App
 inline fun MutableMap<String, Any?>.toApp(): App = AppImpl(this)
 
 inline fun String.toApps(): List<App> = Json.decodeFromString<JsonArray>(this).map {
@@ -115,6 +119,12 @@ inline fun MutableMap<String, Any?>.toLine(): Line = LineImpl(this)
 
 inline fun MutableMap<String, Any?>.toChartComponent(): ChartComponent = ChartComponentImpl(this)
 
+inline fun MutableMap<String, Any?>.toBlockComponent(): BlockComponent = BlockComponentImpl(this)
+
+inline fun MutableMap<String, Any?>.toRichTextComponent(): RichTextComponent = RichTextComponentImpl(this)
+
+inline fun MutableMap<String, Any?>.toColumnComponent(): ColumnComponent = ColumnComponentImpl(this)
+
 inline fun MutableMap<String, Any?>.toComponent(): Component = when (type()) {
     Component.Type.text -> toTextComponent()
     Component.Type.textarea -> toTextAreaComponent()
@@ -127,8 +137,9 @@ inline fun MutableMap<String, Any?>.toComponent(): Component = when (type()) {
     Component.Type.file -> toFileComponent()
     Component.Type.table -> toTableComponent()
     Component.Type.chart -> toChartComponent()
-    Component.Type.richText -> RichTextComponentImpl(this)
-    Component.Type.block -> BlockComponentImpl(this)
+    Component.Type.richText -> toRichTextComponent()
+    Component.Type.block -> toBlockComponent()
+    Component.Type.column -> toColumnComponent()
     else -> toUnknownComponent()
 }
 

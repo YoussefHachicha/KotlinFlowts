@@ -66,8 +66,8 @@ import com.youssef.kotlinflowts.compose.joyfill.utils.onDrawing
 import com.youssef.kotlinflowts.compose.joyfill.utils.toByteArray
 import com.youssef.kotlinflowts.editor.joyfill.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
-import com.youssef.kotlinflowts.models.joyfill.fields.Component
-import com.youssef.kotlinflowts.models.joyfill.fields.SignatureComponent
+import com.youssef.kotlinflowts.models.joyfill.components.core.Component
+import com.youssef.kotlinflowts.models.joyfill.components.SignatureComponent
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 

@@ -3,8 +3,8 @@ package com.youssef.kotlinflowts.builder.joyfill
 import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilder
 import com.youssef.kotlinflowts.builder.joyfill.table.ColumnBuilder
 import com.youssef.kotlinflowts.models.joyfill.Screen
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Axis
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Axis
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
 
 interface AppBuilder {
     fun name(value: String)

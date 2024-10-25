@@ -5,7 +5,7 @@ import com.youssef.kotlinflowts.events.joyfill.ChangeLog
 import com.youssef.kotlinflowts.events.joyfill.Target
 import com.youssef.kotlinflowts.events.joyfill.toFieldChange
 import com.youssef.kotlinflowts.events.joyfill.toUnknownChange
-import com.youssef.kotlinflowts.models.joyfill.fields.AbstractMappable
+import com.youssef.kotlinflowts.models.joyfill.components.AbstractMappable
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 
 internal class ChangeLogImpl(wrapped: MutableMap<String, Any?>) : AbstractMappable(wrapped),

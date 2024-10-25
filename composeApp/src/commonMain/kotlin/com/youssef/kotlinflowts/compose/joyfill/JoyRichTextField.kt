@@ -14,7 +14,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.youssef.kotlinflowts.models.joyfill.fields.RichTextComponent
+import com.youssef.kotlinflowts.models.joyfill.components.RichTextComponent
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 

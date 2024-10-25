@@ -20,20 +20,20 @@ import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
 import com.youssef.kotlinflowts.models.joyfill.MutableApp
 import com.youssef.kotlinflowts.models.joyfill.Screen
-import com.youssef.kotlinflowts.models.joyfill.fields.BlockComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.ChartComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.DateComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.DropdownComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.Component
-import com.youssef.kotlinflowts.models.joyfill.fields.FileComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.ImageComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.MultiSelectComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.NumberComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.RichTextComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.SignatureComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.TableComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.TextAreaComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.TextComponent
+import com.youssef.kotlinflowts.models.joyfill.components.BlockComponent
+import com.youssef.kotlinflowts.models.joyfill.components.ChartComponent
+import com.youssef.kotlinflowts.models.joyfill.components.DateComponent
+import com.youssef.kotlinflowts.models.joyfill.components.DropdownComponent
+import com.youssef.kotlinflowts.models.joyfill.components.core.Component
+import com.youssef.kotlinflowts.models.joyfill.components.FileComponent
+import com.youssef.kotlinflowts.models.joyfill.components.ImageComponent
+import com.youssef.kotlinflowts.models.joyfill.components.MultiSelectComponent
+import com.youssef.kotlinflowts.models.joyfill.components.NumberComponent
+import com.youssef.kotlinflowts.models.joyfill.components.RichTextComponent
+import com.youssef.kotlinflowts.models.joyfill.components.SignatureComponent
+import com.youssef.kotlinflowts.models.joyfill.components.TableComponent
+import com.youssef.kotlinflowts.models.joyfill.components.TextAreaComponent
+import com.youssef.kotlinflowts.models.joyfill.components.TextComponent
 
 internal class CompCollectionImpl(
     private val app: MutableApp,

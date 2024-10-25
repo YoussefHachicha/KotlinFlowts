@@ -1,6 +1,6 @@
 package com.youssef.kotlinflowts.editor.joyfill.editors
 
-import com.youssef.kotlinflowts.models.joyfill.fields.Component
+import com.youssef.kotlinflowts.models.joyfill.components.core.Component
 
 interface ComponentEditor {
     var id: String

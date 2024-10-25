@@ -1,6 +1,6 @@
 package com.youssef.kotlinflowts.models.joyfill
 
-import com.youssef.kotlinflowts.models.joyfill.fields.Component
+import com.youssef.kotlinflowts.models.joyfill.components.core.Component
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 
 interface MutableApp : App {

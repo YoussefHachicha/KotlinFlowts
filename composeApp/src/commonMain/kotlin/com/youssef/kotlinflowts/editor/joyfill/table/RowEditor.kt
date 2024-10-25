@@ -1,6 +1,6 @@
 package com.youssef.kotlinflowts.editor.joyfill.table
 
-import com.youssef.kotlinflowts.models.joyfill.fields.table.Row
+import com.youssef.kotlinflowts.models.joyfill.components.table.Row
 
 interface RowEditor {
     val row: Row

@@ -2,7 +2,7 @@ package com.youssef.kotlinflowts.models.joyfill.utils
 
 import com.youssef.kotlinflowts.models.joyfill.File
 import com.youssef.kotlinflowts.models.joyfill.Mappable
-import com.youssef.kotlinflowts.models.joyfill.fields.Component
+import com.youssef.kotlinflowts.models.joyfill.components.core.Component
 
 interface App : Mappable {
     val id: String

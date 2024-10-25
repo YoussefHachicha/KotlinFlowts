@@ -1,6 +1,6 @@
 package com.youssef.kotlinflowts.editor.joyfill.chart
 
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Point
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Point
 
 interface PointEditor {
     val point: Point

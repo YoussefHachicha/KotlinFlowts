@@ -1,6 +1,6 @@
 package com.youssef.kotlinflowts.editor.joyfill.chart
 
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
 
 interface LineCollection {
     fun all(): List<LineEditor>

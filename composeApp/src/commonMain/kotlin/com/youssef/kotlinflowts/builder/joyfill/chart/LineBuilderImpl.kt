@@ -1,7 +1,7 @@
 package com.youssef.kotlinflowts.builder.joyfill.chart
 
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
 import com.youssef.kotlinflowts.models.joyfill.toLine
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 

@@ -45,7 +45,7 @@ import com.youssef.kotlinflowts.editor.joyfill.chart.LineEditor
 import com.youssef.kotlinflowts.editor.joyfill.chart.PointEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
-import com.youssef.kotlinflowts.models.joyfill.fields.ChartComponent
+import com.youssef.kotlinflowts.models.joyfill.components.ChartComponent
 
 @Composable
 internal fun JoyChartComponent(

@@ -3,9 +3,9 @@ package com.youssef.kotlinflowts.editor.joyfill.table.internal
 import com.youssef.kotlinflowts.editor.joyfill.editors.internal.EventTrigger
 import com.youssef.kotlinflowts.editor.joyfill.table.DropdownCellEditor
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
-import com.youssef.kotlinflowts.models.joyfill.fields.TableComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.table.DropdownColumn
-import com.youssef.kotlinflowts.models.joyfill.fields.table.Row
+import com.youssef.kotlinflowts.models.joyfill.components.TableComponent
+import com.youssef.kotlinflowts.models.joyfill.components.table.DropdownColumn
+import com.youssef.kotlinflowts.models.joyfill.components.table.Row
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 

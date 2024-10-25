@@ -5,8 +5,8 @@ import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilderImpl
 import com.youssef.kotlinflowts.builder.joyfill.internal.AppBuilderImpl
 import com.youssef.kotlinflowts.models.joyfill.File
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.fields.Component
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
+import com.youssef.kotlinflowts.models.joyfill.components.core.Component
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
 import com.youssef.kotlinflowts.models.joyfill.toApp
 import com.youssef.kotlinflowts.models.joyfill.toMutableApp
 import com.youssef.kotlinflowts.models.joyfill.utils.App

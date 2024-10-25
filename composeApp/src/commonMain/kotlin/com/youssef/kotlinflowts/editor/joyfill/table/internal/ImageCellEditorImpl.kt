@@ -4,9 +4,9 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.internal.EventTrigger
 import com.youssef.kotlinflowts.editor.joyfill.table.ImageCellEditor
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.fields.TableComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.table.ImageColumn
-import com.youssef.kotlinflowts.models.joyfill.fields.table.Row
+import com.youssef.kotlinflowts.models.joyfill.components.TableComponent
+import com.youssef.kotlinflowts.models.joyfill.components.table.ImageColumn
+import com.youssef.kotlinflowts.models.joyfill.components.table.Row
 import com.youssef.kotlinflowts.models.joyfill.utils.Attachment
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.JsonList

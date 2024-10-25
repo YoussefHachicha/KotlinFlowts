@@ -5,7 +5,7 @@ import com.youssef.kotlinflowts.editor.joyfill.chart.internal.LineCollectionImpl
 import com.youssef.kotlinflowts.editor.joyfill.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.fields.ChartComponent
+import com.youssef.kotlinflowts.models.joyfill.components.ChartComponent
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 
 @PublishedApi

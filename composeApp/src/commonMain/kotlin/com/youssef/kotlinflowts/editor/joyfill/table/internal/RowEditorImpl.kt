@@ -6,13 +6,13 @@ import com.youssef.kotlinflowts.editor.joyfill.table.RowEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.TextCellEditor
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.fields.Component
-import com.youssef.kotlinflowts.models.joyfill.fields.TableComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.table.Column
-import com.youssef.kotlinflowts.models.joyfill.fields.table.DropdownColumn
-import com.youssef.kotlinflowts.models.joyfill.fields.table.ImageColumn
-import com.youssef.kotlinflowts.models.joyfill.fields.table.Row
-import com.youssef.kotlinflowts.models.joyfill.fields.table.TextColumn
+import com.youssef.kotlinflowts.models.joyfill.components.core.Component
+import com.youssef.kotlinflowts.models.joyfill.components.TableComponent
+import com.youssef.kotlinflowts.models.joyfill.components.table.Column
+import com.youssef.kotlinflowts.models.joyfill.components.table.DropdownColumn
+import com.youssef.kotlinflowts.models.joyfill.components.table.ImageColumn
+import com.youssef.kotlinflowts.models.joyfill.components.table.Row
+import com.youssef.kotlinflowts.models.joyfill.components.table.TextColumn
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 
 internal class RowEditorImpl(

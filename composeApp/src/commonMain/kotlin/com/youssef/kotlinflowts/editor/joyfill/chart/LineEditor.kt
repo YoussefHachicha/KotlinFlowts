@@ -1,7 +1,7 @@
 package com.youssef.kotlinflowts.editor.joyfill.chart
 
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Point
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Point
 
 interface LineEditor {
     val line: Line

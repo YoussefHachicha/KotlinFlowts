@@ -1,7 +1,7 @@
 package com.youssef.kotlinflowts.models.joyfill.internal
 
 import com.youssef.kotlinflowts.models.joyfill.View
-import com.youssef.kotlinflowts.models.joyfill.fields.AbstractMappable
+import com.youssef.kotlinflowts.models.joyfill.components.AbstractMappable
 import com.youssef.kotlinflowts.models.joyfill.toScreen
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 import com.youssef.kotlinflowts.models.joyfill.utils.JsonList

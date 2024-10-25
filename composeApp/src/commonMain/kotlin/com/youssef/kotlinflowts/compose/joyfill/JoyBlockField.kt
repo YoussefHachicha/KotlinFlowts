@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.youssef.kotlinflowts.models.joyfill.ComponentPosition
-import com.youssef.kotlinflowts.models.joyfill.fields.BlockComponent
+import com.youssef.kotlinflowts.models.joyfill.components.BlockComponent
 
 @Composable
 internal fun JoyBlockComponent(

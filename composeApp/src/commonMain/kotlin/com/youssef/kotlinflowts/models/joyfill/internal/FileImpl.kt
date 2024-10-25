@@ -4,7 +4,7 @@ import com.youssef.kotlinflowts.models.joyfill.File
 import com.youssef.kotlinflowts.models.joyfill.MutableFile
 import com.youssef.kotlinflowts.models.joyfill.MutableScreen
 import com.youssef.kotlinflowts.models.joyfill.View
-import com.youssef.kotlinflowts.models.joyfill.fields.AbstractMappable
+import com.youssef.kotlinflowts.models.joyfill.components.AbstractMappable
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 import com.youssef.kotlinflowts.models.joyfill.utils.JsonList
 

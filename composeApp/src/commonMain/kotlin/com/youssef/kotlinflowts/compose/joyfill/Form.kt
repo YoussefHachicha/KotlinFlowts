@@ -55,7 +55,7 @@ fun Form(
         mutableStateOf(screens.find { it.id == screenId } ?: screens.first())
     }
 
-    val components by remember(editor, currentScreen) { derivedStateOf { editor.components.from(currentScreen) } }
+    val editorComponents by remember(editor, currentScreen) { derivedStateOf { editor.components.from(currentScreen) } }
 
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
         is Signal.Focus -> onFocus?.invoke(ComponentEvent(component, currentScreen))
@@ -72,7 +72,7 @@ fun Form(
             )
             Spacer(modifier = Modifier.height(12.dp))
         }
-        items(components, key = { it.id }) { it ->
+        items(editorComponents, key = { it.id }) { it ->
             when (it) {
                 is TextComponentEditor -> JoyTextComponent(
                     editor = it,

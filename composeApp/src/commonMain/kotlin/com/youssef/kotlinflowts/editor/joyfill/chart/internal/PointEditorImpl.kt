@@ -1,7 +1,7 @@
 package com.youssef.kotlinflowts.editor.joyfill.chart.internal
 
 import com.youssef.kotlinflowts.editor.joyfill.chart.PointEditor
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Point
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Point
 
 @PublishedApi
 internal class PointEditorImpl(

@@ -3,7 +3,7 @@ package com.youssef.kotlinflowts.models.joyfill.internal
 import com.youssef.kotlinflowts.models.joyfill.ComponentPosition
 import com.youssef.kotlinflowts.models.joyfill.MutableScreen
 import com.youssef.kotlinflowts.models.joyfill.Screen
-import com.youssef.kotlinflowts.models.joyfill.fields.AbstractMappable
+import com.youssef.kotlinflowts.models.joyfill.components.AbstractMappable
 import com.youssef.kotlinflowts.models.joyfill.toPosition
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 import com.youssef.kotlinflowts.models.joyfill.utils.JsonList

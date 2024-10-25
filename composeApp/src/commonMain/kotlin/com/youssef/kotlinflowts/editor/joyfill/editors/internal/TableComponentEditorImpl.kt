@@ -4,8 +4,8 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.TableComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.internal.RowCollectionImpl
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.fields.TableComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.table.Row
+import com.youssef.kotlinflowts.models.joyfill.components.TableComponent
+import com.youssef.kotlinflowts.models.joyfill.components.table.Row
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 
 @PublishedApi

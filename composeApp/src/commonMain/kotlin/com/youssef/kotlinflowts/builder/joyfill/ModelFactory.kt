@@ -5,16 +5,18 @@ import com.youssef.kotlinflowts.models.joyfill.File
 import com.youssef.kotlinflowts.models.joyfill.MutableFile
 import com.youssef.kotlinflowts.models.joyfill.MutableScreen
 import com.youssef.kotlinflowts.models.joyfill.Screen
-import com.youssef.kotlinflowts.models.joyfill.fields.DateComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.DropdownComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.Component
-import com.youssef.kotlinflowts.models.joyfill.fields.TableComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.ValueBasedComponent
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Axis
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
-import com.youssef.kotlinflowts.models.joyfill.fields.table.Column
-import com.youssef.kotlinflowts.models.joyfill.fields.table.Row
+import com.youssef.kotlinflowts.models.joyfill.components.DateComponent
+import com.youssef.kotlinflowts.models.joyfill.components.DropdownComponent
+import com.youssef.kotlinflowts.models.joyfill.components.core.Component
+import com.youssef.kotlinflowts.models.joyfill.components.TableComponent
+import com.youssef.kotlinflowts.models.joyfill.components.core.ValueBasedComponent
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Axis
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
+import com.youssef.kotlinflowts.models.joyfill.components.table.Column
+import com.youssef.kotlinflowts.models.joyfill.components.table.Row
 import com.youssef.kotlinflowts.models.joyfill.toChartComponent
+import com.youssef.kotlinflowts.models.joyfill.toColumn
+import com.youssef.kotlinflowts.models.joyfill.toColumnComponent
 import com.youssef.kotlinflowts.models.joyfill.toDateComponent
 import com.youssef.kotlinflowts.models.joyfill.toDropdownComponent
 import com.youssef.kotlinflowts.models.joyfill.toFile
@@ -217,6 +219,19 @@ internal fun tableComponent(
     COLUMN_ORDER to columns.map { it.id }.toMutableList(),
     TableComponent::rowOrder.name to mutableListOf<String>()
 ).toTableComponent()
+
+internal fun columnComponent(
+    id: String,
+    title: String,
+    identifier: String,
+    components: List<Component>
+) = mutableMapOf<String, Any?>(
+    ID to id,
+    Component::title.name to title,
+    Component::identifier.name to identifier,
+    ValueBasedComponent<*>::value.name to components.map { it.toMap() }.toMutableList(),
+    Component::type.name to Component.Type.table.name,
+).toColumnComponent()
 
 internal fun chartComponent(
     id: String,

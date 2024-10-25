@@ -2,7 +2,7 @@ package com.youssef.kotlinflowts.editor.joyfill.editors.internal
 
 import com.youssef.kotlinflowts.editor.joyfill.editors.MultiSelectComponentEditor
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
-import com.youssef.kotlinflowts.models.joyfill.fields.MultiSelectComponent
+import com.youssef.kotlinflowts.models.joyfill.components.MultiSelectComponent
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 

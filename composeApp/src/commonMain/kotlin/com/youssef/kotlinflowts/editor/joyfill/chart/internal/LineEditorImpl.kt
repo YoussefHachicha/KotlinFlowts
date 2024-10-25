@@ -3,8 +3,8 @@ package com.youssef.kotlinflowts.editor.joyfill.chart.internal
 import com.youssef.kotlinflowts.editor.joyfill.chart.LineEditor
 import com.youssef.kotlinflowts.editor.joyfill.chart.PointEditor
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Line
-import com.youssef.kotlinflowts.models.joyfill.fields.chart.Point
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
+import com.youssef.kotlinflowts.models.joyfill.components.chart.Point
 import com.youssef.kotlinflowts.models.joyfill.toPoint
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 
