@@ -48,17 +48,17 @@ import com.youssef.kotlinflowts.manager.joyfill.Mode
 import com.youssef.kotlinflowts.models.joyfill.fields.ChartComponent
 
 @Composable
-internal fun JoyChartField(
+internal fun JoyChartComponent(
     editor: ChartComponentEditor,
     mode: Mode,
     onSignal: (Signal<Any?>) -> Unit,
 ) = Column(modifier = Modifier.testTag(editor.component.id).fillMaxWidth()) {
-    val field = remember(editor) { editor.component }
+    val component = remember(editor) { editor.component }
     var capturing by remember { mutableStateOf(false) }
-    val lines = remember(field.value) { mutableStateListOf(*(field.value ?: emptyList()).toTypedArray()) }
-    val readonly = field.disabled || mode == Mode.readonly
+    val lines = remember(component.value) { mutableStateListOf(*(component.value ?: emptyList()).toTypedArray()) }
+    val readonly = component.disabled || mode == Mode.readonly
 
-    JoyTitle(field.title, modifier = Modifier.testTag("${field.id}-preview-title"))
+    JoyTitle(component.title, modifier = Modifier.testTag("${component.id}-preview-title"))
     Spacer(modifier = Modifier.height(8.dp))
     OutlinedButton(
         onClick = {
@@ -66,9 +66,9 @@ internal fun JoyChartField(
             onSignal(Signal.Focus)
         },
         shape = RoundedCornerShape(8.dp),
-        modifier = Modifier.testTag("${field.id}-preview-button").fillMaxWidth().height(80.dp)
+        modifier = Modifier.testTag("${component.id}-preview-button").fillMaxWidth().height(80.dp)
     ) {
-        Icon(Icons.Outlined.BarChart, "${field.id}-preview-icon", modifier = Modifier.size(80.dp))
+        Icon(Icons.Outlined.BarChart, "${component.id}-preview-icon", modifier = Modifier.size(80.dp))
     }
 
     if (capturing) Dialog(onDismissRequest = {
@@ -76,7 +76,7 @@ internal fun JoyChartField(
         onSignal(Signal.Focus)
     }, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         Surface(
-            modifier = Modifier.testTag("${field.id}-capture").padding(
+            modifier = Modifier.testTag("${component.id}-capture").padding(
                 vertical = 16.dp, horizontal = 8.dp
             ).fillMaxSize(0.96f)
         ) {
@@ -86,10 +86,10 @@ internal fun JoyChartField(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    JoyTitle(field.title, modifier = Modifier.testTag("${field.id}-capture-title"))
+                    JoyTitle(component.title, modifier = Modifier.testTag("${component.id}-capture-title"))
                     Icon(
                         imageVector = Icons.Filled.Close,
-                        contentDescription = "${field.id}-capture-close",
+                        contentDescription = "${component.id}-capture-close",
                         modifier = Modifier.clickable {
                             capturing = false
                             onSignal(Signal.Blur(Unit))
@@ -102,7 +102,7 @@ internal fun JoyChartField(
                 Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
                     for (line in lines) Column(modifier = Modifier.fillMaxWidth()) {
                         LineEditor(
-                            field = field,
+                            component = component,
                             editor = editor.lines.find(line.id) ?: error("Line not found"),
                             onDelete = { lines.remove(line) },
                             readonly = readonly,
@@ -119,7 +119,7 @@ internal fun JoyChartField(
                             },
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier.fillMaxWidth()
-                                .testTag("${field.id}-line-add")
+                                .testTag("${component.id}-line-add")
                                 .height(40.dp)
                         ) {
                             Text("Add Chart Line")
@@ -133,7 +133,7 @@ internal fun JoyChartField(
 
 @Composable
 private fun LineEditor(
-    field: ChartComponent,
+    component: ChartComponent,
     editor: LineEditor,
     onDelete: () -> Unit,
     readonly: Boolean,
@@ -147,7 +147,7 @@ private fun LineEditor(
     var points by remember(line.points) { mutableStateOf(line.points) }
 
     Text("Title")
-    RawTextField(
+    RawTextComponent(
         value = name,
         onChange = { name = it },
         borders = true,
@@ -158,7 +158,7 @@ private fun LineEditor(
     )
 
     Text("Description")
-    RawTextField(
+    RawTextComponent(
         value = description,
         onChange = { description = it },
         borders = true,
@@ -175,7 +175,7 @@ private fun LineEditor(
     for (point in points) {
         PointEditor(
             editor = editor.find(point.id) ?: error("Point not found"),
-            field = field,
+            component = component,
             onDelete = { editor.remove(point.id) },
             readonly = readonly
         )
@@ -199,7 +199,7 @@ private fun LineEditor(
 
 @Composable
 private fun PointEditor(
-    field: ChartComponent,
+    component: ChartComponent,
     editor: PointEditor,
     onDelete: () -> Unit,
     readonly: Boolean = false,
@@ -210,7 +210,7 @@ private fun PointEditor(
     var label by mutableStateOf(point.label)
     Text("Label")
     Spacer(modifier = Modifier.height(8.dp))
-    RawTextField(
+    RawTextComponent(
         value = label,
         onChange = {
             label = it
@@ -225,14 +225,14 @@ private fun PointEditor(
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         NumberEditor(
-            label = field.x.label,
+            label = component.x.label,
             number = point.x,
             onChange = { editor.x(it) },
             readonly = readonly,
             modifier = Modifier.weight(1f).padding(end = 4.dp)
         )
         NumberEditor(
-            label = field.y.label,
+            label = component.y.label,
             number = point.y,
             onChange = { editor.y(it) },
             readonly = readonly,
@@ -252,7 +252,7 @@ private fun NumberEditor(
     var value by mutableStateOf(number.toString())
     Text(label)
     Spacer(modifier = Modifier.height(8.dp))
-    RawTextField(
+    RawTextComponent(
         value = value,
         onChange = {
             val num = it.toDoubleOrNull() ?: 0.0

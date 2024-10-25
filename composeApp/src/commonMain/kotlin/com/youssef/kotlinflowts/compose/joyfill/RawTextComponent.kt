@@ -14,7 +14,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 
 @Composable
-internal fun RawTextField(
+internal fun RawTextComponent(
     value: String?,
     borders: Boolean = true,
     modifier: Modifier = Modifier,

@@ -72,36 +72,36 @@ import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 @Composable
-internal fun JoySignatureField(
+internal fun JoySignatureComponent(
     editor: SignatureComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
 ) {
 
-    val field = remember(editor) { editor.component }
+    val component = remember(editor) { editor.component }
 
-    var state by remember(field) {
-        val s = when (val value = field.value) {
+    var state by remember(component) {
+        val s = when (val value = component.value) {
             null -> State.Empty
             "" -> State.Empty
             else -> State.Preview(value)
         }
         mutableStateOf(s)
     }
-    Column(modifier = Modifier.fillMaxWidth().testTag(field.id)) {
-        JoyTitle(field, modifier = Modifier.testTag("${field.id}-preview-title"))
+    Column(modifier = Modifier.fillMaxWidth().testTag(component.id)) {
+        JoyTitle(component, modifier = Modifier.testTag("${component.id}-preview-title"))
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
-                .testTag("${field.id}-preview-body")
+                .testTag("${component.id}-preview-body")
                 .semantics { contentDescription = state.toContentDescription() }
                 .border(
                     width = 1.dp,
                     color = LocalContentColor.current.copy(alpha = 0.6f),
                     shape = RoundedCornerShape(4.dp)
                 ).clickable {
-                    if (field.disabled || mode == Mode.readonly) return@clickable
+                    if (component.disabled || mode == Mode.readonly) return@clickable
                     onSignal(Signal.Focus)
                     state = state.toCapturing()
                 }
@@ -110,14 +110,14 @@ internal fun JoySignatureField(
                 is State.Preview -> Preview(
                     url = s.url,
                     onClicked = {
-                        if (field.disabled || mode == Mode.readonly) return@Preview
+                        if (component.disabled || mode == Mode.readonly) return@Preview
                         state = s.toCapturing()
                         onSignal(Signal.Focus)
                     }
                 )
 
                 is State.Capturing -> Capture(
-                    field = field,
+                    component = component,
                     url = s.url,
                     onCaptured = {
                         state = if (it == null) State.Empty else State.Preview(it)
@@ -160,7 +160,7 @@ private sealed interface State {
 @OptIn(ExperimentalEncodingApi::class)
 @Composable
 private fun Capture(
-    field: SignatureComponent,
+    component: SignatureComponent,
     url: String? = null,
     onCaptured: (String?) -> Unit,
     onCanceled: () -> Unit,
@@ -188,7 +188,7 @@ private fun Capture(
     Dialog(onDismissRequest = onCanceled, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         Surface(
             modifier = Modifier
-                .testTag("${field.id}-capture")
+                .testTag("${component.id}-capture")
                 .padding(
                     vertical = 16.dp,
                     horizontal = 8.dp
@@ -200,7 +200,7 @@ private fun Capture(
                 val v = value
 
                 Row(modifier = Modifier.fillMaxWidth().height(60.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Row(horizontalArrangement = Arrangement.Start) { JoyTitle(field) }
+                    Row(horizontalArrangement = Arrangement.Start) { JoyTitle(component) }
                     Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                         val redo = remember { mutableStateListOf<Path>() }
                         var deleting by remember { mutableStateOf(false) }
@@ -223,7 +223,7 @@ private fun Capture(
 
 
                         if (v != null || paths.isNotEmpty() || text.isNotEmpty()) DeleteOption(
-                            component = field,
+                            component = component,
                             deleting = deleting,
                             onDelete = { deleting = true },
                             onConfirm = {
@@ -273,7 +273,7 @@ private fun Capture(
                     value = text,
                     onValueChange = { text = it },
                     placeholder = { Text("Type signature") },
-                    modifier = Modifier.testTag("${field.id}-capture-text").fillMaxWidth().padding(top = 12.dp)
+                    modifier = Modifier.testTag("${component.id}-capture-text").fillMaxWidth().padding(top = 12.dp)
                 )
 
                 Text(
@@ -289,7 +289,7 @@ private fun Capture(
                 val density = LocalDensity.current
                 Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth().padding(top = 12.dp)) {
                     OutlinedButton(
-                        modifier = Modifier.testTag("${field.id}-capture-cancel"),
+                        modifier = Modifier.testTag("${component.id}-capture-cancel"),
                         onClick = onCanceled,
                         shape = RoundedCornerShape(8.dp),
                     ) {
@@ -297,7 +297,7 @@ private fun Capture(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
-                        modifier = Modifier.testTag("${field.id}-capture-submit"),
+                        modifier = Modifier.testTag("${component.id}-capture-submit"),
                         onClick = {
                             if (text.isEmpty() && paths.isEmpty()) {
                                 if (cleared) {

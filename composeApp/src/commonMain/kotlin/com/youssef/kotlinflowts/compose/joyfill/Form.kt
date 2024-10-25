@@ -27,103 +27,103 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.TableComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.TextAreaComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.TextComponentEditor
-import com.youssef.kotlinflowts.manager.joyfill.FieldEvent
+import com.youssef.kotlinflowts.manager.joyfill.ComponentEvent
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
 fun Form(
     editor: AppEditor,
     mode: Mode = Mode.fill,
-    onUpload: (suspend (FieldEvent) -> List<String>)? = null,
-    pageId: String? = null,
+    onUpload: (suspend (ComponentEvent) -> List<String>)? = null,
+    screenId: String? = null,
     navigation: Boolean = true,
-    onBlur: ((event: FieldEvent) -> Unit)? = null,
-    onFocus: ((event: FieldEvent) -> Unit)? = null,
-    onFieldChange: ((event: FieldEvent) -> Unit)? = null,
-    showUnsupportedFields: Boolean = false,
+    onBlur: ((event: ComponentEvent) -> Unit)? = null,
+    onFocus: ((event: ComponentEvent) -> Unit)? = null,
+    onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
+    showUnsupportedComponents: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     val view = remember(editor) {
         editor.views.find { it.type == "mobile" }
     }
 
-    val pages = remember(editor, view) {
+    val screens = remember(editor, view) {
         view?.screens ?: editor.screens.raw()
     }
 
-    var currentPage by remember(pages, pageId) {
-        mutableStateOf(pages.find { it.id == pageId } ?: pages.first())
+    var currentScreen by remember(screens, screenId) {
+        mutableStateOf(screens.find { it.id == screenId } ?: screens.first())
     }
 
-    val fields by remember(editor, currentPage) { derivedStateOf { editor.components.from(currentPage) } }
+    val components by remember(editor, currentScreen) { derivedStateOf { editor.components.from(currentScreen) } }
 
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus -> onFocus?.invoke(FieldEvent(component, currentPage))
-        is Signal.Blur -> onBlur?.invoke(FieldEvent(component, currentPage))
-        is Signal.Change -> onFieldChange?.invoke(FieldEvent(component, currentPage))
+        is Signal.Focus -> onFocus?.invoke(ComponentEvent(component, currentScreen))
+        is Signal.Blur -> onBlur?.invoke(ComponentEvent(component, currentScreen))
+        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(component, currentScreen))
     }
 
     LazyColumn(modifier = modifier) {
         if (navigation) item {
-            JoyPageSelector(
-                screens = pages,
-                screen = currentPage,
-                onChange = { currentPage = it }
+            JoyScreenSelector(
+                screens = screens,
+                screen = currentScreen,
+                onChange = { currentScreen = it }
             )
             Spacer(modifier = Modifier.height(12.dp))
         }
-        items(fields, key = { it.id }) { it ->
+        items(components, key = { it.id }) { it ->
             when (it) {
-                is TextComponentEditor -> JoyTextField(
+                is TextComponentEditor -> JoyTextComponent(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit,
                 )
 
-                is NumberComponentEditor -> JoyNumberField(
+                is NumberComponentEditor -> JoyNumberComponent(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is DateComponentEditor -> JoyDateTimeField(
+                is DateComponentEditor -> JoyDateTimeComponent(
                     editor = it,
                     mode = mode,
-                    format = currentPage.positions.firstOrNull { it.componentId == it.id }?.format ?: it.component.format,
+                    format = currentScreen.positions.firstOrNull { it.componentId == it.id }?.format ?: it.component.format,
                     onSignal = it::emit
                 )
 
-                is MultiSelectComponentEditor -> JoySelectField(
+                is MultiSelectComponentEditor -> JoySelectComponent(
                     editor = it,
                     mode = mode,
                     multiple = true,
                     onSignal = it::emit
                 )
 
-                is DropdownComponentEditor -> JoyDropField(
+                is DropdownComponentEditor -> JoyDropComponent(
                     editor = it,
                     mode = mode,
                     multiple = false,
                     onSignal = it::emit
                 )
 
-                is ImageComponentEditor -> JoyImageField(
+                is ImageComponentEditor -> JoyImageComponent(
                     editor = it,
                     mode = mode,
-                    onUpload = onUpload?.let { call -> { call(FieldEvent(it.component, currentPage)) } },
+                    onUpload = onUpload?.let { call -> { call(ComponentEvent(it.component, currentScreen)) } },
                     onSignal = it::emit
                 )
 
-                is SignatureComponentEditor -> JoySignatureField(
+                is SignatureComponentEditor -> JoySignatureComponent(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is TableComponentEditor -> JoyTableField(
+                is TableComponentEditor -> JoyTableComponent(
                     editor = it,
                     mode = mode,
-                    screen = currentPage,
+                    screen = currentScreen,
                     onUpload = onUpload,
                     previewRows = 5,
                 )
@@ -134,21 +134,21 @@ fun Form(
                     onSignal = it::emit
                 )
 
-                is ChartComponentEditor -> JoyChartField(
+                is ChartComponentEditor -> JoyChartComponent(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is BlockComponentEditor -> JoyBlockField(
-                    field = it.component,
-                    position = currentPage.positions.find { it.componentId == it.id }
+                is BlockComponentEditor -> JoyBlockComponent(
+                    component = it.component,
+                    position = currentScreen.positions.find { it.componentId == it.id }
                 )
 
-                is RichTextComponentEditor -> JoyRichTextField(it.component)
+                is RichTextComponentEditor -> JoyRichTextComponent(it.component)
 
-                else -> if (showUnsupportedFields) {
-                    Text("Unsupported Field of type = ${it.type}")
+                else -> if (showUnsupportedComponents) {
+                    Text("Unsupported Component of type = ${it.type}")
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))

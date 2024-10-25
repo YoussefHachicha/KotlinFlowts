@@ -19,10 +19,10 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 @Composable
-internal fun JoyRichTextField(
-    field: RichTextComponent,
-) = Column(modifier = Modifier.testTag(field.id).fillMaxWidth()) {
-    DraftJsRichText(field.value)
+internal fun JoyRichTextComponent(
+    component: RichTextComponent,
+) = Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
+    DraftJsRichText(component.value)
     Spacer(modifier = Modifier.height(8.dp))
 }
 

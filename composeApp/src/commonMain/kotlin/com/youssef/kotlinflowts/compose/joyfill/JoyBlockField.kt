@@ -18,14 +18,14 @@ import com.youssef.kotlinflowts.models.joyfill.ComponentPosition
 import com.youssef.kotlinflowts.models.joyfill.fields.BlockComponent
 
 @Composable
-internal fun JoyBlockField(
-    field: BlockComponent,
+internal fun JoyBlockComponent(
+    component: BlockComponent,
     position: ComponentPosition?
-) = Column(modifier = Modifier.testTag(field.id).fillMaxWidth()) {
+) = Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
     val color = position?.fontColor?.toColor() ?: Color.Unspecified
     val weight = position?.fontWeight?.toFontWeight()
     val size = position?.fontSize?.sp ?: 12.sp
-    val value = field.value?.apply(position?.textTransform) ?: ""
+    val value = component.value?.apply(position?.textTransform) ?: ""
     val elipsis = position?.textOverflow == "elipsis"
     val align = position?.textAlign.toAlign()
     Text(

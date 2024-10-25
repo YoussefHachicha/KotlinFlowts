@@ -16,23 +16,23 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.TextComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
-internal fun JoyTextField(
+internal fun JoyTextComponent(
     editor: TextComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier = Modifier.testTag(editor.component.id).fillMaxWidth()) {
-    val field = remember(editor) { editor.component }
-    JoyTitle(field.title, modifier = Modifier.testTag("${field.id}-title"))
+    val component = remember(editor) { editor.component }
+    JoyTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
     Spacer(modifier = Modifier.height(2.dp))
     var value by remember(editor) { mutableStateOf(editor.component.value) }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 
-    RawTextField(
+    RawTextComponent(
         value = value,
         borders = true,
         maxLines = 1,
-        readonly = field.disabled || mode == Mode.readonly,
-        modifier = Modifier.testTag("${field.id}-body"),
+        readonly = component.disabled || mode == Mode.readonly,
+        modifier = Modifier.testTag("${component.id}-body"),
         onChange = {
             value = it
             onSignal(Signal.Change(value))

@@ -24,12 +24,12 @@ internal fun JoyTextArea(
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
 ) {
-    val field = remember(editor) { editor.component }
-    var value by remember { mutableStateOf(field.value ?: "") }
+    val component = remember(editor) { editor.component }
+    var value by remember { mutableStateOf(component.value ?: "") }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(field.title, modifier = Modifier.testTag("${field.id}-title"))
+        Text(component.title, modifier = Modifier.testTag("${component.id}-title"))
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
             value = value,
@@ -37,9 +37,9 @@ internal fun JoyTextArea(
                 value = it
                 onSignal(Signal.Change(it))
             },
-            readOnly = field.disabled || mode == Mode.readonly,
+            readOnly = component.disabled || mode == Mode.readonly,
             minLines = 5,
-            modifier = Modifier.testTag("${field.id}-body")
+            modifier = Modifier.testTag("${component.id}-body")
                 .fillMaxWidth()
                 .onFocusChanged(focus.handler)
         )

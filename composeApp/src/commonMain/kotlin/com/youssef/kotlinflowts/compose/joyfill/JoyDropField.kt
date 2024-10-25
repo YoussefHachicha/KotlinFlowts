@@ -30,37 +30,37 @@ import com.youssef.kotlinflowts.manager.joyfill.Mode
 import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 
 @Composable
-internal fun JoyDropField(
+internal fun JoyDropComponent(
     editor: DropdownComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(Modifier.fillMaxWidth()) {
 
-    val field = remember(editor) { editor.component }
+    val component = remember(editor) { editor.component }
 
     var selected by remember(editor) { mutableStateOf(editor.selected()?.value) }
 
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.select(selected) } }
 
-    JoyTitle(field, modifier = Modifier.testTag("${field.id}-title"))
-    RawDropField(
-        options = field.options,
+    JoyTitle(component, modifier = Modifier.testTag("${component.id}-title"))
+    RawDropComponent(
+        options = component.options,
         value = selected?.let { listOf(it) } ?: emptyList(),
-        readonly = field.disabled || mode == Mode.readonly,
+        readonly = component.disabled || mode == Mode.readonly,
         multiple = multiple,
         borders = true,
         onChange = {
             selected = it.firstOrNull()?.value
             onSignal(Signal.Change(selected))
         },
-        modifier = Modifier.testTag("${field.id}-body").onFocusChanged(focus.handler)
+        modifier = Modifier.testTag("${component.id}-body").onFocusChanged(focus.handler)
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun RawDropField(
+internal fun RawDropComponent(
     options: List<Option2>,
     value: List<String>,
     readonly: Boolean,

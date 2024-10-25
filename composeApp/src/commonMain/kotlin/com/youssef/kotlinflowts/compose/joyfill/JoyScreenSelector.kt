@@ -36,7 +36,7 @@ import com.youssef.kotlinflowts.models.joyfill.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun JoyPageSelector(
+internal fun JoyScreenSelector(
     screens: List<Screen>,
     screen: Screen,
     onChange: (Screen) -> Unit,
@@ -49,7 +49,7 @@ internal fun JoyPageSelector(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
-            Text("Page #${screens.indexOf(screen) + 1}", color = LocalContentColor.current.copy(alpha = 0.7f))
+            Text("Screen #${screens.indexOf(screen) + 1}", color = LocalContentColor.current.copy(alpha = 0.7f))
             Text(screen.name)
         }
         ExposedDropdownMenuDefaults.TrailingIcon(expanded)
@@ -68,11 +68,11 @@ internal fun JoyPageSelector(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("Pages", fontWeight = FontWeight.Bold)
+                            Text("Screens", fontWeight = FontWeight.Bold)
                             Icon(Icons.Outlined.Close, "close", modifier = Modifier.clickable { expanded = false }.padding(8.dp))
                         }
                     }
-                    itemsIndexed(screens, key = { _, p -> p.id }) { index, it ->
+                    itemsIndexed(screens, key = { _, s -> s.id }) { index, it ->
                         Box(
                             contentAlignment = Alignment.CenterStart,
                             modifier = Modifier.clickable {

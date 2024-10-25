@@ -29,13 +29,13 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.MultiSelectComponentEdito
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
-internal fun JoySelectField(
+internal fun JoySelectComponent(
     editor: MultiSelectComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<List<String>>) -> Unit
 ) {
-    val field = remember(editor) {  editor.component }
+    val component = remember(editor) {  editor.component }
     val options = remember(editor) { editor.options }
 
     val values = remember(editor) {
@@ -45,11 +45,11 @@ internal fun JoySelectField(
     val focus = remember(onSignal) { FocusManager(onSignal) { } }
 
     Column(Modifier.fillMaxWidth()) {
-        JoyTitle(field, modifier = Modifier.testTag("${field.id}-title"))
+        JoyTitle(component, modifier = Modifier.testTag("${component.id}-title"))
         Surface(
             color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.2f),
             shape = RoundedCornerShape(10.dp),
-            modifier = Modifier.fillMaxWidth().testTag("${field.id}-body").onFocusChanged(focus.handler)
+            modifier = Modifier.fillMaxWidth().testTag("${component.id}-body").onFocusChanged(focus.handler)
         ) {
             Column(modifier = Modifier.padding(vertical = 7.dp)) {
                 val size = options.size
@@ -59,7 +59,7 @@ internal fun JoySelectField(
                         selected = option.id in values,
                         modifier = Modifier.semantics { contentDescription = option.value },
                         onClick = {
-                            if (field.disabled || mode == Mode.readonly) return@JoyOption
+                            if (component.disabled || mode == Mode.readonly) return@JoyOption
                             if (!multiple) values.clear()
                             if (option.id in values) {
                                 editor.unselect(option)

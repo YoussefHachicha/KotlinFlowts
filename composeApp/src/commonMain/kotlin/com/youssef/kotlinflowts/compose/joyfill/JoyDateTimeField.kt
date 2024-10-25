@@ -38,16 +38,16 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun JoyDateTimeField(
+internal fun JoyDateTimeComponent(
     editor: DateComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
 ) {
-    val field = remember(editor) { editor.component }
-    val value = field.value?.let { java.time.Instant.ofEpochMilli(it) }
+    val component = remember(editor) { editor.component }
+    val value = component.value?.let { java.time.Instant.ofEpochMilli(it) }
     var dialog by remember { mutableStateOf(false) }
-    val readonly = remember(field, mode) { field.disabled || mode == Mode.readonly }
+    val readonly = remember(component, mode) { component.disabled || mode == Mode.readonly }
 
     val pattern = remember {
         format?.replace("YYYY", "{YYYY}")
@@ -64,7 +64,7 @@ internal fun JoyDateTimeField(
     var picking by remember(initialPicking) { mutableStateOf(initialPicking) }
 
     val date = rememberDatePickerState(
-        initialSelectedDateMillis = field.value,
+        initialSelectedDateMillis = component.value,
         selectableDates = object : SelectableDates {
             override fun isSelectableDate(utcTimeMillis: Long): Boolean = mode == Mode.fill
             override fun isSelectableYear(year: Int): Boolean = mode == Mode.fill
@@ -93,16 +93,16 @@ internal fun JoyDateTimeField(
         }
     }
 
-    Column(modifier = Modifier.testTag(field.id).fillMaxWidth()) {
+    Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
         JoyTitle(
-            field,
-            modifier = Modifier.testTag("${field.id}-title")
+            component,
+            modifier = Modifier.testTag("${component.id}-title")
         )
         OutlinedTextField(
             value = pattern.format(date.selectedDateMillis, time.hour, time.minute),
             onValueChange = {},
             interactionSource = interaction,
-            modifier = Modifier.testTag("${field.id}-body-output").fillMaxWidth(),
+            modifier = Modifier.testTag("${component.id}-body-output").fillMaxWidth(),
             readOnly = true
         )
     }
@@ -118,18 +118,18 @@ internal fun JoyDateTimeField(
                         state = date,
                         title = null,
                         headline = null,
-                        modifier = Modifier.testTag("${field.id}-input-date").padding(14.dp),
+                        modifier = Modifier.testTag("${component.id}-input-date").padding(14.dp),
                     )
 
                     Picking.Time -> TimePicker(
                         state = time,
-                        modifier = Modifier.testTag("${field.id}-input-time")
+                        modifier = Modifier.testTag("${component.id}-input-time")
                     )
                 }
 
                 Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth().padding(top = 12.dp)) {
                     OutlinedButton(
-                        modifier = Modifier.testTag("${field.id}-input-cancel"),
+                        modifier = Modifier.testTag("${component.id}-input-cancel"),
                         onClick = {
                             dialog = false
                             onSignal(Signal.Blur(value?.toEpochMilli()))
@@ -140,7 +140,7 @@ internal fun JoyDateTimeField(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
-                        modifier = Modifier.testTag("${field.id}-input-submit"),
+                        modifier = Modifier.testTag("${component.id}-input-submit"),
                         onClick = {
                             when (picking) {
                                 Picking.Date -> {

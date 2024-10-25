@@ -17,16 +17,16 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.NumberComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
-internal fun JoyNumberField(
+internal fun JoyNumberComponent(
     editor: NumberComponentEditor,
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
 ) {
-    val field = remember(editor) { editor.component }
-    var value by remember { mutableStateOf(field.value?.toString() ?: "") }
+    val component = remember(editor) { editor.component }
+    var value by remember { mutableStateOf(component.value?.toString() ?: "") }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value.toTolerableNumber() ?: 0.0 } }
     Column(modifier = Modifier.fillMaxWidth()) {
-        JoyTitle(field, modifier = Modifier.testTag("${field.id}-title"))
+        JoyTitle(component, modifier = Modifier.testTag("${component.id}-title"))
         OutlinedTextField(
             value = value,
             onValueChange = {
@@ -34,8 +34,8 @@ internal fun JoyNumberField(
                 value = v.toString()
                 onSignal(Signal.Change(v))
             },
-            readOnly = field.disabled || mode == Mode.readonly,
-            modifier = Modifier.testTag("${field.id}-body").fillMaxWidth().onFocusChanged(focus.handler),
+            readOnly = component.disabled || mode == Mode.readonly,
+            modifier = Modifier.testTag("${component.id}-body").fillMaxWidth().onFocusChanged(focus.handler),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
     }

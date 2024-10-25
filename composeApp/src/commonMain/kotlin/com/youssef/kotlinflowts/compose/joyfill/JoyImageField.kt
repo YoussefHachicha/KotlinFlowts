@@ -66,42 +66,42 @@ import com.youssef.kotlinflowts.manager.joyfill.Mode
 import com.youssef.kotlinflowts.models.joyfill.utils.Attachment
 
 @Composable
-internal fun JoyImageField(
+internal fun JoyImageComponent(
     editor: FileBasedComponentEditor,
     mode: Mode,
     onUpload: (suspend () -> List<String>)? = null,
     onSignal: (Signal<List<Attachment>>) -> Unit,
 ) {
-    val field = remember(editor) { editor.component }
-    Text(field.title, modifier = Modifier.testTag("${field.id}-preview-title").padding(bottom = 8.dp))
+    val component = remember(editor) { editor.component }
+    Text(component.title, modifier = Modifier.testTag("${component.id}-preview-title").padding(bottom = 8.dp))
     Column(modifier = Modifier.fillMaxWidth()) {
-        RawImageField(
-            id = field.id,
-            title = field.title,
+        RawImageComponent(
+            id = component.id,
+            title = component.title,
             uploaded = editor.value,
-            readonly = field.disabled || mode == Mode.readonly,
+            readonly = component.disabled || mode == Mode.readonly,
             onUpload = onUpload,
             onDialog = { opened ->
 
             },
             onAdded = {
                 editor.add(it)
-                onSignal(Signal.Change(field.value))
+                onSignal(Signal.Change(component.value))
             },
             onRemoved = {
                 editor.remove(it)
-                onSignal(Signal.Change(field.value))
+                onSignal(Signal.Change(component.value))
             },
             preview = { params ->
                 FirstImagePreview(
-                    id = field.id,
+                    id = component.id,
                     params = params,
                     onFocus = {
                         onSignal(if (it.hasFocus) Signal.Focus else Signal.Blur(Unit))
                     },
                     onRemove = {
                         editor.remove(it)
-                        onSignal(Signal.Change(field.value))
+                        onSignal(Signal.Change(component.value))
                     }
                 )
             }
@@ -111,7 +111,7 @@ internal fun JoyImageField(
 
 
 @Composable
-internal fun RawImageField(
+internal fun RawImageComponent(
     id: String,
     title: String,
     uploaded: List<Attachment>,

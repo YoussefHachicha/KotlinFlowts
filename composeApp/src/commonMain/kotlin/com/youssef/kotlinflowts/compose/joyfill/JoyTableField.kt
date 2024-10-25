@@ -58,7 +58,7 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.TableComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.DropdownCellEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.ImageCellEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.TextCellEditor
-import com.youssef.kotlinflowts.manager.joyfill.FieldEvent
+import com.youssef.kotlinflowts.manager.joyfill.ComponentEvent
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 import com.youssef.kotlinflowts.models.joyfill.Screen
 import com.youssef.kotlinflowts.models.joyfill.fields.Component
@@ -71,17 +71,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun JoyTableField(
+internal fun JoyTableComponent(
     editor: TableComponentEditor,
     screen: Screen,
     previewRows: Int,
     mode: Mode,
-    onUpload: (suspend (FieldEvent) -> List<String>)?,
+    onUpload: (suspend (ComponentEvent) -> List<String>)?,
 ) {
     var view by remember { mutableStateOf(UIView.small) }
-    val field = remember(editor) { editor.component }
+    val component = remember(editor) { editor.component }
     val allRows = remember { mutableStateListOf(*(editor.component.value).toTypedArray()) }
-    val rows by remember(allRows.size) { derivedStateOf { allRows.filter { !it.deleted && it.id in field.rowOrder } } }
+    val rows by remember(allRows.size) { derivedStateOf { allRows.filter { !it.deleted && it.id in component.rowOrder } } }
     val selectedRow = remember { mutableStateListOf<Int>() }
     val scope = rememberCoroutineScope()
 
@@ -96,7 +96,7 @@ internal fun JoyTableField(
 
     val uploadHandler = if (onUpload != null) {
         suspend {
-            val event = FieldEvent(
+            val event = ComponentEvent(
                 component = editor.component,
                 screen = screen
             )
@@ -121,7 +121,7 @@ internal fun JoyTableField(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        JoyTitle(field, modifier = Modifier.padding(bottom = 4.dp))
+                        JoyTitle(component, modifier = Modifier.padding(bottom = 4.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             if (selectedRow.size == 1) {
                                 val width = with(density) { measurer.measure("More").size.width.toDp() + 40.dp }
@@ -129,7 +129,7 @@ internal fun JoyTableField(
                                     modifier = Modifier.width(width).height(40.dp),
                                     contentAlignment = Alignment.CenterStart
                                 ) {
-                                    RawDropField(
+                                    RawDropComponent(
                                         options = listOf("Delete").map { option(it, it, false) },
                                         value = emptyList(),
                                         readonly = false,
@@ -151,7 +151,7 @@ internal fun JoyTableField(
                             Icon(
                                 Icons.Filled.Close,
                                 "close",
-                                modifier = Modifier.testTag("${field.id}-large-close")
+                                modifier = Modifier.testTag("${component.id}-large-close")
                                     .clickable { view = UIView.small })
                         }
                     }
@@ -159,16 +159,16 @@ internal fun JoyTableField(
 
                     LazyRowArrayTable(
                         state = state,
-                        cols = field.columns.size,
+                        cols = component.columns.size,
                         rows = rows.size,
-                        key = { field.rowOrder[it] },
+                        key = { component.rowOrder[it] },
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight(0.9f)
                     ) { row, col ->
                         val width = if (col < 0) with(density) {
                             measurer.measure("${rows.size}").size.width.toDp() + 70.dp
-                        } else colWidth(field.columns[col].type, preview = false)
+                        } else colWidth(component.columns[col].type, preview = false)
 
                         val modifier = Modifier.width(width).padding(horizontal = 8.dp)
                         Box(modifier) {
@@ -189,12 +189,12 @@ internal fun JoyTableField(
                                 }
 
                                 col != -1 && row == -1 -> Text(
-                                    text = field.columns[col].title,
+                                    text = component.columns[col].title,
                                     modifier = modifier
                                 )
 
                                 else /* col != -1 && row != -1 */ -> when (val cell = editor.rows.get(row)?.col(col)) {
-                                    is TextCellEditor -> RawTextField(
+                                    is TextCellEditor -> RawTextComponent(
                                         value = cell.value ?: "",
                                         readonly = mode == Mode.readonly,
                                         borders = false,
@@ -204,7 +204,7 @@ internal fun JoyTableField(
                                         }
                                     )
 
-                                    is DropdownCellEditor -> RawDropField(
+                                    is DropdownCellEditor -> RawDropComponent(
                                         options = cell.options,
                                         value = cell.selected()?.value?.let { listOf(it) } ?: emptyList(),
                                         readonly = false,
@@ -215,8 +215,8 @@ internal fun JoyTableField(
                                         }
                                     )
 
-                                    is ImageCellEditor -> RawImageField(
-                                        id = "${field.id}-$row:$col",
+                                    is ImageCellEditor -> RawImageComponent(
+                                        id = "${component.id}-$row:$col",
                                         title = cell.column.title,
                                         readonly = mode == Mode.readonly,
                                         uploaded = cell.value,
@@ -258,8 +258,8 @@ internal fun JoyTableField(
             ) {
                 Surface(modifier = Modifier.fillMaxSize(0.8f)) {
                     RowCapture(
-                        title = field.title,
-                        columns = field.columns,
+                        title = component.title,
+                        columns = component.columns,
                         mode = mode,
                         onUpload = uploadHandler,
                         onClose = { subDialog = false }
@@ -293,7 +293,7 @@ private fun RowCapture(
     columns.forEach { column ->
         JoyTitle(column.title, modifier = Modifier.padding(top = 8.dp))
         when (column) {
-            is TextColumn -> RawTextField(
+            is TextColumn -> RawTextComponent(
                 value = "",
                 readonly = mode == Mode.readonly,
                 borders = true,
@@ -301,7 +301,7 @@ private fun RowCapture(
                 onFocusChanged = {}
             )
 
-            is DropdownColumn -> RawDropField(
+            is DropdownColumn -> RawDropComponent(
                 options = column.options,
                 value = emptyList(),
                 readonly = false,
@@ -310,7 +310,7 @@ private fun RowCapture(
                 onChange = {}
             )
 
-            is ImageColumn -> RawImageField(
+            is ImageColumn -> RawImageComponent(
                 id = column.id,
                 title = column.title,
                 readonly = mode == Mode.readonly,
@@ -354,13 +354,13 @@ private fun Preview(
     totalRows: Int,
     onClick: () -> Unit,
 ) {
-    val field = remember(editor) { editor.component }
+    val component = remember(editor) { editor.component }
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        JoyTitle(field)
+        JoyTitle(component)
         Row {
             TextButton(onClick = onClick, contentPadding = PaddingValues(0.dp), shape = RoundedCornerShape(2.dp)) {
                 Text("View")
@@ -375,19 +375,19 @@ private fun Preview(
             .clip(RoundedCornerShape(8.dp))
     ) {
         RowArrayTable(
-            cols = field.columns.size,
+            cols = component.columns.size,
             rows = rows,
             modifier = Modifier
-                .testTag("${field.id}-small")
+                .testTag("${component.id}-small")
                 .fillMaxWidth()
                 .clickable { onClick() }
         ) { row, col ->
-            val width = if (col < 0) 30.dp else colWidth(field.columns[col].type, preview = true)
+            val width = if (col < 0) 30.dp else colWidth(component.columns[col].type, preview = true)
             val modifier = Modifier.width(width).padding(horizontal = 8.dp)
             when {
                 col == -1 && row == -1 -> Box(modifier = modifier)
                 col == -1 && row != -1 -> Text(text = "${row + 1}", modifier = modifier)
-                col != -1 && row == -1 -> Text(text = field.columns[col].title, modifier = modifier)
+                col != -1 && row == -1 -> Text(text = component.columns[col].title, modifier = modifier)
                 else /* col != -1 && row != -1 */ -> when (val cell = editor.rows.get(row)?.col(col)) {
                     is TextCellEditor -> Text(text = cell.value ?: "", modifier = modifier)
                     is DropdownCellEditor -> Text(text = cell.selected()?.value ?: "", modifier = modifier)
