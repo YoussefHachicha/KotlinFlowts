@@ -17,6 +17,7 @@ import com.youssef.kotlinflowts.builder.joyfill.textAreaComponent
 import com.youssef.kotlinflowts.builder.joyfill.textComponent
 import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilder
 import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilderImpl
+import com.youssef.kotlinflowts.builder.joyfill.columnComponent
 import com.youssef.kotlinflowts.builder.joyfill.table.ColumnBuilder
 import com.youssef.kotlinflowts.builder.joyfill.table.TableColumnsBuilderImpl
 import com.youssef.kotlinflowts.models.joyfill.ComponentPosition
@@ -265,7 +266,11 @@ class AppBuilderImpl(
         readonly: Boolean,
         components: (AppBuilder.() -> Unit)?
     ) = buildComponent(id) { uid ->
-
-
+        columnComponent(
+            id = uid,
+            title = title,
+            identifier = identifier ?: "component-$uid",
+            components = mutableListOf<Component>().also { components?.invoke(AppBuilderImpl(app, identity)) }
+        )
     }
 }

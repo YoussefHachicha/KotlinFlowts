@@ -78,6 +78,13 @@ object service {
             title = "Image",
             value = listOf("https://picsum.photos/200", "https://picsum.photos/200")
         )
+        screen("Colum Screen example")
+        column {
+            text("First Name")
+            text("Last Name")
+            date("Date of Birth")
+            text("Phone")
+        }
     }
 
     fun save(app: App) {
