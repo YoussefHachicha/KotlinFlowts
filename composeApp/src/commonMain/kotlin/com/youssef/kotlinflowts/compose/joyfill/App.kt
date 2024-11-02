@@ -17,6 +17,7 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.BlockComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.DateComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.AppEditor
+import com.youssef.kotlinflowts.editor.joyfill.column.ColumnComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.DropdownComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.ImageComponentEditor
@@ -31,7 +32,7 @@ import com.youssef.kotlinflowts.manager.joyfill.ComponentEvent
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
-fun Form(
+fun App(
     editor: AppEditor,
     mode: Mode = Mode.fill,
     onUpload: (suspend (ComponentEvent) -> List<String>)? = null,
@@ -55,7 +56,10 @@ fun Form(
         mutableStateOf(screens.find { it.id == screenId } ?: screens.first())
     }
 
-    val editorComponents by remember(editor, currentScreen) { derivedStateOf { editor.components.from(currentScreen) } }
+    val editorComponents by remember(
+        editor,
+        currentScreen
+    ) { derivedStateOf { editor.components.from(currentScreen) } }
 
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
         is Signal.Focus -> onFocus?.invoke(ComponentEvent(component, currentScreen))
@@ -89,7 +93,8 @@ fun Form(
                 is DateComponentEditor -> JoyDateTimeComponent(
                     editor = it,
                     mode = mode,
-                    format = currentScreen.positions.firstOrNull { it.componentId == it.id }?.format ?: it.component.format,
+                    format = currentScreen.positions.firstOrNull { it.componentId == it.id }?.format
+                        ?: it.component.format,
                     onSignal = it::emit
                 )
 
@@ -110,7 +115,16 @@ fun Form(
                 is ImageComponentEditor -> JoyImageComponent(
                     editor = it,
                     mode = mode,
-                    onUpload = onUpload?.let { call -> { call(ComponentEvent(it.component, currentScreen)) } },
+                    onUpload = onUpload?.let { call ->
+                        {
+                            call(
+                                ComponentEvent(
+                                    it.component,
+                                    currentScreen
+                                )
+                            )
+                        }
+                    },
                     onSignal = it::emit
                 )
 
@@ -146,6 +160,15 @@ fun Form(
                 )
 
                 is RichTextComponentEditor -> JoyRichTextComponent(it.component)
+
+                is ColumnComponentEditor -> JoyColumnComponent(
+                    editor = it,
+                    screen = currentScreen,
+                    onBlur = onBlur,
+                    onFocus = onFocus,
+                    onComponentChange = onComponentChange,
+                    showUnsupportedComponents = showUnsupportedComponents
+                )
 
                 else -> if (showUnsupportedComponents) {
                     Text("Unsupported Component of type = ${it.type}")

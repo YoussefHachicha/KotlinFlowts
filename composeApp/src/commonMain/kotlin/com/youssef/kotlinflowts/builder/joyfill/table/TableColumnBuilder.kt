@@ -1,6 +1,6 @@
 package com.youssef.kotlinflowts.builder.joyfill.table
 
-interface ColumnBuilder {
+interface TableColumnBuilder {
     fun text(
         title: String = "Text Column",
         id: String? = null,

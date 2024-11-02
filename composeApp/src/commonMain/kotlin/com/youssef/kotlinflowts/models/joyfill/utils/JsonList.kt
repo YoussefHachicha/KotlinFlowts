@@ -2,7 +2,7 @@ package com.youssef.kotlinflowts.models.joyfill.utils
 
 import com.youssef.kotlinflowts.models.joyfill.Mappable
 
-class JsonList<T : Mappable>(
+open class JsonList<T : Mappable>(
     private val wrapped: MutableList<MutableMap<String, Any?>>,
     private val factory: (MutableMap<String, Any?>) -> T
 ) : AbstractList<T>(), MutableList<T> {
@@ -23,7 +23,7 @@ class JsonList<T : Mappable>(
 
     override fun get(index: Int): T = factory(wrapped[index])
 
-    protected fun entries() = wrapped.map { factory(it) }.toMutableList()
+    private fun entries() = wrapped.map { factory(it) }.toMutableList()
 
     override fun iterator(): MutableIterator<T> = entries().iterator()
 

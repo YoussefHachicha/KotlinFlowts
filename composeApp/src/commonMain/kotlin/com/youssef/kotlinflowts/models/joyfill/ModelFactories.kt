@@ -48,6 +48,7 @@ import com.youssef.kotlinflowts.models.joyfill.internal.ComponentPositionImpl
 import com.youssef.kotlinflowts.models.joyfill.internal.FileImpl
 import com.youssef.kotlinflowts.models.joyfill.internal.ScreenImpl
 import com.youssef.kotlinflowts.models.joyfill.utils.App
+import com.youssef.kotlinflowts.models.joyfill.utils.ID
 import com.youssef.kotlinflowts.models.joyfill.utils.toMap
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -123,24 +124,38 @@ inline fun MutableMap<String, Any?>.toBlockComponent(): BlockComponent = BlockCo
 
 inline fun MutableMap<String, Any?>.toRichTextComponent(): RichTextComponent = RichTextComponentImpl(this)
 
-inline fun MutableMap<String, Any?>.toColumnComponent(): ColumnComponent = ColumnComponentImpl(this)
+// Extension function to create component
+inline fun MutableMap<String, Any?>.toColumnComponent(): ColumnComponent {
+    // Validate required fields before creating component
+    requireNotNull(this[ID]) { "ID cannot be null for column component" }
+    requireNotNull(this[Component::title.name]) { "Title cannot be null for column component" }
+    requireNotNull(this[Component::identifier.name]) { "Identifier cannot be null for column component" }
+    requireNotNull(this[Component::type.name]) { "Type cannot be null for column component" }
+    return ColumnComponentImpl(this)
+}
 
-inline fun MutableMap<String, Any?>.toComponent(): Component = when (type()) {
-    Component.Type.text -> toTextComponent()
-    Component.Type.textarea -> toTextAreaComponent()
-    Component.Type.number -> toNumberComponent()
-    Component.Type.dropdown -> toDropdownComponent()
-    Component.Type.multiSelect -> toMultiSelectComponent()
-    Component.Type.date -> toDateComponent()
-    Component.Type.signature -> toSignatureComponent()
-    Component.Type.image -> toImageComponent()
-    Component.Type.file -> toFileComponent()
-    Component.Type.table -> toTableComponent()
-    Component.Type.chart -> toChartComponent()
-    Component.Type.richText -> toRichTextComponent()
-    Component.Type.block -> toBlockComponent()
-    Component.Type.column -> toColumnComponent()
-    else -> toUnknownComponent()
+inline fun MutableMap<String, Any?>.toComponent(): Component{
+    val type = this[Component::type.name] as? String
+    requireNotNull(type) { "Component type cannot be null" }
+
+    return when (type()) {
+        Component.Type.text -> toTextComponent()
+        Component.Type.textarea -> toTextAreaComponent()
+        Component.Type.number -> toNumberComponent()
+        Component.Type.dropdown -> toDropdownComponent()
+        Component.Type.multiSelect -> toMultiSelectComponent()
+        Component.Type.date -> toDateComponent()
+        Component.Type.signature -> toSignatureComponent()
+        Component.Type.image -> toImageComponent()
+        Component.Type.file -> toFileComponent()
+        Component.Type.table -> toTableComponent()
+        Component.Type.chart -> toChartComponent()
+        Component.Type.richText -> toRichTextComponent()
+        Component.Type.block -> toBlockComponent()
+        Component.Type.column -> (this as? MutableMap<String, Any?>)?.toColumnComponent()
+            ?: throw IllegalStateException("Invalid column component data")
+        else -> toUnknownComponent()
+    }
 }
 
 inline fun MutableMap<String, Any?>.type(): Component.Type = try {

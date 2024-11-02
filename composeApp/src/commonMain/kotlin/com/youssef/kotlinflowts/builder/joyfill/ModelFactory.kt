@@ -15,7 +15,6 @@ import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
 import com.youssef.kotlinflowts.models.joyfill.components.table.Column
 import com.youssef.kotlinflowts.models.joyfill.components.table.Row
 import com.youssef.kotlinflowts.models.joyfill.toChartComponent
-import com.youssef.kotlinflowts.models.joyfill.toColumn
 import com.youssef.kotlinflowts.models.joyfill.toColumnComponent
 import com.youssef.kotlinflowts.models.joyfill.toDateComponent
 import com.youssef.kotlinflowts.models.joyfill.toDropdownComponent
@@ -59,12 +58,12 @@ internal fun file(
     id: String,
     name: String,
     screens: MutableList<Screen>,
-    pageOrder: MutableList<String>,
+    screenOrder: MutableList<String>,
 ): MutableFile = mutableMapOf<String, Any?>(
     ID to id,
     File::name.name to name,
     File::screens.name to screens,
-    File::screenOrder.name to pageOrder
+    File::screenOrder.name to screenOrder
 ).toFile().toMutableFile()
 
 internal fun componentPosition(
@@ -229,8 +228,8 @@ internal fun columnComponent(
     ID to id,
     Component::title.name to title,
     Component::identifier.name to identifier,
-    ValueBasedComponent<*>::value.name to components.map { it.toMap() }.toMutableList(),
-    Component::type.name to Component.Type.table.name,
+    Component::type.name to Component.Type.column.name,
+    ValueBasedComponent<*>::value.name to components.map { it.toMap() }.toMutableList()
 ).toColumnComponent()
 
 internal fun chartComponent(

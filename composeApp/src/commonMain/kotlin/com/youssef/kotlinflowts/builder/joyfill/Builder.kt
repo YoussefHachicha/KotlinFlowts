@@ -12,13 +12,13 @@ import com.youssef.kotlinflowts.models.joyfill.toMutableApp
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 
-fun buildDocument(builder: AppBuilder.() -> Unit): App {
+fun buildApp(builder: AppBuilder.() -> Unit): App {
     val generator = IdentityGenerator.default
     val uid = generator.generate()
     val app = mutableMapOf<String, Any?>(
         ID to uid,
-        App::identifier.name to "document-$uid",
-        App::name.name to "New Document",
+        App::identifier.name to "app-$uid",
+        App::name.name to "New App",
         App::files.name to mutableListOf<File>(),
         App::components.name to mutableListOf<Component>()
     ).toApp().toMutableApp()

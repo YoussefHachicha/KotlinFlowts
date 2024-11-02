@@ -8,20 +8,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.youssef.kotlinflowts.builder.joyfill.buildDocument
-import com.youssef.kotlinflowts.compose.joyfill.Form
+import com.youssef.kotlinflowts.builder.joyfill.buildApp
+import com.youssef.kotlinflowts.compose.joyfill.App
 import com.youssef.kotlinflowts.compose.joyfill.rememberEditor
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 
 @Composable
 fun BasicSample() {
-    val document = remember { service.getEmployeeDocument() }
+    val app = remember { service.getApp() }
 
-    val editor = rememberEditor(document)
+    val editor = rememberEditor(app)
 
     // Render the form with the editor
     Column(modifier = Modifier.padding(8.dp)) {
-        Form(editor = editor)
+        App(editor = editor)
         OutlinedButton(
             onClick = {
                 // get the updated document
@@ -37,7 +37,7 @@ fun BasicSample() {
 }
 
 object service {
-    fun getEmployeeDocument() = buildDocument {
+    fun getApp() = buildApp {
         name("HEllOOOO")
 
         screen("Basic Information")
@@ -78,12 +78,21 @@ object service {
             title = "Image",
             value = listOf("https://picsum.photos/200", "https://picsum.photos/200")
         )
-        screen("Colum Screen example")
+
+        screen("BABAy Blue")
         column {
-            text("First Name")
-            text("Last Name")
-            date("Date of Birth")
-            text("Phone")
+            text("Text Field Component")
+            textarea("Text Area Component")
+            signature("Signature")
+            number("Number Component")
+            column {
+                date("Signature Component")
+                dropdown("Dropdown Component", listOf("Option 1", "Option 2", "Option 3"))
+                column {
+                    select("Select Component", listOf("Option 1", "Option 2", "Option 3"))
+                }
+            }
+
         }
     }
 

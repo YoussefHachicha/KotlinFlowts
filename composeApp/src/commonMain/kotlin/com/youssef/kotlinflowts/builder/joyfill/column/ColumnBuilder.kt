@@ -1,17 +1,11 @@
-package com.youssef.kotlinflowts.builder.joyfill
+package com.youssef.kotlinflowts.builder.joyfill.column
 
 import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilder
 import com.youssef.kotlinflowts.builder.joyfill.table.TableColumnBuilder
-import com.youssef.kotlinflowts.models.joyfill.Screen
 import com.youssef.kotlinflowts.models.joyfill.components.chart.Axis
 import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
-import com.youssef.kotlinflowts.builder.joyfill.column.ColumnBuilder
 
-interface AppBuilder {
-    fun name(value: String)
-
-    fun screen(name: String?): Screen
-
+interface ColumnBuilder {
     fun text(
         title: String = "Text Field Component",
         id: String? = null,

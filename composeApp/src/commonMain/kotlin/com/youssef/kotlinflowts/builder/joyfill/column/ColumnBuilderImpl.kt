@@ -1,74 +1,31 @@
-package com.youssef.kotlinflowts.builder.joyfill.internal
+package com.youssef.kotlinflowts.builder.joyfill.column
 
+import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilder
+import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilderImpl
 import com.youssef.kotlinflowts.builder.joyfill.chartComponent
-import com.youssef.kotlinflowts.builder.joyfill.dateComponent
-import com.youssef.kotlinflowts.builder.joyfill.AppBuilder
-import com.youssef.kotlinflowts.builder.joyfill.dropdownComponent
+import com.youssef.kotlinflowts.builder.joyfill.columnComponent
 import com.youssef.kotlinflowts.builder.joyfill.componentPosition
-import com.youssef.kotlinflowts.builder.joyfill.file
+import com.youssef.kotlinflowts.builder.joyfill.dateComponent
+import com.youssef.kotlinflowts.builder.joyfill.dropdownComponent
 import com.youssef.kotlinflowts.builder.joyfill.fileComponent
 import com.youssef.kotlinflowts.builder.joyfill.imageComponent
 import com.youssef.kotlinflowts.builder.joyfill.multiSelectComponent
 import com.youssef.kotlinflowts.builder.joyfill.numberComponent
-import com.youssef.kotlinflowts.builder.joyfill.screen
 import com.youssef.kotlinflowts.builder.joyfill.signatureComponent
+import com.youssef.kotlinflowts.builder.joyfill.table.TableColumnsBuilderImplTable
 import com.youssef.kotlinflowts.builder.joyfill.tableComponent
 import com.youssef.kotlinflowts.builder.joyfill.textAreaComponent
 import com.youssef.kotlinflowts.builder.joyfill.textComponent
-import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilder
-import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilderImpl
-import com.youssef.kotlinflowts.builder.joyfill.column.ColumnBuilderImpl
-import com.youssef.kotlinflowts.builder.joyfill.columnComponent
-import com.youssef.kotlinflowts.builder.joyfill.table.TableColumnBuilder
-import com.youssef.kotlinflowts.builder.joyfill.table.TableColumnsBuilderImplTable
 import com.youssef.kotlinflowts.models.joyfill.ComponentPosition
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.MutableApp
-import com.youssef.kotlinflowts.models.joyfill.MutableScreen
-import com.youssef.kotlinflowts.models.joyfill.components.core.Component
 import com.youssef.kotlinflowts.models.joyfill.components.chart.Axis
 import com.youssef.kotlinflowts.models.joyfill.components.chart.Line
+import com.youssef.kotlinflowts.models.joyfill.components.core.Component
 import com.youssef.kotlinflowts.models.joyfill.utils.Attachment
 import com.youssef.kotlinflowts.models.joyfill.utils.option
-import com.youssef.kotlinflowts.builder.joyfill.column.ColumnBuilder
 
-class AppBuilderImpl(
-    internal val app: MutableApp,
-    private val identity: IdentityGenerator
-) : AppBuilder {
-
-    //the file will contain the code source of our app
-    private val file by lazy {
-        app.files.getOrNull(0) ?: file(
-            id = identity.generate(),
-            name = app.name,
-            screens = mutableListOf(),
-            screenOrder = mutableListOf()
-        ).also { app.files.add(it) }
-    }
-
-    private var cursor: MutableScreen? = null
-
-    override fun name(value: String) {
-        app.name = value
-        file.name = value
-    }
-
-    private fun cursor(): MutableScreen {
-        return cursor ?: screen("New Screen")
-    }
-
-    override fun screen(name: String?): MutableScreen {
-        val s = screen(
-            id = identity.generate(),
-            name = name ?: "Screen ${file.screens.size + 1}",
-            positions = mutableListOf()
-        )
-        cursor = s
-        file.screens.add(s)
-        file.screenOrder.add(s.id)
-        return s
-    }
+class ColumnBuilderImpl(private val identity: IdentityGenerator): ColumnBuilder {
+    val columnComponents = mutableListOf<Component>()
 
     private fun add(component: Component) {
         val position = componentPosition(
@@ -81,13 +38,13 @@ class AppBuilderImpl(
     }
 
     private fun add(component: Component, position: ComponentPosition) {
-        cursor().positions.add(position)
-        app.components.add(component)
+        columnComponents.add(component)
     }
 
     private fun <C : Component> buildComponent(id: String?, builder: (uid: String) -> C) {
         add(builder(id ?: identity.generate()))
     }
+
 
     override fun text(
         title: String,
@@ -217,7 +174,7 @@ class AppBuilderImpl(
         id: String?,
         identifier: String?,
         readonly: Boolean,
-        columns: (TableColumnBuilder.() -> Unit)?
+        columns: (com.youssef.kotlinflowts.builder.joyfill.table.TableColumnBuilder.() -> Unit)?
     ) = buildComponent(id) { uid ->
         val builder = TableColumnsBuilderImplTable(identity)
         columns?.invoke(builder)

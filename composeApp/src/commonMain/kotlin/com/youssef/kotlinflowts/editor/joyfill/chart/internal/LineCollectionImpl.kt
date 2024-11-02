@@ -19,9 +19,9 @@ internal class LineCollectionImpl(
     onChange: ((ChangeEvent) -> Unit)?
 ) : EventTrigger<ChartComponent>(app, field, onChange), LineCollection {
 
-    override fun all(): List<LineEditor> = field.value?.map { LineEditorImpl(identity, it) } ?: emptyList()
+    override fun all(): List<LineEditor> = field.value.map { LineEditorImpl(identity, it) }
 
-    private fun look(key: String): Line? = field.value?.find { it.id == key || it.title == key }
+    private fun look(key: String): Line? = field.value.find { it.id == key || it.title == key }
 
     override fun find(key: String): LineEditor? {
         val line = look(key) ?: return null
@@ -38,14 +38,14 @@ internal class LineCollectionImpl(
             Line::title.name to title,
             Line::description.name to description
         ).toLine()
-        field.value?.add(line)
-        notifyChange(field.value?.map { it.toMap() }?.toMutableList())
+        field.value.add(line)
+        notifyChange(field.value.map { it.toMap() }.toMutableList())
         return LineEditorImpl(identity, line)
     }
 
     override fun remove(key: String): Line? {
         val line = look(key) ?: return null
-        field.value?.remove(line)
+        field.value.remove(line)
         return null
     }
 }

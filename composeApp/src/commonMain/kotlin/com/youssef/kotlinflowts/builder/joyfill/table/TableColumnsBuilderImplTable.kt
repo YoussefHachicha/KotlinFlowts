@@ -12,9 +12,9 @@ import com.youssef.kotlinflowts.models.joyfill.utils.ID
 import com.youssef.kotlinflowts.models.joyfill.utils.option
 import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 
-internal class TableColumnsBuilderImpl(
+internal class TableColumnsBuilderImplTable(
     private val identity: IdentityGenerator
-) : ColumnBuilder {
+) : TableColumnBuilder {
     val columns = mutableListOf<Column>()
 
     override fun text(title: String, id: String?, value: String?) {

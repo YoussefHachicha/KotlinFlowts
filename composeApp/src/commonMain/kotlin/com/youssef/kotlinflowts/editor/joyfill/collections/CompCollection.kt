@@ -1,6 +1,7 @@
 package com.youssef.kotlinflowts.editor.joyfill.collections
 
 import com.youssef.kotlinflowts.editor.joyfill.editors.ChartComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.column.ColumnComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.DateComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.DropdownComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.ComponentEditor
@@ -45,4 +46,6 @@ interface CompCollection {
     fun table(key: String): TableComponentEditor?
 
     fun chart(key: String): ChartComponentEditor?
+
+    fun column(key: String): ColumnComponentEditor?
 }

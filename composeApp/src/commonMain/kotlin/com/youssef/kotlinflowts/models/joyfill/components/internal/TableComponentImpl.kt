@@ -1,11 +1,8 @@
 package com.youssef.kotlinflowts.models.joyfill.components.internal
 
-import com.youssef.kotlinflowts.models.joyfill.components.ColumnComponent
 import com.youssef.kotlinflowts.models.joyfill.components.TableComponent
-import com.youssef.kotlinflowts.models.joyfill.components.core.Component
 import com.youssef.kotlinflowts.models.joyfill.components.table.Row
 import com.youssef.kotlinflowts.models.joyfill.toColumn
-import com.youssef.kotlinflowts.models.joyfill.toComponent
 import com.youssef.kotlinflowts.models.joyfill.toRow
 import com.youssef.kotlinflowts.models.joyfill.utils.COLUMNS
 import com.youssef.kotlinflowts.models.joyfill.utils.COLUMN_ORDER
