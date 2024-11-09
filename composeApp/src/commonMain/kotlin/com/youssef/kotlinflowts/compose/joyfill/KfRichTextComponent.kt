@@ -1,6 +1,8 @@
 package com.youssef.kotlinflowts.compose.joyfill
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,9 +21,31 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 @Composable
-internal fun JoyRichTextComponent(
+internal fun KfRichTextComponent(
     component: RichTextComponent,
 ) = Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
+    KfRichTextComponentImpl(component)
+}
+
+@Composable
+internal fun ColumnScope.KfRichTextComponent(
+    component: RichTextComponent,
+) = Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
+    KfRichTextComponentImpl(component)
+}
+
+
+@Composable
+internal fun RowScope.KfRichTextComponent(
+    component: RichTextComponent,
+) = Column(modifier = Modifier.testTag(component.id).weight(1f)) {
+    KfRichTextComponentImpl(component)
+}
+
+@Composable
+private fun KfRichTextComponentImpl(
+    component: RichTextComponent,
+) {
     DraftJsRichText(component.value)
     Spacer(modifier = Modifier.height(8.dp))
 }

@@ -1,6 +1,8 @@
 package com.youssef.kotlinflowts.compose.joyfill
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,10 +20,34 @@ import com.youssef.kotlinflowts.models.joyfill.ComponentPosition
 import com.youssef.kotlinflowts.models.joyfill.components.BlockComponent
 
 @Composable
-internal fun JoyBlockComponent(
+internal fun KfBlockComponent(
     component: BlockComponent,
     position: ComponentPosition?
 ) = Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
+    KfBlockComponentImpl(component, position)
+}
+
+@Composable
+internal fun ColumnScope.KfBlockComponent(
+    component: BlockComponent,
+    position: ComponentPosition?
+) = Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
+    KfBlockComponentImpl(component, position)
+}
+
+@Composable
+internal fun RowScope.KfBlockComponent(
+    component: BlockComponent,
+    position: ComponentPosition?
+) = Column(modifier = Modifier.testTag(component.id).weight(1f)) {
+    KfBlockComponentImpl(component, position)
+}
+
+@Composable
+private fun KfBlockComponentImpl(
+    component: BlockComponent,
+    position: ComponentPosition?
+) {
     val color = position?.fontColor?.toColor() ?: Color.Unspecified
     val weight = position?.fontWeight?.toFontWeight()
     val size = position?.fontSize?.sp ?: 12.sp
@@ -52,17 +78,17 @@ private fun String.toColor(): Color? {
 
 private fun String.toFontWeight(): FontWeight? = when (lowercase()) {
     "bold" -> FontWeight.Bold
-    else -> null //FontWeight.Normal
+    else   -> null //FontWeight.Normal
 }
 
-private fun String.apply(transform: String?) = when(transform?.lowercase()) {
+private fun String.apply(transform: String?) = when (transform?.lowercase()) {
     "uppercase" -> uppercase()
     "lowercase" -> lowercase()
-    else -> this
+    else        -> this
 }
 
-private fun String?.toAlign() : TextAlign = when(this?.lowercase()) {
+private fun String?.toAlign(): TextAlign = when (this?.lowercase()) {
     "center" -> TextAlign.Center
-    "right" -> TextAlign.Right
-    else -> TextAlign.Left
+    "right"  -> TextAlign.Right
+    else     -> TextAlign.Left
 }

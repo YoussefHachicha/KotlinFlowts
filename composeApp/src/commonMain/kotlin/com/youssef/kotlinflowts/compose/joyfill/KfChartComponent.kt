@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,11 +49,39 @@ import com.youssef.kotlinflowts.manager.joyfill.Mode
 import com.youssef.kotlinflowts.models.joyfill.components.ChartComponent
 
 @Composable
-internal fun JoyChartComponent(
+internal fun KfChartComponent(
     editor: ChartComponentEditor,
     mode: Mode,
     onSignal: (Signal<Any?>) -> Unit,
 ) = Column(modifier = Modifier.testTag(editor.comp.id).fillMaxWidth()) {
+    KfChartComponentImpl(editor, mode, onSignal)
+}
+
+@Composable
+internal fun ColumnScope.KfChartComponent(
+    editor: ChartComponentEditor,
+    mode: Mode,
+    onSignal: (Signal<Any?>) -> Unit,
+) = Column(modifier = Modifier.testTag(editor.comp.id).fillMaxWidth()) {
+    KfChartComponentImpl(editor, mode, onSignal)
+}
+
+@Composable
+internal fun RowScope.KfChartComponent(
+    editor: ChartComponentEditor,
+    mode: Mode,
+    onSignal: (Signal<Any?>) -> Unit,
+) = Column(modifier = Modifier.testTag(editor.comp.id).weight(1f)) {
+    KfChartComponentImpl(editor, mode, onSignal)
+}
+
+
+@Composable
+private fun KfChartComponentImpl(
+    editor: ChartComponentEditor,
+    mode: Mode,
+    onSignal: (Signal<Any?>) -> Unit,
+) {
     val component = remember(editor) { editor.comp }
     var capturing by remember { mutableStateOf(false) }
     val lines = remember(component.value) { mutableStateListOf(*(component.value ?: emptyList()).toTypedArray()) }
@@ -130,6 +159,7 @@ internal fun JoyChartComponent(
         }
     }
 }
+
 
 @Composable
 private fun LineEditor(

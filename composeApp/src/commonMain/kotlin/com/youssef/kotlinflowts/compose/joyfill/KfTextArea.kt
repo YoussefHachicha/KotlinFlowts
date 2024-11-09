@@ -21,34 +21,34 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.TextAreaComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
 @Composable
-internal fun JoyTextArea(
+internal fun KfTextArea(
     editor: TextAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
 ) = Column(modifier = Modifier.fillMaxWidth()) {
-    JoyTextAreaImpl(editor, mode, onSignal)
+    KfTextAreaImpl(editor, mode, onSignal)
 }
 
 @Composable
-internal fun ColumnScope.JoyTextArea(
+internal fun ColumnScope.KfTextArea(
     editor: TextAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
 ) = Column(modifier = Modifier.fillMaxWidth()) {
-    JoyTextAreaImpl(editor, mode, onSignal)
+    KfTextAreaImpl(editor, mode, onSignal)
 }
 
 @Composable
-internal fun RowScope.JoyTextArea(
+internal fun RowScope.KfTextArea(
     editor: TextAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
 ) = Column(modifier = Modifier.weight(1f)) {
-    JoyTextAreaImpl(editor, mode, onSignal)
+    KfTextAreaImpl(editor, mode, onSignal)
 }
 
 @Composable
-internal fun JoyTextAreaImpl(
+internal fun KfTextAreaImpl(
     editor: TextAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit

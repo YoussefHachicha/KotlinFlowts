@@ -17,7 +17,7 @@ import com.youssef.kotlinflowts.manager.joyfill.ComponentEvent
 import com.youssef.kotlinflowts.models.joyfill.Screen
 
 @Composable
-internal fun JoyColumnComponent(
+internal fun KfColumnComponent(
     editor: ColumnComponentEditor,
     screen: Screen,
     onBlur: ((event: ComponentEvent) -> Unit)? = null,
@@ -37,7 +37,7 @@ internal fun JoyColumnComponent(
         KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
         Spacer(modifier = Modifier.height(2.dp))
 
-        LayoutComposable(
+        KfLayoutComposable(
             componentEditors = columnComponents,
             component = component,
             screen = screen,

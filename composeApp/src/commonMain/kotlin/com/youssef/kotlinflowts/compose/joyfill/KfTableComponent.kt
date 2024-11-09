@@ -71,7 +71,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun JoyTableComponent(
+internal fun KfTableComponent(
     editor: TableComponentEditor,
     screen: Screen,
     previewRows: Int,

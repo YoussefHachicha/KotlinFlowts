@@ -70,7 +70,7 @@ fun App(
 
     LazyColumn(modifier = modifier) {
         if (navigation) item {
-            JoyScreenSelector(
+            KfScreenSelector(
                 screens = screens,
                 screen = currentScreen,
                 onChange = { currentScreen = it }
@@ -85,13 +85,13 @@ fun App(
                     onSignal = it::emit,
                 )
 
-                is NumberComponentEditor -> JoyNumberComponent(
+                is NumberComponentEditor -> KfNumberComponent(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is DateComponentEditor -> JoyDateTimeComponent(
+                is DateComponentEditor -> KfDateTimeComponent(
                     editor = it,
                     mode = mode,
                     format = currentScreen.positions.firstOrNull { it.componentId == it.id }?.format
@@ -99,21 +99,21 @@ fun App(
                     onSignal = it::emit
                 )
 
-                is MultiSelectComponentEditor -> JoySelectComponent(
+                is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = it,
                     mode = mode,
                     multiple = true,
                     onSignal = it::emit
                 )
 
-                is DropdownComponentEditor -> JoyDropComponent(
+                is DropdownComponentEditor -> KfDropComponent(
                     editor = it,
                     mode = mode,
                     multiple = false,
                     onSignal = it::emit
                 )
 
-                is ImageComponentEditor -> JoyImageComponent(
+                is ImageComponentEditor -> KfImageComponent(
                     editor = it,
                     mode = mode,
                     onUpload = onUpload?.let { call ->
@@ -129,13 +129,13 @@ fun App(
                     onSignal = it::emit
                 )
 
-                is SignatureComponentEditor -> JoySignatureComponent(
+                is SignatureComponentEditor -> KfSignatureComponent(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is TableComponentEditor -> JoyTableComponent(
+                is TableComponentEditor -> KfTableComponent(
                     editor = it,
                     mode = mode,
                     screen = currentScreen,
@@ -143,26 +143,26 @@ fun App(
                     previewRows = 5,
                 )
 
-                is TextAreaComponentEditor -> JoyTextArea(
+                is TextAreaComponentEditor -> KfTextArea(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is ChartComponentEditor -> JoyChartComponent(
+                is ChartComponentEditor -> KfChartComponent(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit
                 )
 
-                is BlockComponentEditor -> JoyBlockComponent(
+                is BlockComponentEditor -> KfBlockComponent(
                     component = it.comp,
                     position = currentScreen.positions.find { it.componentId == it.id }
                 )
 
-                is RichTextComponentEditor -> JoyRichTextComponent(it.comp)
+                is RichTextComponentEditor -> KfRichTextComponent(it.comp)
 
-                is ColumnComponentEditor -> JoyColumnComponent(
+                is ColumnComponentEditor -> KfColumnComponent(
                     editor = it,
                     screen = currentScreen,
                     onBlur = onBlur,
@@ -171,7 +171,7 @@ fun App(
                     showUnsupportedComponents = showUnsupportedComponents
                 )
 
-                is RowComponentEditor -> JoyRowComponent(
+                is RowComponentEditor -> KfRowComponent(
                     editor = it,
                     screen = currentScreen,
                     onBlur = onBlur,

@@ -2,6 +2,8 @@ package com.youssef.kotlinflowts.compose.joyfill
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -30,13 +32,42 @@ import com.youssef.kotlinflowts.manager.joyfill.Mode
 import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 
 @Composable
-internal fun JoyDropComponent(
+internal fun KfDropComponent(
     editor: DropdownComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(Modifier.fillMaxWidth()) {
+    KfDropComponentImpl(editor, mode, multiple, onSignal)
+}
 
+@Composable
+internal fun ColumnScope.KfDropComponent(
+    editor: DropdownComponentEditor,
+    mode: Mode,
+    multiple: Boolean,
+    onSignal: (Signal<String?>) -> Unit,
+) = Column(Modifier.fillMaxWidth()) {
+    KfDropComponentImpl(editor, mode, multiple, onSignal)
+}
+
+@Composable
+internal fun RowScope.KfDropComponent(
+    editor: DropdownComponentEditor,
+    mode: Mode,
+    multiple: Boolean,
+    onSignal: (Signal<String?>) -> Unit,
+) = Column(Modifier.weight(1f)) {
+    KfDropComponentImpl(editor, mode, multiple, onSignal)
+}
+
+@Composable
+private fun KfDropComponentImpl(
+    editor: DropdownComponentEditor,
+    mode: Mode,
+    multiple: Boolean,
+    onSignal: (Signal<String?>) -> Unit,
+) {
     val component = remember(editor) { editor.comp }
 
     var selected by remember(editor) { mutableStateOf(editor.selected()?.value) }
@@ -57,6 +88,8 @@ internal fun JoyDropComponent(
         modifier = Modifier.testTag("${component.id}-body").onFocusChanged(focus.handler)
     )
 }
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

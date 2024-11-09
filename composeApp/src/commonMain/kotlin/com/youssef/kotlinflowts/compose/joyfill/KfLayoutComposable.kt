@@ -26,7 +26,7 @@ import com.youssef.kotlinflowts.models.joyfill.Screen
 import com.youssef.kotlinflowts.models.joyfill.components.core.Component
 
 @Composable
-fun RowScope.LayoutComposable (
+internal fun RowScope.KfLayoutComposable (
     component: Component,
     screen: Screen,
     componentEditors: List<ComponentEditor>,
@@ -49,72 +49,72 @@ fun RowScope.LayoutComposable (
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is NumberComponentEditor -> JoyNumberComponent(
+                is NumberComponentEditor -> KfNumberComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is DateComponentEditor -> JoyDateTimeComponent(
+                is DateComponentEditor -> KfDateTimeComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     format = componentEditor.comp.format,
                     onSignal = componentEditor::emit
                 )
-                is MultiSelectComponentEditor -> JoySelectComponent(
+                is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = true,
                     onSignal = componentEditor::emit
                 )
-                is DropdownComponentEditor -> JoyDropComponent(
+                is DropdownComponentEditor -> KfDropComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = false,
                     onSignal = componentEditor::emit
                 )
-                is ImageComponentEditor -> JoyImageComponent(
+                is ImageComponentEditor -> KfImageComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onUpload = null,
                     onSignal = componentEditor::emit
                 )
-                is SignatureComponentEditor -> JoySignatureComponent(
+                is SignatureComponentEditor -> KfSignatureComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is TableComponentEditor -> JoyTableComponent(
+                is TableComponentEditor -> KfTableComponent(
                     editor = componentEditor,
                     screen = screen,
                     previewRows = 5,
                     mode = Mode.fill,
                     onUpload = null
                 )
-                is TextAreaComponentEditor -> JoyTextArea(
+                is TextAreaComponentEditor -> KfTextArea(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is ChartComponentEditor -> JoyChartComponent(
+                is ChartComponentEditor -> KfChartComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is BlockComponentEditor -> JoyBlockComponent(
+                is BlockComponentEditor -> KfBlockComponent(
                     component = componentEditor.comp,
                     position = null
                 )
-                is RichTextComponentEditor -> JoyRichTextComponent(
+                is RichTextComponentEditor -> KfRichTextComponent(
                     componentEditor.comp
                 )
-                is ColumnComponentEditor -> JoyColumnComponent(
+                is ColumnComponentEditor -> KfColumnComponent(
                     editor = componentEditor,
                     screen = screen,
                     onFocus = onFocus,
                     onBlur = onBlur,
                     onComponentChange = onComponentChange,
                 )
-                is RowComponentEditor -> JoyRowComponent(
+                is RowComponentEditor -> KfRowComponent(
                     editor = componentEditor,
                     screen = screen,
                     onFocus = onFocus,
@@ -132,7 +132,7 @@ fun RowScope.LayoutComposable (
 
 
 @Composable
-fun ColumnScope.LayoutComposable (
+internal fun ColumnScope.KfLayoutComposable (
     component: Component,
     screen: Screen,
     componentEditors: List<ComponentEditor>,
@@ -155,72 +155,72 @@ fun ColumnScope.LayoutComposable (
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is NumberComponentEditor -> JoyNumberComponent(
+                is NumberComponentEditor -> KfNumberComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is DateComponentEditor -> JoyDateTimeComponent(
+                is DateComponentEditor -> KfDateTimeComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     format = componentEditor.comp.format,
                     onSignal = componentEditor::emit
                 )
-                is MultiSelectComponentEditor -> JoySelectComponent(
+                is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = true,
                     onSignal = componentEditor::emit
                 )
-                is DropdownComponentEditor -> JoyDropComponent(
+                is DropdownComponentEditor -> KfDropComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = false,
                     onSignal = componentEditor::emit
                 )
-                is ImageComponentEditor -> JoyImageComponent(
+                is ImageComponentEditor -> KfImageComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onUpload = null,
                     onSignal = componentEditor::emit
                 )
-                is SignatureComponentEditor -> JoySignatureComponent(
+                is SignatureComponentEditor -> KfSignatureComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is TableComponentEditor -> JoyTableComponent(
+                is TableComponentEditor -> KfTableComponent(
                     editor = componentEditor,
                     screen = screen,
                     previewRows = 5,
                     mode = Mode.fill,
                     onUpload = null
                 )
-                is TextAreaComponentEditor -> JoyTextArea(
+                is TextAreaComponentEditor -> KfTextArea(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is ChartComponentEditor -> JoyChartComponent(
+                is ChartComponentEditor -> KfChartComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is BlockComponentEditor -> JoyBlockComponent(
+                is BlockComponentEditor -> KfBlockComponent(
                     component = componentEditor.comp,
                     position = null
                 )
-                is RichTextComponentEditor -> JoyRichTextComponent(
+                is RichTextComponentEditor -> KfRichTextComponent(
                     componentEditor.comp
                 )
-                is ColumnComponentEditor -> JoyColumnComponent(
+                is ColumnComponentEditor -> KfColumnComponent(
                     editor = componentEditor,
                     screen = screen,
                     onFocus = onFocus,
                     onBlur = onBlur,
                     onComponentChange = onComponentChange,
                 )
-                is RowComponentEditor -> JoyRowComponent(
+                is RowComponentEditor -> KfRowComponent(
                     editor = componentEditor,
                     screen = screen,
                     onFocus = onFocus,

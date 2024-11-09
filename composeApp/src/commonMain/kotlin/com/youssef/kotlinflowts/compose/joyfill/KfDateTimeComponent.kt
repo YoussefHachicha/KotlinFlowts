@@ -4,7 +4,9 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,9 +38,39 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.DateComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 import kotlinx.coroutines.launch
 
+@Composable
+internal fun KfDateTimeComponent(
+    editor: DateComponentEditor,
+    format: String?,
+    mode: Mode,
+    onSignal: (Signal<Long?>) -> Unit,
+) = Column(modifier = Modifier.fillMaxWidth()) {
+    KfDateTimeComponentImpl(editor, format, mode, onSignal)
+}
+
+@Composable
+internal fun ColumnScope.KfDateTimeComponent(
+    editor: DateComponentEditor,
+    format: String?,
+    mode: Mode,
+    onSignal: (Signal<Long?>) -> Unit,
+) = Column(modifier = Modifier.fillMaxWidth()) {
+    KfDateTimeComponentImpl(editor, format, mode, onSignal)
+}
+
+@Composable
+internal fun RowScope.KfDateTimeComponent(
+    editor: DateComponentEditor,
+    format: String?,
+    mode: Mode,
+    onSignal: (Signal<Long?>) -> Unit,
+) = Column(modifier = Modifier.fillMaxWidth()) {
+    KfDateTimeComponentImpl(editor, format, mode, onSignal)
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun JoyDateTimeComponent(
+private fun KfDateTimeComponentImpl(
     editor: DateComponentEditor,
     format: String?,
     mode: Mode,

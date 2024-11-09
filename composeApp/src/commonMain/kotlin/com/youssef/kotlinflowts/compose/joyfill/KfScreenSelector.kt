@@ -36,7 +36,7 @@ import com.youssef.kotlinflowts.models.joyfill.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun JoyScreenSelector(
+internal fun KfScreenSelector(
     screens: List<Screen>,
     screen: Screen,
     onChange: (Screen) -> Unit,

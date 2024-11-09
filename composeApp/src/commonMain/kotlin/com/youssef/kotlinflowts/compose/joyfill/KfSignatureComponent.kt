@@ -6,7 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -71,13 +73,52 @@ import com.youssef.kotlinflowts.models.joyfill.components.SignatureComponent
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
+
 @Composable
-internal fun JoySignatureComponent(
+internal fun KfSignatureComponent(
     editor: SignatureComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
 ) {
+    val component = remember(editor) { editor.comp }
 
+    Column(modifier = Modifier.fillMaxWidth().testTag(component.id)) {
+        KfSignatureComponentImpl(editor, mode, onSignal)
+    }
+}
+
+@Composable
+internal fun ColumnScope.KfSignatureComponent(
+    editor: SignatureComponentEditor,
+    mode: Mode,
+    onSignal: (Signal<String?>) -> Unit,
+) {
+    val component = remember(editor) { editor.comp }
+
+    Column(modifier = Modifier.fillMaxWidth().testTag(component.id)) {
+        KfSignatureComponentImpl(editor, mode, onSignal)
+    }
+}
+
+@Composable
+internal fun RowScope.KfSignatureComponent(
+    editor: SignatureComponentEditor,
+    mode: Mode,
+    onSignal: (Signal<String?>) -> Unit,
+) {
+    val component = remember(editor) { editor.comp }
+
+    Column(modifier = Modifier.weight(1f).testTag(component.id)) {
+        KfSignatureComponentImpl(editor, mode, onSignal)
+    }
+}
+
+@Composable
+private fun KfSignatureComponentImpl(
+    editor: SignatureComponentEditor,
+    mode: Mode,
+    onSignal: (Signal<String?>) -> Unit,
+) {
     val component = remember(editor) { editor.comp }
 
     var state by remember(component) {
@@ -88,52 +129,50 @@ internal fun JoySignatureComponent(
         }
         mutableStateOf(s)
     }
-    Column(modifier = Modifier.fillMaxWidth().testTag(component.id)) {
-        KfTitle(component, modifier = Modifier.testTag("${component.id}-preview-title"))
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .testTag("${component.id}-preview-body")
-                .semantics { contentDescription = state.toContentDescription() }
-                .border(
-                    width = 1.dp,
-                    color = LocalContentColor.current.copy(alpha = 0.6f),
-                    shape = RoundedCornerShape(4.dp)
-                ).clickable {
-                    if (component.disabled || mode == Mode.readonly) return@clickable
-                    onSignal(Signal.Focus)
-                    state = state.toCapturing()
-                }
-        ) {
-            when (val s = state) {
-                is State.Preview -> Preview(
-                    url = s.url,
-                    onClicked = {
-                        if (component.disabled || mode == Mode.readonly) return@Preview
-                        state = s.toCapturing()
-                        onSignal(Signal.Focus)
-                    }
-                )
-
-                is State.Capturing -> Capture(
-                    component = component,
-                    url = s.url,
-                    onCaptured = {
-                        state = if (it == null) State.Empty else State.Preview(it)
-                        onSignal(Signal.Change(it))
-                        onSignal(Signal.Blur(it))
-                        editor.value = it
-                    },
-                    onCanceled = {
-                        state = if (s.url == null) State.Empty else State.Preview(s.url)
-                        onSignal(Signal.Blur(s.url))
-                    }
-                )
-
-                is State.Empty -> {}
-                else -> {}
+    KfTitle(component, modifier = Modifier.testTag("${component.id}-preview-title"))
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .testTag("${component.id}-preview-body")
+            .semantics { contentDescription = state.toContentDescription() }
+            .border(
+                width = 1.dp,
+                color = LocalContentColor.current.copy(alpha = 0.6f),
+                shape = RoundedCornerShape(4.dp)
+            ).clickable {
+                if (component.disabled || mode == Mode.readonly) return@clickable
+                onSignal(Signal.Focus)
+                state = state.toCapturing()
             }
+    ) {
+        when (val s = state) {
+            is State.Preview -> Preview(
+                url = s.url,
+                onClicked = {
+                    if (component.disabled || mode == Mode.readonly) return@Preview
+                    state = s.toCapturing()
+                    onSignal(Signal.Focus)
+                }
+            )
+
+            is State.Capturing -> Capture(
+                component = component,
+                url = s.url,
+                onCaptured = {
+                    state = if (it == null) State.Empty else State.Preview(it)
+                    onSignal(Signal.Change(it))
+                    onSignal(Signal.Blur(it))
+                    editor.value = it
+                },
+                onCanceled = {
+                    state = if (s.url == null) State.Empty else State.Preview(s.url)
+                    onSignal(Signal.Blur(s.url))
+                }
+            )
+
+            is State.Empty -> {}
+            else -> {}
         }
     }
 }

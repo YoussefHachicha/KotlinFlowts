@@ -47,7 +47,9 @@ object service {
         row {
             text("First Name")
             text("Last Name")
+            image()
         }
+        image()
         column("NAMe IS Column") {  }
         text("First Name")
         text("Last Name")

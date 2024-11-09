@@ -6,8 +6,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -66,47 +68,80 @@ import com.youssef.kotlinflowts.manager.joyfill.Mode
 import com.youssef.kotlinflowts.models.joyfill.utils.Attachment
 
 @Composable
-internal fun JoyImageComponent(
+internal fun KfImageComponent(
+    editor: FileBasedComponentEditor,
+    mode: Mode,
+    onUpload: (suspend () -> List<String>)? = null,
+    onSignal: (Signal<List<Attachment>>) -> Unit,
+) = Column(modifier = Modifier.fillMaxWidth()) {
+    KfImageComponentImpl(editor, mode, onUpload, onSignal)
+}
+
+@Composable
+internal fun ColumnScope.KfImageComponent(
+    editor: FileBasedComponentEditor,
+    mode: Mode,
+    onUpload: (suspend () -> List<String>)? = null,
+    onSignal: (Signal<List<Attachment>>) -> Unit,
+) = Column(modifier = Modifier.fillMaxWidth()) {
+    KfImageComponentImpl(editor, mode, onUpload, onSignal)
+}
+
+@Composable
+internal fun RowScope.KfImageComponent(
+    editor: FileBasedComponentEditor,
+    mode: Mode,
+    onUpload: (suspend () -> List<String>)? = null,
+    onSignal: (Signal<List<Attachment>>) -> Unit,
+) = Column(modifier = Modifier.weight(1f)) {
+    KfImageComponentImpl(editor, mode, onUpload, onSignal)
+}
+
+@Composable
+private fun KfImageComponentImpl(
     editor: FileBasedComponentEditor,
     mode: Mode,
     onUpload: (suspend () -> List<String>)? = null,
     onSignal: (Signal<List<Attachment>>) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    Text(component.title, modifier = Modifier.testTag("${component.id}-preview-title").padding(bottom = 8.dp))
-    Column(modifier = Modifier.fillMaxWidth()) {
-        RawImageComponent(
-            id = component.id,
-            title = component.title,
-            uploaded = editor.value,
-            readonly = component.disabled || mode == Mode.readonly,
-            onUpload = onUpload,
-            onDialog = { opened ->
 
-            },
-            onAdded = {
-                editor.add(it)
-                onSignal(Signal.Change(component.value))
-            },
-            onRemoved = {
-                editor.remove(it)
-                onSignal(Signal.Change(component.value))
-            },
-            preview = { params ->
-                FirstImagePreview(
-                    id = component.id,
-                    params = params,
-                    onFocus = {
-                        onSignal(if (it.hasFocus) Signal.Focus else Signal.Blur(Unit))
-                    },
-                    onRemove = {
-                        editor.remove(it)
-                        onSignal(Signal.Change(component.value))
-                    }
-                )
-            }
-        )
-    }
+    Text(
+        component.title,
+        modifier = Modifier.testTag("${component.id}-preview-title").padding(bottom = 8.dp)
+    )
+
+    RawImageComponent(
+        id = component.id,
+        title = component.title,
+        uploaded = editor.value,
+        readonly = component.disabled || mode == Mode.readonly,
+        onUpload = onUpload,
+        onDialog = { opened ->
+
+        },
+        onAdded = {
+            editor.add(it)
+            onSignal(Signal.Change(component.value))
+        },
+        onRemoved = {
+            editor.remove(it)
+            onSignal(Signal.Change(component.value))
+        },
+        preview = { params ->
+            FirstImagePreview(
+                id = component.id,
+                params = params,
+                onFocus = {
+                    onSignal(if (it.hasFocus) Signal.Focus else Signal.Blur(Unit))
+                },
+                onRemove = {
+                    editor.remove(it)
+                    onSignal(Signal.Change(component.value))
+                }
+            )
+        }
+    )
 }
 
 
@@ -308,7 +343,11 @@ internal fun Picture(
         ).padding(4.dp)
         .then(modifier)
 ) {
-    Image(url, url, modifier = Modifier.fillMaxWidth().heightIn(200.dp, 400.dp).clip(RoundedCornerShape(8.dp)))
+    Image(
+        url,
+        url,
+        modifier = Modifier.fillMaxWidth().heightIn(200.dp, 400.dp).clip(RoundedCornerShape(8.dp))
+    )
     if (onSelectorClicked != null) Box(
         modifier = Modifier
             .padding(top = 4.dp, end = 4.dp)

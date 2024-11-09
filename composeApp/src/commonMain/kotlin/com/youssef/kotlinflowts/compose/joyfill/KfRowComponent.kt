@@ -19,7 +19,7 @@ import com.youssef.kotlinflowts.manager.joyfill.ComponentEvent
 import com.youssef.kotlinflowts.models.joyfill.Screen
 
 @Composable
-internal fun JoyRowComponent(
+internal fun KfRowComponent(
     editor: RowComponentEditor,
     screen: Screen,
     onBlur: ((event: ComponentEvent) -> Unit)? = null,
@@ -45,10 +45,7 @@ internal fun JoyRowComponent(
                 .border(1.dp, color = Color.Blue)
                 .padding(8.dp)
         ) {
-//            Text("ffsdfasd")
-//            Spacer(modifier = Modifier.width(8.dp))
-//            Text("ffsdfasd")
-            LayoutComposable(
+            KfLayoutComposable(
                 componentEditors = rowComponents,
                 component = component,
                 screen = screen,
