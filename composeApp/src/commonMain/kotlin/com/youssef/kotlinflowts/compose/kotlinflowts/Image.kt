@@ -37,7 +37,7 @@ internal fun Image(
             contentDescription = description,
             modifier = modifier,
             loading = {
-                CircularProgressIndicator(color = Color.Blue)
+                CircularProgressIndicator()
             },
             error = {
                 Text("Failed to load image: ${it.result.throwable.message}")
