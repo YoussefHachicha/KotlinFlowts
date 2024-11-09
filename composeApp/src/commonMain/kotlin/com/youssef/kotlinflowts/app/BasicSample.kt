@@ -8,10 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.youssef.kotlinflowts.builder.joyfill.buildApp
-import com.youssef.kotlinflowts.compose.joyfill.App
-import com.youssef.kotlinflowts.compose.joyfill.rememberEditor
-import com.youssef.kotlinflowts.models.joyfill.utils.App
+import com.youssef.kotlinflowts.builder.kotlinflowts.buildApp
+import com.youssef.kotlinflowts.compose.kotlinflowts.App
+import com.youssef.kotlinflowts.compose.kotlinflowts.rememberEditor
+import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 
 @Composable
 fun BasicSample() {
