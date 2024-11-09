@@ -229,7 +229,6 @@ internal fun RawImageComponent(
                     columns = StaggeredGridCells.Adaptive(150.dp),
                     modifier = Modifier.padding(top = if (readonly) 0.dp else 100.dp)
                 ) {
-//                    items(value, key = { it }) {
                     items(value) {
                         val marked = selected.contains(it)
                         Picture(
@@ -344,8 +343,8 @@ internal fun Picture(
         .then(modifier)
 ) {
     Image(
-        url,
-        url,
+        url = url,
+        description = url,
         modifier = Modifier.fillMaxWidth().heightIn(200.dp, 400.dp).clip(RoundedCornerShape(8.dp))
     )
     if (onSelectorClicked != null) Box(

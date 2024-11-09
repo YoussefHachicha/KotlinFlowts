@@ -26,6 +26,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.coil.network.okhttp)
         }
 
         commonMain.dependencies {
@@ -52,13 +53,15 @@ kotlin {
                 with(coil){
                     implementation(mp)
                     implementation(compose)
-                    implementation(network)
+//                    implementation(network)
                 }
+                implementation(ktor.client.core)
             }
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.coil.network.okhttp)
         }
     }
 }
