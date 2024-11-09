@@ -9,5 +9,5 @@ interface ComponentEditor {
     //    var description: String
     val type: Component.Type
 
-    val component: Component
+    val comp: Component
 }

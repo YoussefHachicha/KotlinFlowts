@@ -1,22 +1,7 @@
 package com.youssef.kotlinflowts.editor.joyfill.column.internal
 
-import com.youssef.kotlinflowts.editor.joyfill.chart.LineEditor
-import com.youssef.kotlinflowts.editor.joyfill.chart.internal.LineEditorImpl
-import com.youssef.kotlinflowts.editor.joyfill.collections.CompCollection
 import com.youssef.kotlinflowts.editor.joyfill.column.ColumnCollection
-import com.youssef.kotlinflowts.editor.joyfill.column.ColumnComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.ComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.DateComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.DropdownComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.FileComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.ImageComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.MultiSelectComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.NumberComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.SignatureComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.TableComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.TextAreaComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.TextComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.internal.AnyComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.internal.BlockComponentEditorImpl
 import com.youssef.kotlinflowts.editor.joyfill.editors.internal.ChartComponentEditorImpl
@@ -55,9 +40,9 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 internal class ColumnCollectionImpl(
     app: App,
     val identity: IdentityGenerator,
-    field: ColumnComponent,
+    component: ColumnComponent,
     val onChange: ((ChangeEvent) -> Unit)?
-) : EventTrigger<ColumnComponent>(app, field, onChange), ColumnCollection {
+) : EventTrigger<ColumnComponent>(app, component, onChange), ColumnCollection {
 
     private fun Component.toEditor(): ComponentEditor = when (this) {
         is TextComponent -> TextComponentEditorImpl(app, this, onChange)
@@ -77,10 +62,10 @@ internal class ColumnCollectionImpl(
         else /*  is UnknownComponent */ -> AnyComponentEditor(app, this, onChange)
     }
 
-    override fun all(): List<ComponentEditor> = field.value.map { it.toEditor() }
+    override fun all(): List<ComponentEditor> = component.value.map { it.toEditor() }
 
     override fun find(key: String): ComponentEditor? {
-        val comp = field.value.find { it.id == key || it.title == key } ?: return null
+        val comp = component.value.find { it.id == key || it.title == key } ?: return null
         return comp.toEditor()
     }
 }

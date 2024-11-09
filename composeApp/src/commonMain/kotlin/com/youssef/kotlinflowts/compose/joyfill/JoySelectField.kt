@@ -35,7 +35,7 @@ internal fun JoySelectComponent(
     multiple: Boolean,
     onSignal: (Signal<List<String>>) -> Unit
 ) {
-    val component = remember(editor) {  editor.component }
+    val component = remember(editor) {  editor.comp }
     val options = remember(editor) { editor.options }
 
     val values = remember(editor) {

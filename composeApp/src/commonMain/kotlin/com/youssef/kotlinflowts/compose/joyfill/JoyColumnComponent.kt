@@ -7,11 +7,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -42,7 +39,7 @@ internal fun JoyColumnComponent(
     onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
     showUnsupportedComponents: Boolean = false,
 ) {
-    val component = remember(editor) { editor.component }
+    val component = remember(editor) { editor.comp }
     val columnComponents = remember(editor) { editor.columnComponents.all() }
 
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
@@ -53,7 +50,7 @@ internal fun JoyColumnComponent(
 
     Column(
         modifier = Modifier
-            .testTag(editor.component.id)
+            .testTag(editor.comp.id)
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
@@ -76,7 +73,7 @@ internal fun JoyColumnComponent(
                     is DateComponentEditor -> JoyDateTimeComponent(
                         editor = componentEditor,
                         mode = Mode.fill,
-                        format = componentEditor.component.format,
+                        format = componentEditor.comp.format,
                         onSignal = componentEditor::emit
                     )
                     is MultiSelectComponentEditor -> JoySelectComponent(
@@ -120,11 +117,11 @@ internal fun JoyColumnComponent(
                         onSignal = componentEditor::emit
                     )
                     is BlockComponentEditor -> JoyBlockComponent(
-                        component = componentEditor.component,
+                        component = componentEditor.comp,
                         position = null
                     )
                     is RichTextComponentEditor -> JoyRichTextComponent(
-                        componentEditor.component
+                        componentEditor.comp
                     )
                     is ColumnComponentEditor -> JoyColumnComponent(
                         editor = componentEditor,

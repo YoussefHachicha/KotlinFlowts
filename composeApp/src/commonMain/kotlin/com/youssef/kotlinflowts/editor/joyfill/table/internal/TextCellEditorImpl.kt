@@ -20,6 +20,6 @@ internal class TextCellEditorImpl(
         get() = row.cells[column.id] as? String
         set(value) {
             row.cells[column.id] = value
-            notifyChange(this.field.value?.map { it.toMap() }?.toMutableList())
+            notifyChange(this.component.value?.map { it.toMap() }?.toMutableList())
         }
 }

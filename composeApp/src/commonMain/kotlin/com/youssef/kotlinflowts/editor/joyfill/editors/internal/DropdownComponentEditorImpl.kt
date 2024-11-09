@@ -10,19 +10,19 @@ import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 @PublishedApi
 internal class DropdownComponentEditorImpl(
     app: App,
-    override val component: DropdownComponent,
+    override val comp: DropdownComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AnyComponentEditor<DropdownComponent>(app, component, onChange), DropdownComponentEditor {
-    override val options: List<Option2> get() = this.component.options
+) : AnyComponentEditor<DropdownComponent>(app, comp, onChange), DropdownComponentEditor {
+    override val options: List<Option2> get() = this.comp.options
 
-    private fun look(key: String?): Option2? = this.component.options.firstOrNull { it.id == key || it.value == key }
+    private fun look(key: String?): Option2? = this.comp.options.firstOrNull { it.id == key || it.value == key }
 
-    override fun selected(): Option2? = look(this.component.value)
+    override fun selected(): Option2? = look(this.comp.value)
 
     override fun select(key: String?) {
         val option = look(key)
-        if (component.value == option?.id) return
-        component.value = option?.id
+        if (comp.value == option?.id) return
+        comp.value = option?.id
         notifyChange(option?.value)
     }
 

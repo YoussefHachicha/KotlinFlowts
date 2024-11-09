@@ -72,7 +72,7 @@ internal fun JoyImageComponent(
     onUpload: (suspend () -> List<String>)? = null,
     onSignal: (Signal<List<Attachment>>) -> Unit,
 ) {
-    val component = remember(editor) { editor.component }
+    val component = remember(editor) { editor.comp }
     Text(component.title, modifier = Modifier.testTag("${component.id}-preview-title").padding(bottom = 8.dp))
     Column(modifier = Modifier.fillMaxWidth()) {
         RawImageComponent(

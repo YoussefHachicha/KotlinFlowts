@@ -7,5 +7,5 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 @PublishedApi
 internal open class BlockComponentEditorImpl(
     app: App,
-    override val component: BlockComponent,
-) : AnyComponentEditor<BlockComponent>(app,component,null), BlockComponentEditor
+    override val comp: BlockComponent,
+) : AnyComponentEditor<BlockComponent>(app,comp,null), BlockComponentEditor

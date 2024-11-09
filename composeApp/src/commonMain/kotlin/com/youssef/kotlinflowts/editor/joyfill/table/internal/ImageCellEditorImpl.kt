@@ -50,6 +50,6 @@ internal class ImageCellEditorImpl(
     }
 
     private fun notifyChange() {
-        notifyChange(field.value.map { it.toMap() }.toMutableList())
+        notifyChange(component.value.map { it.toMap() }.toMutableList())
     }
 }

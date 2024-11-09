@@ -37,7 +37,7 @@ internal fun JoyDropComponent(
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(Modifier.fillMaxWidth()) {
 
-    val component = remember(editor) { editor.component }
+    val component = remember(editor) { editor.comp }
 
     var selected by remember(editor) { mutableStateOf(editor.selected()?.value) }
 

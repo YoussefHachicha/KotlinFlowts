@@ -8,6 +8,6 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 @PublishedApi
 internal class TextComponentEditorImpl(
     app: App,
-    override val component: TextComponent,
+    override val comp: TextComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractValueBasedComponentEditor<String,TextComponent>(app,component,onChange), TextComponentEditor
+) : AbstractValueBasedComponentEditor<String,TextComponent>(app,comp,onChange), TextComponentEditor

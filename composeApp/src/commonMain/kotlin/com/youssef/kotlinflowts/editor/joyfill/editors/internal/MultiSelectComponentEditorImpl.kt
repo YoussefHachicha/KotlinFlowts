@@ -9,46 +9,46 @@ import com.youssef.kotlinflowts.models.joyfill.utils.Option2
 @PublishedApi
 internal class MultiSelectComponentEditorImpl(
     app: App,
-    override val component: MultiSelectComponent,
+    override val comp: MultiSelectComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AnyComponentEditor<MultiSelectComponent>(app, component, onChange), MultiSelectComponentEditor {
+) : AnyComponentEditor<MultiSelectComponent>(app, comp, onChange), MultiSelectComponentEditor {
 
-    override val options: List<Option2> get() = this.component.options
+    override val options: List<Option2> get() = this.comp.options
 
-    private fun look(key: String?): Option2? = this.component.options.firstOrNull { it.id == key || it.value == key }
+    private fun look(key: String?): Option2? = this.comp.options.firstOrNull { it.id == key || it.value == key }
 
     override fun selected(): List<Option2> {
         val found = mutableListOf<Option2>()
-        val value = this.component.value ?: return emptyList()
+        val value = this.comp.value ?: return emptyList()
         for (option in value) found.add(look(option) ?: continue)
         return found
     }
 
     override fun select(key: String?) {
         val option = look(key) ?: return
-        val selected = this.component.value.toMutableSet()
+        val selected = this.comp.value.toMutableSet()
         if (selected.contains(option.id)) return
-        component.value.add(option.id)
+        comp.value.add(option.id)
         notifyChange()
     }
 
     private fun notifyChange() {
-        notifyChange(component.value)
+        notifyChange(comp.value)
     }
 
     override fun set(options: List<Option2>) {
-        val pool = component.options.map { it.id }
+        val pool = comp.options.map { it.id }
         val candidates = options.filter { pool.contains(it.id) }.toSet().map { it.id }.toMutableList()
-        component.value.clear()
-        component.value.addAll(candidates)
+        comp.value.clear()
+        comp.value.addAll(candidates)
         notifyChange()
     }
 
     override fun unselect(key: String?) {
         val option = look(key) ?: return
-        val selected = this.component.value.toMutableSet()
+        val selected = this.comp.value.toMutableSet()
         if (!selected.contains(option.id)) return
-        component.value.remove(option.id)
+        comp.value.remove(option.id)
         notifyChange()
     }
 

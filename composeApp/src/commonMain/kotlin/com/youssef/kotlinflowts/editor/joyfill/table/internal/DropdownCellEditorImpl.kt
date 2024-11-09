@@ -24,7 +24,7 @@ internal class DropdownCellEditorImpl(
     override fun select(key: String?) {
         val option = find(key)
         row.cells[column.id] = option?.id
-        notifyChange(field.value?.map { it.toMap() }?.toMutableList())
+        notifyChange(component.value?.map { it.toMap() }?.toMutableList())
     }
 
     override fun select(option: Option2?) = select(option?.id)

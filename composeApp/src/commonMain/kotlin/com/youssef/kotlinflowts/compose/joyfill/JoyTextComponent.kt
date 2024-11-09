@@ -20,11 +20,11 @@ internal fun JoyTextComponent(
     editor: TextComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.component.id).fillMaxWidth()) {
-    val component = remember(editor) { editor.component }
+) = Column(modifier = Modifier.testTag(editor.comp.id).fillMaxWidth()) {
+    val component = remember(editor) { editor.comp }
     JoyTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
     Spacer(modifier = Modifier.height(2.dp))
-    var value by remember(editor) { mutableStateOf(editor.component.value) }
+    var value by remember(editor) { mutableStateOf(editor.comp.value) }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 
     RawTextComponent(

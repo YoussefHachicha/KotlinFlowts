@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowRight
 import androidx.compose.material.icons.filled.Close
@@ -36,7 +35,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,20 +54,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.youssef.kotlinflowts.compose.joyfill.tables.LazyRowArrayTable
 import com.youssef.kotlinflowts.compose.joyfill.tables.RowArrayTable
-import com.youssef.kotlinflowts.editor.joyfill.editors.BlockComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.ChartComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.column.ColumnComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.ComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.DateComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.DropdownComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.ImageComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.MultiSelectComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.NumberComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.RichTextComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.TableComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.TextAreaComponentEditor
-import com.youssef.kotlinflowts.editor.joyfill.editors.TextComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.DropdownCellEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.ImageCellEditor
 import com.youssef.kotlinflowts.editor.joyfill.table.TextCellEditor
@@ -94,8 +79,8 @@ internal fun JoyTableComponent(
     onUpload: (suspend (ComponentEvent) -> List<String>)?,
 ) {
     var view by remember { mutableStateOf(UIView.small) }
-    val component = remember(editor) { editor.component }
-    val allRows = remember { mutableStateListOf(*(editor.component.value).toTypedArray()) }
+    val component = remember(editor) { editor.comp }
+    val allRows = remember { mutableStateListOf(*(editor.comp.value).toTypedArray()) }
     val rows by remember(allRows.size) { derivedStateOf { allRows.filter { !it.deleted && it.id in component.rowOrder } } }
     val selectedRow = remember { mutableStateListOf<Int>() }
     val scope = rememberCoroutineScope()
@@ -112,7 +97,7 @@ internal fun JoyTableComponent(
     val uploadHandler = if (onUpload != null) {
         suspend {
             val event = ComponentEvent(
-                component = editor.component,
+                component = editor.comp,
                 screen = screen
             )
             onUpload(event)
@@ -122,7 +107,7 @@ internal fun JoyTableComponent(
     AnimatedVisibility(
         visible = view == UIView.large,
         enter = slideIn { IntOffset.Zero },
-        modifier = Modifier.testTag("${editor.component.id}-large")
+        modifier = Modifier.testTag("${editor.comp.id}-large")
     ) {
         var subDialog by remember { mutableStateOf(false) }
         Dialog(
@@ -369,7 +354,7 @@ private fun Preview(
     totalRows: Int,
     onClick: () -> Unit,
 ) {
-    val component = remember(editor) { editor.component }
+    val component = remember(editor) { editor.comp }
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,

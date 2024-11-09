@@ -12,10 +12,10 @@ import com.youssef.kotlinflowts.models.joyfill.utils.toAttachment
 @PublishedApi
 internal abstract class AbstractFileBasedComponentEditor(
     app: App,
-    override val component: ListBasedComponent<Attachment>,
+    override val comp: ListBasedComponent<Attachment>,
     private val identity: IdentityGenerator,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractListBasedComponentEditor<Attachment>(app, component, onChange), FileBasedComponentEditor {
+) : AbstractListBasedComponentEditor<Attachment>(app, comp, onChange), FileBasedComponentEditor {
 
     override fun add(url: String) = add(listOf(url))
 
@@ -36,7 +36,7 @@ internal abstract class AbstractFileBasedComponentEditor(
                 Attachment::url.name to it
             ).toAttachment()
         }.toMutableList()
-        component.value.clear()
+        comp.value.clear()
         value.addAll(attachments)
     }
 
@@ -46,7 +46,7 @@ internal abstract class AbstractFileBasedComponentEditor(
     }
 
     override fun remove(keys: List<String>) {
-        val found = component.value.filter { it.id in keys || it.url in keys || it.fileName in keys }
+        val found = comp.value.filter { it.id in keys || it.url in keys || it.fileName in keys }
         if(found.isEmpty()) return
         value.removeAll(found)
     }

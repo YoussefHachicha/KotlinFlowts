@@ -9,7 +9,7 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 @PublishedApi
 internal class ImageComponentEditorImpl(
     app: App,
-    override val component: ImageComponent,
+    override val comp: ImageComponent,
     identity: IdentityGenerator,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractFileBasedComponentEditor(app, component, identity, onChange), ImageComponentEditor
+) : AbstractFileBasedComponentEditor(app, comp, identity, onChange), ImageComponentEditor

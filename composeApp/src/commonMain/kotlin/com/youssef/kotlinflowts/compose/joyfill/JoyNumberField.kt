@@ -22,7 +22,7 @@ internal fun JoyNumberComponent(
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
 ) {
-    val component = remember(editor) { editor.component }
+    val component = remember(editor) { editor.comp }
     var value by remember { mutableStateOf(component.value?.toString() ?: "") }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value.toTolerableNumber() ?: 0.0 } }
     Column(modifier = Modifier.fillMaxWidth()) {

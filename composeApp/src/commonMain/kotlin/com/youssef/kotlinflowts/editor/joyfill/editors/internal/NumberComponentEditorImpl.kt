@@ -8,6 +8,6 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 @PublishedApi
 internal class NumberComponentEditorImpl(
     app: App,
-    override val component: NumberComponent,
+    override val comp: NumberComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractValueBasedComponentEditor<Double, NumberComponent>(app, component, onChange), NumberComponentEditor
+) : AbstractValueBasedComponentEditor<Double, NumberComponent>(app, comp, onChange), NumberComponentEditor

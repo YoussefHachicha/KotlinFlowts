@@ -52,8 +52,8 @@ internal fun JoyChartComponent(
     editor: ChartComponentEditor,
     mode: Mode,
     onSignal: (Signal<Any?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.component.id).fillMaxWidth()) {
-    val component = remember(editor) { editor.component }
+) = Column(modifier = Modifier.testTag(editor.comp.id).fillMaxWidth()) {
+    val component = remember(editor) { editor.comp }
     var capturing by remember { mutableStateOf(false) }
     val lines = remember(component.value) { mutableStateListOf(*(component.value ?: emptyList()).toTypedArray()) }
     val readonly = component.disabled || mode == Mode.readonly

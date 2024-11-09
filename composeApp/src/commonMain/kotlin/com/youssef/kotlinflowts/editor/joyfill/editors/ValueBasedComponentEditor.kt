@@ -4,6 +4,6 @@ import com.youssef.kotlinflowts.models.joyfill.components.core.ValueBasedCompone
 
 
 interface ValueBasedComponentEditor<V> : ComponentEditor {
-    override val component: ValueBasedComponent<V>
+    override val comp: ValueBasedComponent<V>
     var value: V?
 }

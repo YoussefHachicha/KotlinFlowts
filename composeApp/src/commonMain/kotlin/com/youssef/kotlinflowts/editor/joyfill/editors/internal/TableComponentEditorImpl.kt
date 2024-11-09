@@ -11,11 +11,11 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 @PublishedApi
 internal class TableComponentEditorImpl(
     app: App,
-    override val component: TableComponent,
+    override val comp: TableComponent,
     identity: IdentityGenerator,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractListBasedComponentEditor<Row>(app, component, onChange), TableComponentEditor {
-    override val rows = RowCollectionImpl(app, component, this, identity, onChange)
+) : AbstractListBasedComponentEditor<Row>(app, comp, onChange), TableComponentEditor {
+    override val rows = RowCollectionImpl(app, comp, this, identity, onChange)
 }
 
 

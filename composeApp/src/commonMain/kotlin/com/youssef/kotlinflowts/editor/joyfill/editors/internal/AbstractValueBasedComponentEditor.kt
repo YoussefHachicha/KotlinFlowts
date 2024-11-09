@@ -8,13 +8,13 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 @PublishedApi
 internal abstract class AbstractValueBasedComponentEditor<V, F : ValueBasedComponent<V>>(
     app: App,
-    override val component: F,
+    override val comp: F,
     onChange: ((ChangeEvent) -> Unit)?
-) : AnyComponentEditor<F>(app, component, onChange), ValueBasedComponentEditor<V> {
+) : AnyComponentEditor<F>(app, comp, onChange), ValueBasedComponentEditor<V> {
     override var value: V?
-        get() = this.component.value
+        get() = this.comp.value
         set(value) {
-            this.component.value = value
+            this.comp.value = value
             notifyChange(value)
         }
 }

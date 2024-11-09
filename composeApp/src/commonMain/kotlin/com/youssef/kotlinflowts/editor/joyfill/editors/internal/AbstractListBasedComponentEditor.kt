@@ -9,14 +9,14 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 @PublishedApi
 internal abstract class AbstractListBasedComponentEditor<V : Mappable>(
     app: App,
-    override val component: ListBasedComponent<V>,
+    override val comp: ListBasedComponent<V>,
     onChange: ((ChangeEvent) -> Unit)?
-) : AnyComponentEditor<ListBasedComponent<V>>(app, component, onChange), ListBasedComponentEditor<V> {
+) : AnyComponentEditor<ListBasedComponent<V>>(app, comp, onChange), ListBasedComponentEditor<V> {
 
     override val value = Value()
 
     inner class Value : AbstractList<V>(), MutableList<V> {
-        private val source get() = this@AbstractListBasedComponentEditor.component.value
+        private val source get() = this@AbstractListBasedComponentEditor.comp.value
         override val size: Int get() = source.size
 
         private fun notifyChange() {

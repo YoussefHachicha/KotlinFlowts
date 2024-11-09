@@ -4,5 +4,5 @@ import com.youssef.kotlinflowts.models.joyfill.components.core.ListBasedComponen
 import com.youssef.kotlinflowts.models.joyfill.utils.Attachment
 
 interface FileBasedComponentEditor : ComponentEditor, FileBasedEditor {
-    override val component: ListBasedComponent<Attachment>
+    override val comp: ListBasedComponent<Attachment>
 }

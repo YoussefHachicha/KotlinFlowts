@@ -24,7 +24,7 @@ internal fun JoyTextArea(
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
 ) {
-    val component = remember(editor) { editor.component }
+    val component = remember(editor) { editor.comp }
     var value by remember { mutableStateOf(component.value ?: "") }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 

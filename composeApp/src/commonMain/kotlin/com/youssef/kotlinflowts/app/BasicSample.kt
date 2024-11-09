@@ -41,10 +41,14 @@ object service {
         name("HEllOOOO")
 
         screen("Basic Information")
+        column("NAMe IS Column") {  }
         text("First Name")
         text("Last Name")
-        date("Date of Birth")
-        text("Phone")
+        column("NAMe IS Column") {
+            date("Date of Birth")
+            text("Phone")
+        }
+
         table("Education") {
             text("Degree")
             text("Institution")
@@ -54,6 +58,7 @@ object service {
 
         screen("Contact Information")
         text("Next of Kin")
+        text("Hello")
         text("Phone Number")
 
 
@@ -92,7 +97,6 @@ object service {
                     select("Select Component", listOf("Option 1", "Option 2", "Option 3"))
                 }
             }
-
         }
     }
 

@@ -8,7 +8,7 @@ import com.youssef.kotlinflowts.models.joyfill.components.core.ListBasedComponen
 import com.youssef.kotlinflowts.models.joyfill.components.table.Row
 
 interface TableComponentEditor : ListBasedComponentEditor<Row> {
-    override val component: TableComponent
+    override val comp: TableComponent
     val rows: RowCollection
 }
 

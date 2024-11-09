@@ -62,9 +62,9 @@ fun App(
     ) { derivedStateOf { editor.components.from(currentScreen) } }
 
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus -> onFocus?.invoke(ComponentEvent(component, currentScreen))
-        is Signal.Blur -> onBlur?.invoke(ComponentEvent(component, currentScreen))
-        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(component, currentScreen))
+        is Signal.Focus -> onFocus?.invoke(ComponentEvent(comp, currentScreen))
+        is Signal.Blur -> onBlur?.invoke(ComponentEvent(comp, currentScreen))
+        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(comp, currentScreen))
     }
 
     LazyColumn(modifier = modifier) {
@@ -94,7 +94,7 @@ fun App(
                     editor = it,
                     mode = mode,
                     format = currentScreen.positions.firstOrNull { it.componentId == it.id }?.format
-                        ?: it.component.format,
+                        ?: it.comp.format,
                     onSignal = it::emit
                 )
 
@@ -119,7 +119,7 @@ fun App(
                         {
                             call(
                                 ComponentEvent(
-                                    it.component,
+                                    it.comp,
                                     currentScreen
                                 )
                             )
@@ -155,11 +155,11 @@ fun App(
                 )
 
                 is BlockComponentEditor -> JoyBlockComponent(
-                    component = it.component,
+                    component = it.comp,
                     position = currentScreen.positions.find { it.componentId == it.id }
                 )
 
-                is RichTextComponentEditor -> JoyRichTextComponent(it.component)
+                is RichTextComponentEditor -> JoyRichTextComponent(it.comp)
 
                 is ColumnComponentEditor -> JoyColumnComponent(
                     editor = it,

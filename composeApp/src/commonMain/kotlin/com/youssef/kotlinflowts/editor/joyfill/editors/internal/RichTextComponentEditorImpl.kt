@@ -7,5 +7,5 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 @PublishedApi
 internal open class RichTextComponentEditorImpl(
     app: App,
-    override val component: RichTextComponent,
-) : AnyComponentEditor<RichTextComponent>(app,component,null), RichTextComponentEditor
+    override val comp: RichTextComponent,
+) : AnyComponentEditor<RichTextComponent>(app,comp,null), RichTextComponentEditor

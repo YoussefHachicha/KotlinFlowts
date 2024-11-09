@@ -8,23 +8,23 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 import com.youssef.kotlinflowts.models.joyfill.utils.ID
 
 @PublishedApi
-internal open class EventTrigger<out F : Component>(
+internal open class EventTrigger<out C : Component>(
     val app: App,
-    open val field: F,
+    open val component: C,
     private val onChange: ((ChangeEvent) -> Unit)?
 ) {
 
     val file by lazy { app.files[0] }
 
-    val page by lazy {
+    val screen by lazy {
         app.files.flatMap { it.screens }.find { page ->
             val positions = page.positions.map { it.componentId }
-            positions.contains(field.id)
-        } ?: throw IllegalStateException("Field not found in any page")
+            positions.contains(component.id)
+        } ?: throw IllegalStateException("Component not found in any screen")
     }
 
     val position by lazy {
-        page.positions.find { it.componentId == field.id } ?: throw IllegalStateException("Field not found in any position")
+        screen.positions.find { it.componentId == component.id } ?: throw IllegalStateException("Field not found in any position")
     }
 
     protected fun notifyChange(value: Any?) {
@@ -39,11 +39,11 @@ internal open class EventTrigger<out F : Component>(
     private fun ChangeLog(value: Any?) = mutableMapOf(
         ID to app.id,
         "identifier" to app.identifier,
-        "fieldId" to field.id,
-        "fieldIdentifier" to field.identifier,
-        "pageId" to page.id,
+        "componentId" to component.id,
+        "componentIdentifier" to component.identifier,
+        "screenId" to screen.id,
         "fileId" to file.id,
-        "fieldPositionId" to position.id,
+        "componentPositionId" to position.id,
         "target" to Target.field_update,
         "createdOn" to kotlinx.datetime.Clock.System.now().toEpochMilliseconds(),
         "change" to mutableMapOf(

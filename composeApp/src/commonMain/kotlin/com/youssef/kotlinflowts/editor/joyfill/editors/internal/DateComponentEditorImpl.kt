@@ -8,6 +8,6 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 @PublishedApi
 internal class DateComponentEditorImpl(
     app: App,
-    override val component: DateComponent,
+    override val comp: DateComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractValueBasedComponentEditor<Long, DateComponent>(app, component, onChange), DateComponentEditor
+) : AbstractValueBasedComponentEditor<Long, DateComponent>(app, comp, onChange), DateComponentEditor

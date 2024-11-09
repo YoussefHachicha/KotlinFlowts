@@ -8,6 +8,6 @@ import com.youssef.kotlinflowts.models.joyfill.utils.App
 @PublishedApi
 internal class SignatureComponentEditorImpl(
     app: App,
-    override val component: SignatureComponent,
+    override val comp: SignatureComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractValueBasedComponentEditor<String, SignatureComponent>(app, component, onChange), SignatureComponentEditor
+) : AbstractValueBasedComponentEditor<String, SignatureComponent>(app, comp, onChange), SignatureComponentEditor
