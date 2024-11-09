@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,7 +32,11 @@ internal fun KfColumnComponent(
         modifier = Modifier
             .testTag(editor.comp.id)
             .fillMaxWidth()
-            .border(1.dp, Color.Gray)
+            .border(
+                width = 1.dp,
+                color = Color.Gray,
+                shape = RoundedCornerShape(20.dp)
+            )
             .padding(horizontal = 16.dp)
     ) {
         KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))

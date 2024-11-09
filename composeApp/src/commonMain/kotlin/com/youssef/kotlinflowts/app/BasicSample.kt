@@ -50,10 +50,10 @@ object service {
             image()
         }
         image()
-        column("NAMe IS Column") {  }
+        column {  }
         text("First Name")
         text("Last Name")
-        column("NAMe IS Column") {
+        column {
             date("Date of Birth")
             text("Phone")
         }

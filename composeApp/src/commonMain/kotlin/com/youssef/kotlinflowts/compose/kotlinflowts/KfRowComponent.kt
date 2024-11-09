@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -34,16 +35,17 @@ internal fun KfRowComponent(
         modifier = Modifier
             .testTag(editor.comp.id)
             .fillMaxWidth()
-            .border(1.dp, color = Color.Red)
+            .border(
+                width = 1.dp,
+                color = Color.Gray,
+                shape = RoundedCornerShape(20.dp)
+            )
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(1.dp, color = Color.Blue)
-                .padding(8.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             KfLayoutComposable(
                 componentEditors = rowComponents,

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,7 +22,7 @@ internal fun KfTextComponent(
     editor: TextComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.comp.id)) {
+) = Column(modifier = Modifier.testTag(editor.comp.id).fillMaxWidth()) {
     KfTextComponentImpl(editor, mode, onSignal)
 }
 
@@ -30,7 +31,7 @@ internal fun ColumnScope.KfTextComponent(
     editor: TextComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.comp.id)) {
+) = Column(modifier = Modifier.testTag(editor.comp.id).fillMaxWidth()) {
     KfTextComponentImpl(editor, mode, onSignal)
 }
 
@@ -60,7 +61,7 @@ private fun KfTextComponentImpl(
         borders = true,
         maxLines = 1,
         readonly = component.disabled || mode == Mode.readonly,
-        modifier = Modifier.testTag("${component.id}-body"),
+        modifier = Modifier.fillMaxWidth().testTag("${component.id}-body"),
         onChange = {
             value = it
             onSignal(Signal.Change(value))
