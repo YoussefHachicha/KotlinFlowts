@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.editor.joyfill.collections
 
+import com.youssef.kotlinflowts.editor.joyfill.LayoutCollection
 import com.youssef.kotlinflowts.editor.joyfill.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.column.ColumnComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.DateComponentEditor
@@ -13,17 +14,18 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.TableComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.TextAreaComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.TextComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.row.RowComponentEditor
 import com.youssef.kotlinflowts.models.joyfill.Screen
 
-interface CompCollection {
+interface CompCollection: LayoutCollection {
 
-    fun all(): List<ComponentEditor>
+    override fun all(): List<ComponentEditor>
 
     fun from(screen: String): List<ComponentEditor>
 
     fun from(screen: Screen): List<ComponentEditor>
 
-    fun find(key: String): ComponentEditor?
+    override fun find(key: String): ComponentEditor?
 
     fun text(key: String): TextComponentEditor?
 
@@ -48,4 +50,6 @@ interface CompCollection {
     fun chart(key: String): ChartComponentEditor?
 
     fun column(key: String): ColumnComponentEditor?
+
+    fun row(key: String): RowComponentEditor?
 }

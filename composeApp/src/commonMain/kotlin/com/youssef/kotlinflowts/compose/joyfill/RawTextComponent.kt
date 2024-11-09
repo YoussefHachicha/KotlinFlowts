@@ -32,7 +32,7 @@ internal fun RawTextComponent(
             onChange(it)
         },
         readOnly = readonly,
-        modifier = modifier.fillMaxWidth().onFocusChanged(onFocusChanged),
+        modifier = modifier.onFocusChanged(onFocusChanged),
         singleLine = maxLines == 1,
         maxLines = maxLines,
         minLines = minLines,

@@ -26,7 +26,7 @@ internal fun JoyNumberComponent(
     var value by remember { mutableStateOf(component.value?.toString() ?: "") }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value.toTolerableNumber() ?: 0.0 } }
     Column(modifier = Modifier.fillMaxWidth()) {
-        JoyTitle(component, modifier = Modifier.testTag("${component.id}-title"))
+        KfTitle(component, modifier = Modifier.testTag("${component.id}-title"))
         OutlinedTextField(
             value = value,
             onValueChange = {

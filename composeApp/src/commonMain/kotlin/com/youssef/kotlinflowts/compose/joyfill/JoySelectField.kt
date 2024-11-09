@@ -45,7 +45,7 @@ internal fun JoySelectComponent(
     val focus = remember(onSignal) { FocusManager(onSignal) { } }
 
     Column(Modifier.fillMaxWidth()) {
-        JoyTitle(component, modifier = Modifier.testTag("${component.id}-title"))
+        KfTitle(component, modifier = Modifier.testTag("${component.id}-title"))
         Surface(
             color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.2f),
             shape = RoundedCornerShape(10.dp),

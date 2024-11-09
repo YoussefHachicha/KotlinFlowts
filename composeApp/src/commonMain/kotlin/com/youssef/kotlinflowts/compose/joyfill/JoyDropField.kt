@@ -43,7 +43,7 @@ internal fun JoyDropComponent(
 
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.select(selected) } }
 
-    JoyTitle(component, modifier = Modifier.testTag("${component.id}-title"))
+    KfTitle(component, modifier = Modifier.testTag("${component.id}-title"))
     RawDropComponent(
         options = component.options,
         value = selected?.let { listOf(it) } ?: emptyList(),

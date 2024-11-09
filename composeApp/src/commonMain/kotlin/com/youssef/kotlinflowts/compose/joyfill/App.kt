@@ -28,6 +28,7 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.TableComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.TextAreaComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.TextComponentEditor
+import com.youssef.kotlinflowts.editor.joyfill.row.RowComponentEditor
 import com.youssef.kotlinflowts.manager.joyfill.ComponentEvent
 import com.youssef.kotlinflowts.manager.joyfill.Mode
 
@@ -78,7 +79,7 @@ fun App(
         }
         items(editorComponents, key = { it.id }) { it ->
             when (it) {
-                is TextComponentEditor -> JoyTextComponent(
+                is TextComponentEditor -> KfTextComponent(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit,
@@ -162,6 +163,15 @@ fun App(
                 is RichTextComponentEditor -> JoyRichTextComponent(it.comp)
 
                 is ColumnComponentEditor -> JoyColumnComponent(
+                    editor = it,
+                    screen = currentScreen,
+                    onBlur = onBlur,
+                    onFocus = onFocus,
+                    onComponentChange = onComponentChange,
+                    showUnsupportedComponents = showUnsupportedComponents
+                )
+
+                is RowComponentEditor -> JoyRowComponent(
                     editor = it,
                     screen = currentScreen,
                     onBlur = onBlur,

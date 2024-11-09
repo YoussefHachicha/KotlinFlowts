@@ -89,7 +89,7 @@ internal fun JoySignatureComponent(
         mutableStateOf(s)
     }
     Column(modifier = Modifier.fillMaxWidth().testTag(component.id)) {
-        JoyTitle(component, modifier = Modifier.testTag("${component.id}-preview-title"))
+        KfTitle(component, modifier = Modifier.testTag("${component.id}-preview-title"))
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
@@ -200,7 +200,7 @@ private fun Capture(
                 val v = value
 
                 Row(modifier = Modifier.fillMaxWidth().height(60.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Row(horizontalArrangement = Arrangement.Start) { JoyTitle(component) }
+                    Row(horizontalArrangement = Arrangement.Start) { KfTitle(component) }
                     Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                         val redo = remember { mutableStateListOf<Path>() }
                         var deleting by remember { mutableStateOf(false) }

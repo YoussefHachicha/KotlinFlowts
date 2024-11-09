@@ -58,7 +58,7 @@ internal fun JoyChartComponent(
     val lines = remember(component.value) { mutableStateListOf(*(component.value ?: emptyList()).toTypedArray()) }
     val readonly = component.disabled || mode == Mode.readonly
 
-    JoyTitle(component.title, modifier = Modifier.testTag("${component.id}-preview-title"))
+    KfTitle(component.title, modifier = Modifier.testTag("${component.id}-preview-title"))
     Spacer(modifier = Modifier.height(8.dp))
     OutlinedButton(
         onClick = {
@@ -86,7 +86,7 @@ internal fun JoyChartComponent(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    JoyTitle(component.title, modifier = Modifier.testTag("${component.id}-capture-title"))
+                    KfTitle(component.title, modifier = Modifier.testTag("${component.id}-capture-title"))
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = "${component.id}-capture-close",

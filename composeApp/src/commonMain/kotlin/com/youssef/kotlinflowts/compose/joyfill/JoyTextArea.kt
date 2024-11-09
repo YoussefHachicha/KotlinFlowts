@@ -1,6 +1,8 @@
 package com.youssef.kotlinflowts.compose.joyfill
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,25 +25,50 @@ internal fun JoyTextArea(
     editor: TextAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
+) = Column(modifier = Modifier.fillMaxWidth()) {
+    JoyTextAreaImpl(editor, mode, onSignal)
+}
+
+@Composable
+internal fun ColumnScope.JoyTextArea(
+    editor: TextAreaComponentEditor,
+    mode: Mode,
+    onSignal: (Signal<String>) -> Unit
+) = Column(modifier = Modifier.fillMaxWidth()) {
+    JoyTextAreaImpl(editor, mode, onSignal)
+}
+
+@Composable
+internal fun RowScope.JoyTextArea(
+    editor: TextAreaComponentEditor,
+    mode: Mode,
+    onSignal: (Signal<String>) -> Unit
+) = Column(modifier = Modifier.weight(1f)) {
+    JoyTextAreaImpl(editor, mode, onSignal)
+}
+
+@Composable
+internal fun JoyTextAreaImpl(
+    editor: TextAreaComponentEditor,
+    mode: Mode,
+    onSignal: (Signal<String>) -> Unit
 ) {
     val component = remember(editor) { editor.comp }
     var value by remember { mutableStateOf(component.value ?: "") }
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(component.title, modifier = Modifier.testTag("${component.id}-title"))
-        Spacer(modifier = Modifier.height(4.dp))
-        OutlinedTextField(
-            value = value,
-            onValueChange = {
-                value = it
-                onSignal(Signal.Change(it))
-            },
-            readOnly = component.disabled || mode == Mode.readonly,
-            minLines = 5,
-            modifier = Modifier.testTag("${component.id}-body")
-                .fillMaxWidth()
-                .onFocusChanged(focus.handler)
-        )
-    }
+    Text(component.title, modifier = Modifier.testTag("${component.id}-title"))
+    Spacer(modifier = Modifier.height(4.dp))
+    OutlinedTextField(
+        value = value,
+        onValueChange = {
+            value = it
+            onSignal(Signal.Change(it))
+        },
+        readOnly = component.disabled || mode == Mode.readonly,
+        minLines = 5,
+        modifier = Modifier.testTag("${component.id}-body")
+            .fillMaxWidth()
+            .onFocusChanged(focus.handler)
+    )
 }

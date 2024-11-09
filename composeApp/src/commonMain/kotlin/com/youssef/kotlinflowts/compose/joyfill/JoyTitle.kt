@@ -6,13 +6,13 @@ import androidx.compose.ui.Modifier
 import com.youssef.kotlinflowts.models.joyfill.components.core.Component
 
 @Composable
-internal fun JoyTitle(
+internal fun KfTitle(
     component: Component,
     modifier: Modifier = Modifier
-) = JoyTitle(component.title, modifier)
+) = KfTitle(component.title, modifier)
 
 @Composable
-internal fun JoyTitle(
+internal fun KfTitle(
     title: String,
     modifier: Modifier = Modifier
 ) {

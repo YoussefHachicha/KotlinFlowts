@@ -27,6 +27,7 @@ import com.youssef.kotlinflowts.models.joyfill.toMutableScreen
 import com.youssef.kotlinflowts.models.joyfill.toNumberComponent
 import com.youssef.kotlinflowts.models.joyfill.toScreen
 import com.youssef.kotlinflowts.models.joyfill.toPosition
+import com.youssef.kotlinflowts.models.joyfill.toRowComponent
 import com.youssef.kotlinflowts.models.joyfill.toSignatureComponent
 import com.youssef.kotlinflowts.models.joyfill.toTableComponent
 import com.youssef.kotlinflowts.models.joyfill.toTextAreaComponent
@@ -219,19 +220,6 @@ internal fun tableComponent(
     TableComponent::rowOrder.name to mutableListOf<String>()
 ).toTableComponent()
 
-internal fun columnComponent(
-    id: String,
-    title: String,
-    identifier: String,
-    components: List<Component>
-) = mutableMapOf<String, Any?>(
-    ID to id,
-    Component::title.name to title,
-    Component::identifier.name to identifier,
-    Component::type.name to Component.Type.column.name,
-    ValueBasedComponent<*>::value.name to components.map { it.toMap() }.toMutableList()
-).toColumnComponent()
-
 internal fun chartComponent(
     id: String,
     title: String,
@@ -252,3 +240,30 @@ internal fun chartComponent(
     ValueBasedComponent<*>::value.name to lines.map { it.toMap() }.toMutableList(),
     Component::type.name to Component.Type.chart.name,
 ).toChartComponent()
+
+internal fun columnComponent(
+    id: String,
+    title: String,
+    identifier: String,
+    components: List<Component>
+) = mutableMapOf<String, Any?>(
+    ID to id,
+    Component::title.name to title,
+    Component::identifier.name to identifier,
+    Component::type.name to Component.Type.column.name,
+    ValueBasedComponent<*>::value.name to components.map { it.toMap() }.toMutableList()
+).toColumnComponent()
+
+internal fun rowComponent(
+    id: String,
+    title: String,
+    identifier: String,
+    components: List<Component>
+) = mutableMapOf<String, Any?>(
+    ID to id,
+    Component::title.name to title,
+    Component::identifier.name to identifier,
+    Component::type.name to Component.Type.row.name,
+    ValueBasedComponent<*>::value.name to components.map { it.toMap() }.toMutableList()
+).toRowComponent()
+

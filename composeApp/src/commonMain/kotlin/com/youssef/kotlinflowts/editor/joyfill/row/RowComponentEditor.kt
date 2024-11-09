@@ -1,9 +1,10 @@
-package com.youssef.kotlinflowts.editor.joyfill.column
+package com.youssef.kotlinflowts.editor.joyfill.row
 
 import com.youssef.kotlinflowts.editor.joyfill.LayoutCollection
 import com.youssef.kotlinflowts.editor.joyfill.editors.ListBasedComponentEditor
 import com.youssef.kotlinflowts.models.joyfill.components.core.Component
 
-interface ColumnComponentEditor : ListBasedComponentEditor<Component> {
-    val columnComponents: LayoutCollection
+
+interface RowComponentEditor : ListBasedComponentEditor<Component> {
+    val rowComponents: LayoutCollection
 }

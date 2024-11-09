@@ -94,7 +94,7 @@ internal fun JoyDateTimeComponent(
     }
 
     Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
-        JoyTitle(
+        KfTitle(
             component,
             modifier = Modifier.testTag("${component.id}-title")
         )

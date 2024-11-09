@@ -12,6 +12,7 @@ import com.youssef.kotlinflowts.models.joyfill.components.ImageComponent
 import com.youssef.kotlinflowts.models.joyfill.components.MultiSelectComponent
 import com.youssef.kotlinflowts.models.joyfill.components.NumberComponent
 import com.youssef.kotlinflowts.models.joyfill.components.RichTextComponent
+import com.youssef.kotlinflowts.models.joyfill.components.RowComponent
 import com.youssef.kotlinflowts.models.joyfill.components.SignatureComponent
 import com.youssef.kotlinflowts.models.joyfill.components.TableComponent
 import com.youssef.kotlinflowts.models.joyfill.components.TextAreaComponent
@@ -31,6 +32,7 @@ import com.youssef.kotlinflowts.models.joyfill.components.internal.ImageComponen
 import com.youssef.kotlinflowts.models.joyfill.components.internal.MultiSelectComponentImpl
 import com.youssef.kotlinflowts.models.joyfill.components.internal.NumberComponentImpl
 import com.youssef.kotlinflowts.models.joyfill.components.internal.RichTextComponentImpl
+import com.youssef.kotlinflowts.models.joyfill.components.internal.RowComponentImpl
 import com.youssef.kotlinflowts.models.joyfill.components.internal.SignatureComponentImpl
 import com.youssef.kotlinflowts.models.joyfill.components.internal.TableComponentImpl
 import com.youssef.kotlinflowts.models.joyfill.components.internal.TextAreaComponentImpl
@@ -124,8 +126,9 @@ inline fun MutableMap<String, Any?>.toBlockComponent(): BlockComponent = BlockCo
 
 inline fun MutableMap<String, Any?>.toRichTextComponent(): RichTextComponent = RichTextComponentImpl(this)
 
-// Extension function to create component
 inline fun MutableMap<String, Any?>.toColumnComponent(): ColumnComponent = ColumnComponentImpl(this)
+
+inline fun MutableMap<String, Any?>.toRowComponent(): RowComponent = RowComponentImpl(this)
 
 inline fun MutableMap<String, Any?>.toComponent(): Component = when (type()) {
         Component.Type.text -> toTextComponent()
@@ -142,6 +145,7 @@ inline fun MutableMap<String, Any?>.toComponent(): Component = when (type()) {
         Component.Type.richText -> toRichTextComponent()
         Component.Type.block -> toBlockComponent()
         Component.Type.column -> toColumnComponent()
+        Component.Type.row -> toRowComponent()
         else -> toUnknownComponent()
 }
 

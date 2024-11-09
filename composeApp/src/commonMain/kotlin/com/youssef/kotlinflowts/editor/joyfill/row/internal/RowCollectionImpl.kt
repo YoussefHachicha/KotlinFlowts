@@ -1,20 +1,20 @@
-package com.youssef.kotlinflowts.editor.joyfill.column.internal
+package com.youssef.kotlinflowts.editor.joyfill.row.internal
 
 import com.youssef.kotlinflowts.editor.joyfill.LayoutCollection
 import com.youssef.kotlinflowts.editor.joyfill.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.joyfill.editors.internal.EventTrigger
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
-import com.youssef.kotlinflowts.models.joyfill.components.ColumnComponent
+import com.youssef.kotlinflowts.models.joyfill.components.RowComponent
 import com.youssef.kotlinflowts.models.joyfill.utils.App
 
 @PublishedApi
-internal class ColumnCollectionImpl(
+internal class RowCollectionImpl(
     app: App,
     override val identity: IdentityGenerator,
-    component: ColumnComponent,
+    component: RowComponent,
     override val onChange: ((ChangeEvent) -> Unit)?
-) : EventTrigger<ColumnComponent>(app, component, onChange), LayoutCollection {
+) : EventTrigger<RowComponent>(app, component, onChange), LayoutCollection {
 
     override fun all(): List<ComponentEditor> = component.value.map { it.toEditor() }
 
@@ -23,4 +23,3 @@ internal class ColumnCollectionImpl(
         return comp.toEditor()
     }
 }
-

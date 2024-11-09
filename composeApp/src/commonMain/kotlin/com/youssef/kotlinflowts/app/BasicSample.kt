@@ -21,7 +21,10 @@ fun BasicSample() {
 
     // Render the form with the editor
     Column(modifier = Modifier.padding(8.dp)) {
-        App(editor = editor)
+        App(
+            editor = editor,
+            showUnsupportedComponents = true
+        )
         OutlinedButton(
             onClick = {
                 // get the updated document
@@ -41,6 +44,10 @@ object service {
         name("HEllOOOO")
 
         screen("Basic Information")
+        row {
+            text("First Name")
+            text("Last Name")
+        }
         column("NAMe IS Column") {  }
         text("First Name")
         text("Last Name")
@@ -97,6 +104,11 @@ object service {
                     select("Select Component", listOf("Option 1", "Option 2", "Option 3"))
                 }
             }
+        }
+        screen("Row test")
+        row {
+            text("hello everyone")
+            text("hi again")
         }
     }
 

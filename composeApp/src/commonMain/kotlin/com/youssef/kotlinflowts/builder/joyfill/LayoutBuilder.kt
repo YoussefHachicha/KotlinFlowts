@@ -3,6 +3,7 @@ package com.youssef.kotlinflowts.builder.joyfill
 import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilder
 import com.youssef.kotlinflowts.builder.joyfill.chart.LineBuilderImpl
 import com.youssef.kotlinflowts.builder.joyfill.column.ColumnBuilderImpl
+import com.youssef.kotlinflowts.builder.joyfill.row.RowBuilderImpl
 import com.youssef.kotlinflowts.builder.joyfill.table.TableColumnBuilder
 import com.youssef.kotlinflowts.builder.joyfill.table.TableColumnsBuilderImplTable
 import com.youssef.kotlinflowts.models.joyfill.ComponentPosition
@@ -257,6 +258,23 @@ interface LayoutBuilder {
             title = title,
             identifier = identifier ?: "component-$uid",
             components = builder.columnComponents
+        )
+    }
+
+    fun row(
+        title: String = "Row Component",
+        id: String? = null,
+        identifier: String? = null,
+        readonly: Boolean = false,
+        components: (LayoutBuilder.() -> Unit)? = null
+    ) = buildComponent(id) { uid ->
+        val builder = RowBuilderImpl(identity)
+        components?.invoke(builder)
+        rowComponent(
+            id = uid,
+            title = title,
+            identifier = identifier ?: "component-$uid",
+            components = builder.rowComponents
         )
     }
 }

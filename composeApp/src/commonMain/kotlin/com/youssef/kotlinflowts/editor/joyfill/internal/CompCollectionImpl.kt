@@ -17,6 +17,7 @@ import com.youssef.kotlinflowts.editor.joyfill.editors.internal.SignatureCompone
 import com.youssef.kotlinflowts.editor.joyfill.editors.internal.TableComponentEditorImpl
 import com.youssef.kotlinflowts.editor.joyfill.editors.internal.TextAreaComponentEditorImpl
 import com.youssef.kotlinflowts.editor.joyfill.editors.internal.TextComponentEditorImpl
+import com.youssef.kotlinflowts.editor.joyfill.row.internal.RowComponentEditorImpl
 import com.youssef.kotlinflowts.events.joyfill.ChangeEvent
 import com.youssef.kotlinflowts.models.joyfill.IdentityGenerator
 import com.youssef.kotlinflowts.models.joyfill.MutableApp
@@ -32,15 +33,16 @@ import com.youssef.kotlinflowts.models.joyfill.components.ImageComponent
 import com.youssef.kotlinflowts.models.joyfill.components.MultiSelectComponent
 import com.youssef.kotlinflowts.models.joyfill.components.NumberComponent
 import com.youssef.kotlinflowts.models.joyfill.components.RichTextComponent
+import com.youssef.kotlinflowts.models.joyfill.components.RowComponent
 import com.youssef.kotlinflowts.models.joyfill.components.SignatureComponent
 import com.youssef.kotlinflowts.models.joyfill.components.TableComponent
 import com.youssef.kotlinflowts.models.joyfill.components.TextAreaComponent
 import com.youssef.kotlinflowts.models.joyfill.components.TextComponent
 
 internal class CompCollectionImpl(
-    private val app: MutableApp,
-    private val identity: IdentityGenerator,
-    private val onChange: ((ChangeEvent) -> Unit)?
+    override val app: MutableApp,
+    override val identity: IdentityGenerator,
+    override val onChange: ((ChangeEvent) -> Unit)?
 ) : CompCollection {
     override fun all() = app.components.map { it.toEditor() }
 
@@ -73,24 +75,6 @@ internal class CompCollectionImpl(
             app.components.find { it.identifier == key || it.id == key || it.title == key }
                 ?: return null
         return component.toEditor()
-    }
-
-    private fun Component.toEditor(): ComponentEditor = when (this) {
-        is TextComponent -> TextComponentEditorImpl(app, this, onChange)
-        is TextAreaComponent -> TextAreaComponentEditorImpl(app, this, onChange)
-        is NumberComponent -> NumberComponentEditorImpl(app, this, onChange)
-        is DropdownComponent -> DropdownComponentEditorImpl(app, this, onChange)
-        is MultiSelectComponent -> MultiSelectComponentEditorImpl(app, this, onChange)
-        is DateComponent -> DateComponentEditorImpl(app, this, onChange)
-        is SignatureComponent -> SignatureComponentEditorImpl(app, this, onChange)
-        is TableComponent -> TableComponentEditorImpl(app, this, identity, onChange)
-        is ChartComponent -> ChartComponentEditorImpl(app, this, identity, onChange)
-        is ImageComponent -> ImageComponentEditorImpl(app, this, identity, onChange)
-        is FileComponent -> FileComponentEditorImpl(app, this, identity, onChange)
-        is RichTextComponent -> RichTextComponentEditorImpl(app, this)
-        is BlockComponent -> BlockComponentEditorImpl(app, this)
-        is ColumnComponent -> ColumnComponentEditorImpl(app, this, identity, onChange)
-        else /*  is UnknownComponent */ -> AnyComponentEditor(app, this, onChange)
     }
 
     private fun <F : Component, E : ComponentEditor> buildEditor(
@@ -161,4 +145,9 @@ internal class CompCollectionImpl(
             ColumnComponentEditorImpl(app, component, identity, onChange)
         }
 
+
+    override fun row(key: String) =
+        buildEditor(key, Component.Type.row) { component: RowComponent ->
+            RowComponentEditorImpl(app, component, identity, onChange)
+        }
 }

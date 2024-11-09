@@ -24,6 +24,7 @@ interface Component : Mappable {
         file,
         block,
         column,
+        row,
         unknown
     }
 }

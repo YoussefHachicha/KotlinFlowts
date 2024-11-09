@@ -121,7 +121,7 @@ internal fun JoyTableComponent(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        JoyTitle(component, modifier = Modifier.padding(bottom = 4.dp))
+                        KfTitle(component, modifier = Modifier.padding(bottom = 4.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             if (selectedRow.size == 1) {
                                 val width = with(density) { measurer.measure("More").size.width.toDp() + 40.dp }
@@ -286,12 +286,12 @@ private fun RowCapture(
         modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        JoyTitle("$title entry", modifier = Modifier.padding(bottom = 4.dp))
+        KfTitle("$title entry", modifier = Modifier.padding(bottom = 4.dp))
         Icon(Icons.Filled.Close, "close", modifier = Modifier.testTag("${title}-capture-close").clickable { onClose() })
     }
 
     columns.forEach { column ->
-        JoyTitle(column.title, modifier = Modifier.padding(top = 8.dp))
+        KfTitle(column.title, modifier = Modifier.padding(top = 8.dp))
         when (column) {
             is TextColumn -> RawTextComponent(
                 value = "",
@@ -360,7 +360,7 @@ private fun Preview(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        JoyTitle(component)
+        KfTitle(component)
         Row {
             TextButton(onClick = onClick, contentPadding = PaddingValues(0.dp), shape = RoundedCornerShape(2.dp)) {
                 Text("View")
