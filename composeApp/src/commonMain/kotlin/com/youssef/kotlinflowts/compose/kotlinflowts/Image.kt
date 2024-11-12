@@ -21,7 +21,7 @@ import androidx.compose.foundation.Image as FoundationImage
 
 @OptIn(ExperimentalEncodingApi::class)
 @Composable
-internal fun Image(
+fun Image(
     url: String,
     description: String,
     modifier: Modifier = Modifier.fillMaxWidth().heightIn(200.dp, 400.dp)

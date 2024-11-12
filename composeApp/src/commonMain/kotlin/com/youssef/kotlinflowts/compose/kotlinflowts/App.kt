@@ -81,7 +81,6 @@ fun App(
             when (it) {
                 is TextComponentEditor -> KfTextComponent(
                     editor = it,
-                    mode = mode,
                     onSignal = it::emit,
                 )
 
