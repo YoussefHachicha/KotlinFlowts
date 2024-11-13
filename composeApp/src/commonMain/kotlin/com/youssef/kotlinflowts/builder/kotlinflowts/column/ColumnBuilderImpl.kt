@@ -9,5 +9,6 @@ class ColumnBuilderImpl(override val identity: IdentityGenerator): ColumBuilder 
 
     override fun add(component: Component, position: ComponentPosition) {
         columnComponents.add(component)
+        super.add(component, position)
     }
 }

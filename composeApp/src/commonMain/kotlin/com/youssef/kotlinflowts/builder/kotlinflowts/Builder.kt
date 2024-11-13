@@ -12,7 +12,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.toMutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.ID
 
-fun buildApp(builder: AppBuilder.() -> Unit): App {
+fun buildApp(builder: AppBuilder.() -> Unit):  AppBuilderImpl {
     val generator = IdentityGenerator.default
     val uid = generator.generate()
     val app = mutableMapOf<String, Any?>(
@@ -24,7 +24,7 @@ fun buildApp(builder: AppBuilder.() -> Unit): App {
     ).toApp().toMutableApp()
     val db = AppBuilderImpl(app, generator)
     db.builder()
-    return db.app
+    return db
 }
 
 fun plot(

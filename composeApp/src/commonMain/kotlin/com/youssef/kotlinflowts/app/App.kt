@@ -10,25 +10,23 @@ import androidx.compose.ui.Modifier
 import com.youssef.kotlinflowts.app.gallery.ComponentsGallerySample
 import com.youssef.kotlinflowts.app.view.ViewSample
 import com.youssef.kotlinflowts.app.view.service
-import com.youssef.kotlinflowts.compose.kotlinflowts.rememberEditor
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-        val app = remember { service.getApp() }
-        val editor = rememberEditor(app)
+        val appBuilder = remember { service.getAppBuilder() }
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxSize()
         ) {
             Panel("Gallery"){
-                ComponentsGallerySample()
+                ComponentsGallerySample(appBuilder)
             }
             Panel("View"){
-                ViewSample(editor)
+                ViewSample(appBuilder)
             }
             Panel("Editor"){
 

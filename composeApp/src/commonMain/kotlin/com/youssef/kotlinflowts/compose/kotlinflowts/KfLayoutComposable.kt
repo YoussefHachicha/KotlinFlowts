@@ -46,6 +46,7 @@ internal fun RowScope.KfLayoutComposable (
             when (componentEditor) {
                 is TextComponentEditor -> KfTextComponent(
                     editor = componentEditor,
+                    mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
                 is NumberComponentEditor -> KfNumberComponent(
@@ -151,6 +152,7 @@ internal fun ColumnScope.KfLayoutComposable (
             when (componentEditor) {
                 is TextComponentEditor -> KfTextComponent(
                     editor = componentEditor,
+                    mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
                 is NumberComponentEditor -> KfNumberComponent(

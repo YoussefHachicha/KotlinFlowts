@@ -1,6 +1,7 @@
 package com.youssef.kotlinflowts.app.gallery
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,7 @@ import com.youssef.kotlinflowts.compose.kotlinflowts.Image
 fun GalleryItem(
     text: String,
     image: String? = null,
+    onClick: () -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -30,7 +32,12 @@ fun GalleryItem(
                 color = Color.Gray,
                 shape = RoundedCornerShape(20.dp)
             )
+            .clip(RoundedCornerShape(20.dp))
+            .clickable {
+                onClick()
+            }
             .padding(horizontal = 16.dp, vertical = 8.dp)
+
     ) {
         image?.let {
             Image(

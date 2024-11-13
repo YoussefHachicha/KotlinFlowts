@@ -6,6 +6,7 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.collections.ScreenCollection
 import com.youssef.kotlinflowts.models.kotlinflowts.JoyStage
 import com.youssef.kotlinflowts.models.kotlinflowts.Mappable
 import com.youssef.kotlinflowts.models.kotlinflowts.View
+import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 
 interface AppEditor : Mappable {

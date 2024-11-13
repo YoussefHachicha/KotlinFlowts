@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,10 +32,14 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
+import com.youssef.kotlinflowts.models.kotlinflowts.Screen
+import com.youssef.kotlinflowts.models.kotlinflowts.toMutableApp
+import kotlinx.coroutines.delay
 
 @Composable
 fun App(
     editor: AppEditor,
+    updateUi: Int,
     mode: Mode = Mode.fill,
     onUpload: (suspend (ComponentEvent) -> List<String>)? = null,
     screenId: String? = null,
@@ -44,6 +49,7 @@ fun App(
     onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
     showUnsupportedComponents: Boolean = false,
     modifier: Modifier = Modifier,
+    onChangeScreen: (Screen) -> Unit,
 ) {
     val view = remember(editor) {
         editor.views.find { it.type == "mobile" }
@@ -57,10 +63,15 @@ fun App(
         mutableStateOf(screens.find { it.id == screenId } ?: screens.first())
     }
 
+    LaunchedEffect(currentScreen){
+        onChangeScreen(currentScreen)
+    }
+
     val editorComponents by remember(
         editor,
-        currentScreen
-    ) { derivedStateOf { editor.components.from(currentScreen) } }
+        currentScreen,
+        updateUi
+    ) { mutableStateOf(editor.components.from(currentScreen))  }
 
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
         is Signal.Focus -> onFocus?.invoke(ComponentEvent(comp, currentScreen))
@@ -73,7 +84,9 @@ fun App(
             KfScreenSelector(
                 screens = screens,
                 screen = currentScreen,
-                onChange = { currentScreen = it }
+                onChange = {
+                    currentScreen = it
+                }
             )
             Spacer(modifier = Modifier.height(12.dp))
         }
@@ -81,6 +94,7 @@ fun App(
             when (it) {
                 is TextComponentEditor -> KfTextComponent(
                     editor = it,
+                    mode = mode,
                     onSignal = it::emit,
                 )
 

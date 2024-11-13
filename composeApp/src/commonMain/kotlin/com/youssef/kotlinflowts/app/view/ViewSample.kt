@@ -5,23 +5,33 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.builder.kotlinflowts.buildApp
+import com.youssef.kotlinflowts.builder.kotlinflowts.internal.AppBuilderImpl
 import com.youssef.kotlinflowts.compose.kotlinflowts.App
+import com.youssef.kotlinflowts.compose.kotlinflowts.rememberEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
+import com.youssef.kotlinflowts.models.kotlinflowts.toMutableScreen
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 
 
 @Composable
 fun ViewSample(
-    editor: AppEditor
+    appBuilder: AppBuilderImpl
 ) {
+    val editor = rememberEditor(appBuilder.app)
+
     Column(modifier = Modifier.padding(8.dp)) {
         App(
             editor = editor,
-            showUnsupportedComponents = true
+            updateUi = appBuilder.updateUi,
+            showUnsupportedComponents = true,
+            onChangeScreen = {
+                appBuilder.updateCursor(it.toMutableScreen())
+            }
         )
         OutlinedButton(
             onClick = {
@@ -38,7 +48,7 @@ fun ViewSample(
 }
 
 object service {
-    fun getApp() = buildApp {
+    fun getAppBuilder() = buildApp {
         name("HEllOOOO")
 
         screen("Basic Information")
@@ -65,8 +75,8 @@ object service {
 //            text("End Date")
 //        }
 //
-//        screen("Contact Information")
-//        text("Next of Kin")
+        screen("Contact Information")
+        text("Next of Kin")
 //        text("Hello")
 //        text("Phone Number")
 //

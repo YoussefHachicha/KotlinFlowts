@@ -8,6 +8,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
 import com.youssef.kotlinflowts.models.kotlinflowts.JoyStage
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.View
+import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.toMutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.ID

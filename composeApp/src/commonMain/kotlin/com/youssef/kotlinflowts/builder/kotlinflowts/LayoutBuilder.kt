@@ -1,5 +1,7 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts
 
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import com.youssef.kotlinflowts.builder.kotlinflowts.chart.LineBuilder
 import com.youssef.kotlinflowts.builder.kotlinflowts.chart.LineBuilderImpl
 import com.youssef.kotlinflowts.builder.kotlinflowts.column.ColumnBuilderImpl
@@ -16,6 +18,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.option
 
 interface LayoutBuilder {
     val identity: IdentityGenerator
+//    val updateUi get() =  mutableStateOf(0)
 
     private fun add(component: Component) {
         val position = componentPosition(
@@ -27,10 +30,33 @@ interface LayoutBuilder {
         add(component, position)
     }
 
-    fun add(component: Component, position: ComponentPosition)
+    fun add(component: Component, position: ComponentPosition) {
+//        updateUi.value++
+    }
 
     private fun <C : Component> buildComponent(id: String?, builder: (uid: String) -> C) {
         add(builder(id ?: identity.generate()))
+    }
+
+    fun add(type: Component.Type){
+        when (type) {
+            Component.Type.text -> text()
+            Component.Type.textarea -> textarea()
+            Component.Type.number -> number()
+            Component.Type.dropdown -> dropdown(options = emptyList())
+            Component.Type.multiSelect -> select(options = emptyList())
+            Component.Type.date -> date()
+            Component.Type.richText -> textarea()
+            Component.Type.signature -> signature()
+            Component.Type.table -> table()
+            Component.Type.chart -> chart()
+            Component.Type.image -> image()
+            Component.Type.file -> file()
+            Component.Type.block -> column()
+            Component.Type.column -> column()
+            Component.Type.row -> row()
+            Component.Type.unknown -> {}
+        }
     }
 
     fun text(
