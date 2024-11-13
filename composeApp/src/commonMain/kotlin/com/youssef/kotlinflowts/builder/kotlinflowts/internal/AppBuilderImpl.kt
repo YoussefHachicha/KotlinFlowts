@@ -14,10 +14,10 @@ import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 
 class AppBuilderImpl(
-    val app: MutableApp,
+    override  val app: MutableApp,
     override val identity: IdentityGenerator
 ) : AppBuilder {
-     var updateUi by mutableStateOf(0)
+    override var updateUi by mutableStateOf(0)
     //the file will contain the code source of our app
     private val file by lazy {
         app.files.getOrNull(0) ?: file(
@@ -39,7 +39,7 @@ class AppBuilderImpl(
         return cursor ?: screen("New Screen")
     }
 
-    fun updateCursor(screen: MutableScreen) {
+    override fun updateCursor(screen: MutableScreen) {
         cursor = screen
     }
 
@@ -58,7 +58,6 @@ class AppBuilderImpl(
     override fun add(component: Component, position: ComponentPosition) {
         cursor().positions.add(position)
         app.components.add(component)
-        super.add(component, position)
         updateUi++
         println("adding text app.components ${app.components.size}")
     }

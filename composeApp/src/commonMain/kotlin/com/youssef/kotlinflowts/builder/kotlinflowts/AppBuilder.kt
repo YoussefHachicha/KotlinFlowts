@@ -1,6 +1,7 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts
 
-import androidx.compose.runtime.mutableIntStateOf
+import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
+import com.youssef.kotlinflowts.models.kotlinflowts.MutableScreen
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 
 interface AppBuilder: LayoutBuilder {
@@ -8,4 +9,9 @@ interface AppBuilder: LayoutBuilder {
 
     fun screen(name: String?): Screen
 
+    fun updateCursor(screen: MutableScreen)
+
+    var updateUi: Int
+
+    val app: MutableApp
 }

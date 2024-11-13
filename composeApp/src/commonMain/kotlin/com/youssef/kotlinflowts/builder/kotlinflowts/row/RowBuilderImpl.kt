@@ -10,6 +10,5 @@ class RowBuilderImpl(override val identity: IdentityGenerator): RowBuilder {
 
     override fun add(component: Component, position: ComponentPosition) {
         rowComponents.add(component)
-        super.add(component, position)
     }
 }

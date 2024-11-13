@@ -18,7 +18,6 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.option
 
 interface LayoutBuilder {
     val identity: IdentityGenerator
-//    val updateUi get() =  mutableStateOf(0)
 
     private fun add(component: Component) {
         val position = componentPosition(
@@ -30,9 +29,7 @@ interface LayoutBuilder {
         add(component, position)
     }
 
-    fun add(component: Component, position: ComponentPosition) {
-//        updateUi.value++
-    }
+    fun add(component: Component, position: ComponentPosition)
 
     private fun <C : Component> buildComponent(id: String?, builder: (uid: String) -> C) {
         add(builder(id ?: identity.generate()))

@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.youssef.kotlinflowts.builder.kotlinflowts.AppBuilder
 import com.youssef.kotlinflowts.builder.kotlinflowts.buildApp
 import com.youssef.kotlinflowts.builder.kotlinflowts.internal.AppBuilderImpl
 import com.youssef.kotlinflowts.compose.kotlinflowts.App
@@ -20,7 +21,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 
 @Composable
 fun ViewSample(
-    appBuilder: AppBuilderImpl
+    appBuilder: AppBuilder
 ) {
     val editor = rememberEditor(appBuilder.app)
 
