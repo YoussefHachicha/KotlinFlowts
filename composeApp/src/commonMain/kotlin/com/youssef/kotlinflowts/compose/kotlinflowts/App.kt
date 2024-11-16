@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.youssef.kotlinflowts.builder.kotlinflowts.LayoutBuilder
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.BlockComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateComponentEditor
@@ -40,6 +41,7 @@ fun App(
     mode: Mode = Mode.fill,
     onUpload: (suspend (ComponentEvent) -> List<String>)? = null,
     screenId: String? = null,
+    builders: MutableMap<String, LayoutBuilder>,
     navigation: Boolean = true,
     onBlur: ((event: ComponentEvent) -> Unit)? = null,
     onFocus: ((event: ComponentEvent) -> Unit)? = null,
@@ -69,6 +71,10 @@ fun App(
         currentScreen,
         updateUi
     ) { mutableStateOf(editor.components.from(currentScreen))  }
+
+    LaunchedEffect(editor.components.all) {
+        println("All components SIZE = ${editor.components.all.size}")
+    }
 
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
         is Signal.Focus -> onFocus?.invoke(ComponentEvent(comp, currentScreen))
@@ -175,21 +181,21 @@ fun App(
                 is ColumnComponentEditor -> KfColumnComponent(
                     editor = it,
                     screen = currentScreen,
+                    builders = builders,
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
                     showUnsupportedComponents = showUnsupportedComponents,
-                    updateUi = updateUi
                 )
 
                 is RowComponentEditor -> KfRowComponent(
                     editor = it,
                     screen = currentScreen,
+                    builders = builders,
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
                     showUnsupportedComponents = showUnsupportedComponents,
-                    updateUi = updateUi
                 )
 
                 else -> if (showUnsupportedComponents) {

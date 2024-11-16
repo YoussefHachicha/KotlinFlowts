@@ -3,6 +3,8 @@ package com.youssef.kotlinflowts.models.kotlinflowts.internal
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import com.youssef.kotlinflowts.builder.kotlinflowts.LayoutBuilder
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableFile
 import com.youssef.kotlinflowts.models.kotlinflowts.components.AbstractMappable
@@ -29,7 +31,9 @@ internal class AppImpl(
 
     override val files: MutableList<MutableFile> = JsonList(wrapped[App::files.name]) { FileImpl(it) }
 
-    override val components by mutableStateOf(JsonList(wrapped[App::components.name]) { it.toComponent() })
+    override var components: MutableList<Component> by mutableStateOf(JsonList(wrapped[App::components.name]) { it.toComponent() })
+
+    override var builders: MutableMap<String, LayoutBuilder> = mutableMapOf()
 
 //    override val components = mutableStateListOf<Component>().apply {
 //        addAll(JsonList(wrapped[App::components.name]) { it.toComponent() })

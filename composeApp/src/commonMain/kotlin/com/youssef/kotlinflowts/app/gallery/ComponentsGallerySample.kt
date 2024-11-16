@@ -36,7 +36,7 @@ fun ComponentsGallerySample(appBuilder: AppBuilder) {
         columnComponents = columnComponents,
         rowComponents = rowComponents,
         expanded = expanded,
-        builders = appBuilder.builders,
+        builders = appBuilder.app.builders,
         onExpandChange = { expanded = it },
     ) { builder ->
         if (builder == null) {

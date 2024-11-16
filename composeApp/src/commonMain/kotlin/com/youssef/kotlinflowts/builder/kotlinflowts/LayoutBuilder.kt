@@ -16,6 +16,8 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.option
 
 interface LayoutBuilder {
     val identity: IdentityGenerator
+    var updateUi: Int
+    val components: MutableList<Component>
 
     private fun add(component: Component) {
         val position = componentPosition(
@@ -28,7 +30,7 @@ interface LayoutBuilder {
     }
 
     fun add(component: Component, position: ComponentPosition)
-    fun addBuilder(wrapped: Pair<String, LayoutBuilder>)
+    fun addBuilder(wrapped: Pair<String, LayoutBuilder>) {}
 
     private fun <C : Component> buildComponent(id: String?, builder: (uid: String) -> C) {
         add(builder(id ?: identity.generate()))
@@ -280,7 +282,7 @@ interface LayoutBuilder {
             id = uid,
             title = title,
             identifier = identifier ?: "component-$uid",
-            components = builder.columnComponents
+            components = builder.components
         )
     }
 
@@ -292,13 +294,14 @@ interface LayoutBuilder {
         components: (LayoutBuilder.() -> Unit)? = null
     ) = buildComponent(id) { uid ->
         val builder = RowBuilderImpl(identity)
+
         addBuilder(uid to builder)
         components?.invoke(builder)
         rowComponent(
             id = uid,
             title = title,
             identifier = identifier ?: "component-$uid",
-            components = builder.rowComponents
+            components = builder.components
         )
     }
 }

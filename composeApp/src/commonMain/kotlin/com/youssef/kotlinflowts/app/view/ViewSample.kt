@@ -25,6 +25,7 @@ fun ViewSample(
         App(
             editor = editor,
             updateUi = appBuilder.updateUi,
+            builders = appBuilder.app.builders,
             showUnsupportedComponents = true,
             onChangeScreen = {
                 appBuilder.updateCursor(it.toMutableScreen())

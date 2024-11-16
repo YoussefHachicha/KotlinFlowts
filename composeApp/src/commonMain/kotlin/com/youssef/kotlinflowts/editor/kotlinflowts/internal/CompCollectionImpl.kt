@@ -1,8 +1,6 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.internal
 
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import com.youssef.kotlinflowts.editor.kotlinflowts.collections.CompCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
@@ -45,15 +43,9 @@ internal class CompCollectionImpl(
 ) : CompCollection {
     override fun all() = app.components.map { it.toEditor() }
 
-    override fun from(screen: String): List<ComponentEditor> {
-        val files = app.files
-        val screens =
-            files.flatMap { it.views }.flatMap { it.screens } + files.flatMap { it.screens }
-        val s = screens.find {
-            it.id == screen || it.name == screen
-        } ?: return emptyList()
-        return from(s)
-    }
+//    private var _all = mutableStateOf(emptyList<ComponentEditor>())
+//    override val all: List<ComponentEditor> = _all.value
+    override val all: List<ComponentEditor> by mutableStateOf(app.components.map { it.toEditor() })
 
     override fun from(screen: Screen): List<ComponentEditor> {
         val positions = screen.positions
@@ -64,6 +56,17 @@ internal class CompCollectionImpl(
             positions.first { it.componentId == df.id }.y
         }.map { it.toEditor() }
     }
+
+    override fun from(screen: String): List<ComponentEditor> {
+        val files = app.files
+        val screens =
+            files.flatMap { it.views }.flatMap { it.screens } + files.flatMap { it.screens }
+        val s = screens.find {
+            it.id == screen || it.name == screen
+        } ?: return emptyList()
+        return from(s)
+    }
+
 
     private fun <C : Component> look(key: String, type: Component.Type): C? = app.components.find {
         (it.identifier == key || it.id == key || it.title == key) && it.type == type
@@ -149,7 +152,4 @@ internal class CompCollectionImpl(
         buildEditor(key, Component.Type.row) { component: RowComponent ->
             RowComponentEditorImpl(app, component, identity, onChange)
         }
-
-    override val all: List<ComponentEditor> by mutableStateOf(app.components.map { it.toEditor() })
-
 }

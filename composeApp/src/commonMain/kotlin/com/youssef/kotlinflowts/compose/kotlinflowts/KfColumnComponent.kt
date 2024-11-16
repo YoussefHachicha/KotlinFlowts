@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.youssef.kotlinflowts.builder.kotlinflowts.LayoutBuilder
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.ColumnComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
@@ -23,13 +24,15 @@ import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 internal fun KfColumnComponent(
     editor: ColumnComponentEditor,
     screen: Screen,
+    builders: MutableMap<String, LayoutBuilder>,
     onBlur: ((event: ComponentEvent) -> Unit)? = null,
     onFocus: ((event: ComponentEvent) -> Unit)? = null,
     onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
     showUnsupportedComponents: Boolean = false,
 ) {
+    val columnBuilder by remember(builders) { mutableStateOf(builders[editor.comp.id]) }
     val component = remember(editor) { editor.comp }
-    val columnComponents by remember(editor, editor.columnComponents.all) { mutableStateOf(editor.columnComponents.all) }
+    val columnComponents by remember(editor, columnBuilder?.updateUi) { mutableStateOf(editor.columnComponents.all()) }
 
     Column(
         modifier = Modifier
@@ -51,6 +54,7 @@ internal fun KfColumnComponent(
             screen = screen,
             onBlur = onBlur,
             onFocus = onFocus,
+            builders = builders,
             onComponentChange = onComponentChange,
             showUnsupportedComponents = showUnsupportedComponents,
             separatorComposable = { Spacer(modifier = Modifier.height(8.dp)) },

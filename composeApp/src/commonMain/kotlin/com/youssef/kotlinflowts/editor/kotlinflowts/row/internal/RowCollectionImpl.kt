@@ -18,9 +18,9 @@ internal class RowCollectionImpl(
     override val onChange: ((ChangeEvent) -> Unit)?
 ) : EventTrigger<RowComponent>(app, component, onChange), LayoutCollection {
 
-    override fun all(): List<ComponentEditor> = component.value.map { it.toEditor() }
+    override fun all(): List<ComponentEditor> = (app.builders[component.id]?.components ?: component.value ).map { it.toEditor() }
 
-    override val all: List<ComponentEditor> by mutableStateOf(component.value.map { it.toEditor() })
+    override val all: List<ComponentEditor> by mutableStateOf((app.builders[component.id]?.components ?: component.value ).map { it.toEditor() })
 
     override fun find(key: String): ComponentEditor? {
         val comp = component.value.find { it.id == key || it.title == key } ?: return null

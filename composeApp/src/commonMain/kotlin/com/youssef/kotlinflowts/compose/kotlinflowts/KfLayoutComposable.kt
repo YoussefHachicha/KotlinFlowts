@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
+import com.youssef.kotlinflowts.builder.kotlinflowts.LayoutBuilder
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.ColumnComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.BlockComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ChartComponentEditor
@@ -29,6 +30,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 internal fun RowScope.KfLayoutComposable (
     component: Component,
     screen: Screen,
+    builders: MutableMap<String, LayoutBuilder>,
     componentEditors: List<ComponentEditor>,
     onBlur: ((event: ComponentEvent) -> Unit)? = null,
     onFocus: ((event: ComponentEvent) -> Unit)? = null,
@@ -110,6 +112,7 @@ internal fun RowScope.KfLayoutComposable (
                 is ColumnComponentEditor -> KfColumnComponent(
                     editor = componentEditor,
                     screen = screen,
+                    builders = builders,
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
@@ -117,8 +120,9 @@ internal fun RowScope.KfLayoutComposable (
                 is RowComponentEditor -> KfRowComponent(
                     editor = componentEditor,
                     screen = screen,
-                    onFocus = onFocus,
+                    builders = builders,
                     onBlur = onBlur,
+                    onFocus = onFocus,
                     onComponentChange = onComponentChange,
                 )
                 else -> if (showUnsupportedComponents) {
@@ -135,6 +139,7 @@ internal fun RowScope.KfLayoutComposable (
 internal fun ColumnScope.KfLayoutComposable (
     component: Component,
     screen: Screen,
+    builders: MutableMap<String, LayoutBuilder>,
     componentEditors: List<ComponentEditor>,
     onBlur: ((event: ComponentEvent) -> Unit)? = null,
     onFocus: ((event: ComponentEvent) -> Unit)? = null,
@@ -216,6 +221,7 @@ internal fun ColumnScope.KfLayoutComposable (
                 is ColumnComponentEditor -> KfColumnComponent(
                     editor = componentEditor,
                     screen = screen,
+                    builders = builders,
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
@@ -223,8 +229,9 @@ internal fun ColumnScope.KfLayoutComposable (
                 is RowComponentEditor -> KfRowComponent(
                     editor = componentEditor,
                     screen = screen,
-                    onFocus = onFocus,
+                    builders = builders,
                     onBlur = onBlur,
+                    onFocus = onFocus,
                     onComponentChange = onComponentChange,
                 )
                 else -> if (showUnsupportedComponents) {
