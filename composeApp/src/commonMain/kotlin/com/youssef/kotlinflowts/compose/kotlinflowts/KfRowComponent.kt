@@ -10,7 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -18,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
+import kotlinx.coroutines.delay
 
 @Composable
 internal fun KfRowComponent(
@@ -29,7 +34,7 @@ internal fun KfRowComponent(
     showUnsupportedComponents: Boolean = false,
 ) {
     val component = remember(editor) { editor.comp }
-    val rowComponents = remember(editor) { editor.rowComponents.all() }
+    val rowComponents by remember(editor, editor.rowComponents.all) { mutableStateOf(editor.rowComponents.all)  }
 
     Column(
         modifier = Modifier
@@ -55,9 +60,8 @@ internal fun KfRowComponent(
                 onFocus = onFocus,
                 onComponentChange = onComponentChange,
                 showUnsupportedComponents = showUnsupportedComponents,
-                separatorComposable = { Spacer(Modifier.width(8.dp)) }
+                separatorComposable = { Spacer(Modifier.width(8.dp)) },
             )
         }
     }
-
 }

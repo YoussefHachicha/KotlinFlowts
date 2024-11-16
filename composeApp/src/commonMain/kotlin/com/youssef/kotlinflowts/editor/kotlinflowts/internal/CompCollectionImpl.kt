@@ -1,6 +1,9 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.internal
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import com.youssef.kotlinflowts.editor.kotlinflowts.collections.CompCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ChartComponentEditorImpl
@@ -146,4 +149,7 @@ internal class CompCollectionImpl(
         buildEditor(key, Component.Type.row) { component: RowComponent ->
             RowComponentEditorImpl(app, component, identity, onChange)
         }
+
+    override val all: List<ComponentEditor> by mutableStateOf(app.components.map { it.toEditor() })
+
 }

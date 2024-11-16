@@ -1,8 +1,12 @@
 package com.youssef.kotlinflowts.models.kotlinflowts.internal
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableFile
 import com.youssef.kotlinflowts.models.kotlinflowts.components.AbstractMappable
+import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.toApp
 import com.youssef.kotlinflowts.models.kotlinflowts.toComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
@@ -25,7 +29,11 @@ internal class AppImpl(
 
     override val files: MutableList<MutableFile> = JsonList(wrapped[App::files.name]) { FileImpl(it) }
 
-    override val components = JsonList(wrapped[App::components.name]) { it.toComponent() }
+    override val components by mutableStateOf(JsonList(wrapped[App::components.name]) { it.toComponent() })
+
+//    override val components = mutableStateListOf<Component>().apply {
+//        addAll(JsonList(wrapped[App::components.name]) { it.toComponent() })
+//    }
 
     override fun <R> get(key: String): R = wrapped[key] as R
 

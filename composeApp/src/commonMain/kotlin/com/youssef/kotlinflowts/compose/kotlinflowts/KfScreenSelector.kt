@@ -49,7 +49,10 @@ internal fun KfScreenSelector(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
-            Text("Screen #${screens.indexOf(screen) + 1}", color = LocalContentColor.current.copy(alpha = 0.7f))
+            Text(
+                text = "Screen #${screens.indexOf(screen) + 1}",
+                color = LocalContentColor.current.copy(alpha = 0.7f)
+            )
             Text(screen.name)
         }
         ExposedDropdownMenuDefaults.TrailingIcon(expanded)
@@ -60,16 +63,23 @@ internal fun KfScreenSelector(
         properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
         Box {
-            Surface(modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp).fillMaxSize(0.9f)) {
+            Surface(
+                modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp).fillMaxSize(0.9f)
+            ) {
                 LazyColumn {
                     item {
                         Row(
-                            modifier = Modifier.fillMaxWidth().padding(start = 8.dp, top = 8.dp, bottom = 16.dp, end = 8.dp),
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(start = 8.dp, top = 8.dp, bottom = 16.dp, end = 8.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text("Screens", fontWeight = FontWeight.Bold)
-                            Icon(Icons.Outlined.Close, "close", modifier = Modifier.clickable { expanded = false }.padding(8.dp))
+                            Icon(
+                                Icons.Outlined.Close,
+                                "close",
+                                modifier = Modifier.clickable { expanded = false }.padding(8.dp)
+                            )
                         }
                     }
                     itemsIndexed(screens, key = { _, s -> s.id }) { index, it ->

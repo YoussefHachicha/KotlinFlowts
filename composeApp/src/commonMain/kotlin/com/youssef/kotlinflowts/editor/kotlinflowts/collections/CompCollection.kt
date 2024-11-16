@@ -18,7 +18,6 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 
 interface CompCollection: LayoutCollection {
-
     override fun all(): List<ComponentEditor>
 
     fun from(screen: String): List<ComponentEditor>
@@ -26,6 +25,8 @@ interface CompCollection: LayoutCollection {
     fun from(screen: Screen): List<ComponentEditor>
 
     override fun find(key: String): ComponentEditor?
+
+    override val all: List<ComponentEditor>
 
     fun text(key: String): TextComponentEditor?
 
@@ -52,6 +53,4 @@ interface CompCollection: LayoutCollection {
     fun column(key: String): ColumnComponentEditor?
 
     fun row(key: String): RowComponentEditor?
-
-
 }

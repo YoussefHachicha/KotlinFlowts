@@ -14,4 +14,6 @@ interface AppBuilder: LayoutBuilder {
     var updateUi: Int
 
     val app: MutableApp
+
+    val builders: MutableMap<String, LayoutBuilder>
 }

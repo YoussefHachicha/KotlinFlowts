@@ -2,6 +2,9 @@ package com.youssef.kotlinflowts.models.kotlinflowts
 
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
+
 
 interface MutableApp : App {
     override var name: String

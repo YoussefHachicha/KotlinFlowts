@@ -34,7 +34,7 @@ internal fun RowScope.KfLayoutComposable (
     onFocus: ((event: ComponentEvent) -> Unit)? = null,
     onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
     showUnsupportedComponents: Boolean = false,
-    separatorComposable: @Composable () -> Unit
+    separatorComposable: @Composable () -> Unit,
 ){
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
         is Signal.Focus -> onFocus?.invoke(ComponentEvent(component, screen))
@@ -110,8 +110,8 @@ internal fun RowScope.KfLayoutComposable (
                 is ColumnComponentEditor -> KfColumnComponent(
                     editor = componentEditor,
                     screen = screen,
-                    onFocus = onFocus,
                     onBlur = onBlur,
+                    onFocus = onFocus,
                     onComponentChange = onComponentChange,
                 )
                 is RowComponentEditor -> KfRowComponent(
@@ -140,7 +140,7 @@ internal fun ColumnScope.KfLayoutComposable (
     onFocus: ((event: ComponentEvent) -> Unit)? = null,
     onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
     showUnsupportedComponents: Boolean = false,
-    separatorComposable: @Composable () -> Unit
+    separatorComposable: @Composable () -> Unit,
 ){
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
         is Signal.Focus -> onFocus?.invoke(ComponentEvent(component, screen))
@@ -216,8 +216,8 @@ internal fun ColumnScope.KfLayoutComposable (
                 is ColumnComponentEditor -> KfColumnComponent(
                     editor = componentEditor,
                     screen = screen,
-                    onFocus = onFocus,
                     onBlur = onBlur,
+                    onFocus = onFocus,
                     onComponentChange = onComponentChange,
                 )
                 is RowComponentEditor -> KfRowComponent(

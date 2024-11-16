@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +29,8 @@ internal fun KfColumnComponent(
     showUnsupportedComponents: Boolean = false,
 ) {
     val component = remember(editor) { editor.comp }
-    val columnComponents = remember(editor) { editor.columnComponents.all() }
+    val columnComponents by remember(editor, editor.columnComponents.all) { mutableStateOf(editor.columnComponents.all) }
+
     Column(
         modifier = Modifier
             .testTag(editor.comp.id)
@@ -50,7 +53,7 @@ internal fun KfColumnComponent(
             onFocus = onFocus,
             onComponentChange = onComponentChange,
             showUnsupportedComponents = showUnsupportedComponents,
-            separatorComposable = { Spacer(modifier = Modifier.height(8.dp)) }
+            separatorComposable = { Spacer(modifier = Modifier.height(8.dp)) },
         )
     }
 }

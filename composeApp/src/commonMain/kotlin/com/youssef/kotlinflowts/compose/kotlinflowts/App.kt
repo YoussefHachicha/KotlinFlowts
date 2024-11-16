@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,8 +32,6 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
-import com.youssef.kotlinflowts.models.kotlinflowts.toMutableApp
-import kotlinx.coroutines.delay
 
 @Composable
 fun App(
@@ -181,7 +178,8 @@ fun App(
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
-                    showUnsupportedComponents = showUnsupportedComponents
+                    showUnsupportedComponents = showUnsupportedComponents,
+                    updateUi = updateUi
                 )
 
                 is RowComponentEditor -> KfRowComponent(
@@ -190,7 +188,8 @@ fun App(
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
-                    showUnsupportedComponents = showUnsupportedComponents
+                    showUnsupportedComponents = showUnsupportedComponents,
+                    updateUi = updateUi
                 )
 
                 else -> if (showUnsupportedComponents) {

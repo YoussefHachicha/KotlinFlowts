@@ -1,7 +1,5 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts
 
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import com.youssef.kotlinflowts.builder.kotlinflowts.chart.LineBuilder
 import com.youssef.kotlinflowts.builder.kotlinflowts.chart.LineBuilderImpl
 import com.youssef.kotlinflowts.builder.kotlinflowts.column.ColumnBuilderImpl
@@ -30,6 +28,7 @@ interface LayoutBuilder {
     }
 
     fun add(component: Component, position: ComponentPosition)
+    fun addBuilder(wrapped: Pair<String, LayoutBuilder>)
 
     private fun <C : Component> buildComponent(id: String?, builder: (uid: String) -> C) {
         add(builder(id ?: identity.generate()))
@@ -275,6 +274,7 @@ interface LayoutBuilder {
         components: (LayoutBuilder.() -> Unit)? = null
     ) = buildComponent(id) { uid ->
         val builder = ColumnBuilderImpl(identity)
+        addBuilder(uid to builder)
         components?.invoke(builder)
         columnComponent(
             id = uid,
@@ -292,6 +292,7 @@ interface LayoutBuilder {
         components: (LayoutBuilder.() -> Unit)? = null
     ) = buildComponent(id) { uid ->
         val builder = RowBuilderImpl(identity)
+        addBuilder(uid to builder)
         components?.invoke(builder)
         rowComponent(
             id = uid,
