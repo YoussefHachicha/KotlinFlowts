@@ -12,4 +12,6 @@ interface AppBuilder: LayoutBuilder {
     fun updateCursor(screen: MutableScreen)
 
     val app: MutableApp
+
+     var cursor: MutableScreen?
 }

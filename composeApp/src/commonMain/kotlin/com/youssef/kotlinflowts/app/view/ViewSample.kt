@@ -7,28 +7,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.youssef.kotlinflowts.builder.kotlinflowts.AppBuilder
 import com.youssef.kotlinflowts.builder.kotlinflowts.buildApp
 import com.youssef.kotlinflowts.compose.kotlinflowts.App
-import com.youssef.kotlinflowts.compose.kotlinflowts.rememberEditor
-import com.youssef.kotlinflowts.models.kotlinflowts.toMutableScreen
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
+import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 
 
 @Composable
 fun ViewSample(
-    appBuilder: AppBuilder
+    updateUi: Int,
+    editor: AppEditor,
+    onChangeScreen: (Screen) -> Unit
 ) {
-    val editor = rememberEditor(appBuilder.app)
-
     Column(modifier = Modifier.padding(8.dp)) {
         App(
             editor = editor,
-            updateUi = appBuilder.updateUi,
+            updateUi = updateUi,
             showUnsupportedComponents = true,
-            onChangeScreen = {
-                appBuilder.updateCursor(it.toMutableScreen())
-            }
+            onChangeScreen = onChangeScreen
         )
         OutlinedButton(
             onClick = {

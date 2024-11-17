@@ -12,13 +12,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.youssef.kotlinflowts.builder.kotlinflowts.LayoutBuilder
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 
 
 @Composable
 fun GallerySelector(
-    columnComponents: List<Component>,
-    rowComponents: List<Component>,
+    layoutComponents: List<ComponentEditor>,
     expanded: Boolean,
     builders: MutableMap<String, LayoutBuilder>,
     onExpandChange: (Boolean) -> Unit = {},
@@ -33,16 +33,10 @@ fun GallerySelector(
                 modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp).fillMaxSize(0.9f)
             ) {
                 LazyColumn {
-                    items(columnComponents) { column ->
-                        GalleryItem(column.title) {
+                    items(layoutComponents) { layout ->
+                        GalleryItem(layout.title) {
                             onExpandChange(false)
-                            add(builders[column.id])
-                        }
-                    }
-                    items(rowComponents) { row ->
-                        GalleryItem(row.title) {
-                            onExpandChange(false)
-                            add(builders[row.id])
+                            add(builders[layout.id])
                         }
                     }
                     item {

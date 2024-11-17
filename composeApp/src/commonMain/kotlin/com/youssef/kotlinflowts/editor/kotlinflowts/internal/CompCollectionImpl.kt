@@ -1,7 +1,5 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.internal
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import com.youssef.kotlinflowts.editor.kotlinflowts.collections.CompCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ChartComponentEditorImpl
@@ -56,6 +54,25 @@ internal class CompCollectionImpl(
         }.sortedBy { df ->
             positions.first { it.componentId == df.id }.y
         }.map { it.toEditor() }
+    }
+
+    override fun layoutsFrom(screen: Screen?): List<ComponentEditor> {
+        if (screen == null) return emptyList()
+        val positions = screen.positions
+        val ids = positions.map { it.componentId }
+        val filteredComponents = app.components.filter { component ->
+            val hasId = component.id in ids
+            val isLayoutType = component.type == Component.Type.column || component.type == Component.Type.row
+            hasId && isLayoutType
+        }
+        return filteredComponents
+            .mapNotNull { component ->
+                positions.find { it.componentId == component.id }?.let { position ->
+                    component to position
+                }
+            }
+            .sortedBy { (_, position) -> position.y }
+            .map { (component, _) -> component.toEditor() }
     }
 
     override fun from(screen: String): List<ComponentEditor> {

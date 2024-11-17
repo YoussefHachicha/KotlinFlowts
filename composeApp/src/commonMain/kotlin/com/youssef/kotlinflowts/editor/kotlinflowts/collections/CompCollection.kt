@@ -1,6 +1,5 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.collections
 
-import androidx.compose.runtime.State
 import com.youssef.kotlinflowts.editor.kotlinflowts.LayoutCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.ColumnComponentEditor
@@ -25,6 +24,8 @@ interface CompCollection: LayoutCollection {
     fun from(screen: String): List<ComponentEditor>
 
     fun from(screen: Screen): List<ComponentEditor>
+
+    fun layoutsFrom(screen: Screen?): List<ComponentEditor>
 
     override fun find(key: String): ComponentEditor?
 

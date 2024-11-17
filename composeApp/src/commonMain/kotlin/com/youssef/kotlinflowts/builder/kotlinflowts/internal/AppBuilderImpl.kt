@@ -28,6 +28,7 @@ class AppBuilderImpl(
     private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
     override val components: StateFlow<List<Component>> = _components.asStateFlow()
 
+
     //the file will contain the code source of our app
     private val file by lazy {
         app.files.getOrNull(0) ?: file(
@@ -38,7 +39,7 @@ class AppBuilderImpl(
         ).also { app.files.add(it) }
     }
 
-    private var cursor: MutableScreen? = null
+    override var cursor: MutableScreen? by mutableStateOf(null)
 
     override fun name(value: String) {
         app.name = value

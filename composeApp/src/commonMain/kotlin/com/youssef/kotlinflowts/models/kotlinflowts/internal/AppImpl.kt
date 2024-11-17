@@ -35,10 +35,6 @@ internal class AppImpl(
 
     override var builders: MutableMap<String, LayoutBuilder> = mutableMapOf()
 
-//    override val components = mutableStateListOf<Component>().apply {
-//        addAll(JsonList(wrapped[App::components.name]) { it.toComponent() })
-//    }
-
     override fun <R> get(key: String): R = wrapped[key] as R
 
     override fun set(key: String, value: Any?) {
