@@ -36,7 +36,8 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.TextAreaComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
-import javax.swing.plaf.nimbus.State
+import androidx.compose.runtime.State
+import kotlinx.coroutines.flow.StateFlow
 
 interface LayoutCollection {
     val app: App
@@ -66,5 +67,5 @@ interface LayoutCollection {
 
     fun find(key: String): ComponentEditor?
 
-    val all: List<ComponentEditor>
+    val all: StateFlow<List<ComponentEditor>>
 }

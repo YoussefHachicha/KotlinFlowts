@@ -1,6 +1,6 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.internal
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.youssef.kotlinflowts.editor.kotlinflowts.collections.CompCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
@@ -35,6 +35,9 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.SignatureComponen
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TableComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextAreaComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextComponent
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 internal class CompCollectionImpl(
     override val app: MutableApp,
@@ -43,9 +46,7 @@ internal class CompCollectionImpl(
 ) : CompCollection {
     override fun all() = app.components.map { it.toEditor() }
 
-//    private var _all = mutableStateOf(emptyList<ComponentEditor>())
-//    override val all: List<ComponentEditor> = _all.value
-    override val all: List<ComponentEditor> by mutableStateOf(app.components.map { it.toEditor() })
+    override val all: StateFlow<List<ComponentEditor>> = MutableStateFlow(app.components.map { it.toEditor() }).asStateFlow()
 
     override fun from(screen: Screen): List<ComponentEditor> {
         val positions = screen.positions

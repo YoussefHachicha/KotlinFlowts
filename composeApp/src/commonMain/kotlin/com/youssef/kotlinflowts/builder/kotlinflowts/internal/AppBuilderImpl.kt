@@ -1,6 +1,8 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts.internal
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.youssef.kotlinflowts.builder.kotlinflowts.AppBuilder
@@ -12,6 +14,10 @@ import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableScreen
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 
 class AppBuilderImpl(
@@ -19,7 +25,8 @@ class AppBuilderImpl(
     override val identity: IdentityGenerator
 ) : AppBuilder {
     override var updateUi by mutableStateOf(0)
-    override val components: MutableList<Component> = mutableListOf()
+    private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
+    override val components: StateFlow<List<Component>> = _components.asStateFlow()
 
     //the file will contain the code source of our app
     private val file by lazy {
@@ -60,8 +67,8 @@ class AppBuilderImpl(
 
     override fun add(component: Component, position: ComponentPosition) {
         cursor().positions.add(position)
-        app.components += component
-        components.add(component)
+        app.components.add(component)
+        _components.update { it + component }
         updateUi++
         println("adding text app.components ${app.components.size}")
     }

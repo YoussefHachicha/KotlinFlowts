@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts
 
+import androidx.compose.runtime.State
 import com.youssef.kotlinflowts.builder.kotlinflowts.chart.LineBuilder
 import com.youssef.kotlinflowts.builder.kotlinflowts.chart.LineBuilderImpl
 import com.youssef.kotlinflowts.builder.kotlinflowts.column.ColumnBuilderImpl
@@ -13,11 +14,12 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.chart.Line
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.Attachment
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.option
+import kotlinx.coroutines.flow.StateFlow
 
 interface LayoutBuilder {
     val identity: IdentityGenerator
     var updateUi: Int
-    val components: MutableList<Component>
+    val components: StateFlow<List<Component>>
 
     private fun add(component: Component) {
         val position = componentPosition(
@@ -282,7 +284,7 @@ interface LayoutBuilder {
             id = uid,
             title = title,
             identifier = identifier ?: "component-$uid",
-            components = builder.components
+            components = builder.components.value
         )
     }
 
@@ -301,7 +303,7 @@ interface LayoutBuilder {
             id = uid,
             title = title,
             identifier = identifier ?: "component-$uid",
-            components = builder.components
+            components = builder.components.value
         )
     }
 }

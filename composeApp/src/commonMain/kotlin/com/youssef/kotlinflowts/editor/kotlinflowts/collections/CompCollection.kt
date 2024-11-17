@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.collections
 
+import androidx.compose.runtime.State
 import com.youssef.kotlinflowts.editor.kotlinflowts.LayoutCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.ColumnComponentEditor
@@ -16,6 +17,7 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextAreaComponentEdi
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
+import kotlinx.coroutines.flow.StateFlow
 
 interface CompCollection: LayoutCollection {
     override fun all(): List<ComponentEditor>
@@ -26,7 +28,7 @@ interface CompCollection: LayoutCollection {
 
     override fun find(key: String): ComponentEditor?
 
-    override val all: List<ComponentEditor>
+    override val all: StateFlow<List<ComponentEditor>>
 
     fun text(key: String): TextComponentEditor?
 
