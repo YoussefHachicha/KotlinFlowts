@@ -12,17 +12,18 @@ import com.youssef.kotlinflowts.models.kotlinflowts.toMutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.ID
 
+val generator = IdentityGenerator.default
+val uid = generator.generate()
+val myApp = mutableMapOf<String, Any?>(
+    ID to uid,
+    App::identifier.name to "app-$uid",
+    App::name.name to "New App",
+    App::files.name to mutableListOf<File>(),
+    App::components.name to mutableListOf<Component>()
+).toApp().toMutableApp()
+
 fun buildApp(builder: AppBuilder.() -> Unit):  AppBuilderImpl {
-    val generator = IdentityGenerator.default
-    val uid = generator.generate()
-    val app = mutableMapOf<String, Any?>(
-        ID to uid,
-        App::identifier.name to "app-$uid",
-        App::name.name to "New App",
-        App::files.name to mutableListOf<File>(),
-        App::components.name to mutableListOf<Component>()
-    ).toApp().toMutableApp()
-    val db = AppBuilderImpl(app, generator)
+    val db = AppBuilderImpl(myApp, generator)
     db.builder()
     return db
 }

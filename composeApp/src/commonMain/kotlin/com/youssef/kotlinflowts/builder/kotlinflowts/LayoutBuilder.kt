@@ -1,6 +1,5 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts
 
-import androidx.compose.runtime.State
 import com.youssef.kotlinflowts.builder.kotlinflowts.chart.LineBuilder
 import com.youssef.kotlinflowts.builder.kotlinflowts.chart.LineBuilderImpl
 import com.youssef.kotlinflowts.builder.kotlinflowts.column.ColumnBuilderImpl
@@ -9,6 +8,7 @@ import com.youssef.kotlinflowts.builder.kotlinflowts.table.TableColumnBuilder
 import com.youssef.kotlinflowts.builder.kotlinflowts.table.TableColumnsBuilderImplTable
 import com.youssef.kotlinflowts.models.kotlinflowts.ComponentPosition
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
+import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.components.chart.Axis
 import com.youssef.kotlinflowts.models.kotlinflowts.components.chart.Line
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface LayoutBuilder {
     val identity: IdentityGenerator
-    var updateUi: Int
+    val app: MutableApp
     val components: StateFlow<List<Component>>
 
     private fun add(component: Component) {
@@ -32,7 +32,8 @@ interface LayoutBuilder {
     }
 
     fun add(component: Component, position: ComponentPosition)
-    fun addBuilder(wrapped: Pair<String, LayoutBuilder>) {}
+
+    fun addBuilder(wrapped: Pair<String, LayoutBuilder>)
 
     private fun <C : Component> buildComponent(id: String?, builder: (uid: String) -> C) {
         add(builder(id ?: identity.generate()))
@@ -52,7 +53,7 @@ interface LayoutBuilder {
             Component.Type.chart -> chart()
             Component.Type.image -> image()
             Component.Type.file -> file()
-            Component.Type.block -> column()
+            Component.Type.block -> {}
             Component.Type.column -> column()
             Component.Type.row -> row()
             Component.Type.unknown -> {}
@@ -275,9 +276,10 @@ interface LayoutBuilder {
         id: String? = null,
         identifier: String? = null,
         readonly: Boolean = false,
+        app: MutableApp = myApp,
         components: (LayoutBuilder.() -> Unit)? = null
     ) = buildComponent(id) { uid ->
-        val builder = ColumnBuilderImpl(identity)
+        val builder = ColumnBuilderImpl(identity, app)
         addBuilder(uid to builder)
         components?.invoke(builder)
         columnComponent(
@@ -293,10 +295,10 @@ interface LayoutBuilder {
         id: String? = null,
         identifier: String? = null,
         readonly: Boolean = false,
+        app: MutableApp = myApp,
         components: (LayoutBuilder.() -> Unit)? = null
     ) = buildComponent(id) { uid ->
-        val builder = RowBuilderImpl(identity)
-
+        val builder = RowBuilderImpl(identity, app)
         addBuilder(uid to builder)
         components?.invoke(builder)
         rowComponent(

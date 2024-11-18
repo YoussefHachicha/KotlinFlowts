@@ -22,7 +22,7 @@ internal class ColumnCollectionImpl(
     override val onChange: ((ChangeEvent) -> Unit)?
 ) : EventTrigger<ColumnComponent>(app, component, onChange), LayoutCollection {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-
+    //ok so my issue here i need my builder here so that i can get my components from it
     init {
         scope.launch {
             app.builders[component.id]?.components?.collect {

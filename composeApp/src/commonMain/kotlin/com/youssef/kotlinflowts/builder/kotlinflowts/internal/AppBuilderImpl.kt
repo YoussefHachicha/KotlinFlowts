@@ -1,8 +1,6 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts.internal
 
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.youssef.kotlinflowts.builder.kotlinflowts.AppBuilder
@@ -21,13 +19,12 @@ import kotlinx.coroutines.flow.update
 
 
 class AppBuilderImpl(
-    override  val app: MutableApp,
+    override val app: MutableApp,
     override val identity: IdentityGenerator
 ) : AppBuilder {
     override var updateUi by mutableStateOf(0)
     private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
     override val components: StateFlow<List<Component>> = _components.asStateFlow()
-
 
     //the file will contain the code source of our app
     private val file by lazy {
