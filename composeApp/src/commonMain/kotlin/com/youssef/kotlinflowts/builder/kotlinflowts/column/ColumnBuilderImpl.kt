@@ -1,10 +1,5 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts.column
 
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.youssef.kotlinflowts.builder.kotlinflowts.LayoutBuilder
 import com.youssef.kotlinflowts.models.kotlinflowts.ComponentPosition
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
@@ -17,6 +12,7 @@ import kotlinx.coroutines.flow.update
 class ColumnBuilderImpl(
     override val identity: IdentityGenerator,
     override val app: MutableApp,
+    override val depth: Int,
 ): ColumBuilder {
     private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
     override val components: StateFlow<List<Component>> = _components
@@ -24,6 +20,8 @@ class ColumnBuilderImpl(
     override fun add(component: Component, position: ComponentPosition) {
         _components.update { it + component }
         app.components.add(component)
+//        app.cursor?.positions?.add(position)
+        app.components
         println("added column components: ${_components.value.size}")
     }
     override fun addBuilder(wrapped: Pair<String, LayoutBuilder>) {

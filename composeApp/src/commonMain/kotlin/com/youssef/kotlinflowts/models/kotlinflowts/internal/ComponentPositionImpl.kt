@@ -11,6 +11,7 @@ internal class ComponentPositionImpl(
     override val id: String get() = wrapped[ID] as String
     override val componentId: String get() = wrapped[ComponentPosition::componentId.name] as String
     override val displayType: String? get() = wrapped[ComponentPosition::displayType.name] as? String
+    override val depth: Int get() = wrapped[ComponentPosition::depth.name] as Int
     override val y get() = wrapped[ComponentPosition::y.name] as? Double ?: 0.0
     override val x get() = wrapped[ComponentPosition::x.name] as? Double ?: 0.0
     override val format get() = wrapped[ComponentPosition::format.name] as? String

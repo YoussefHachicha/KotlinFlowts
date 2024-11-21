@@ -28,7 +28,7 @@ fun App() {
                 ComponentsGallerySample(
                     editor = editor,
                     updateUi = appBuilder.updateUi,
-                    currentScreen = appBuilder.cursor,
+                    currentScreen = appBuilder.app.cursor,
                     builders = appBuilder.app.builders,
                 ){
                     appBuilder.add(it)

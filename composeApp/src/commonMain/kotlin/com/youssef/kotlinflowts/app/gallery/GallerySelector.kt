@@ -21,15 +21,14 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 @Composable
 fun GallerySelector(
     layoutComponents: List<ComponentEditor>,
-    expanded: Boolean,
     builders: MutableMap<String, LayoutBuilder>,
     onExpandChange: (Boolean) -> Unit = {},
     add: (LayoutBuilder?) -> Unit
 ) {
-    val columns by remember(layoutComponents) { mutableStateOf(layoutComponents.filter {it.type == Component.Type.column }) }
-    val rows by remember(layoutComponents) { mutableStateOf(layoutComponents.filter {it.type == Component.Type.row }) }
+    val columns by remember(layoutComponents) { mutableStateOf(layoutComponents.filter { it.type == Component.Type.column }) }
+    val rows by remember(layoutComponents) { mutableStateOf(layoutComponents.filter { it.type == Component.Type.row }) }
 
-    if (expanded) Dialog(
+    Dialog(
         onDismissRequest = { onExpandChange(false) },
         properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {

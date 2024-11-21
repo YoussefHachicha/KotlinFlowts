@@ -71,11 +71,13 @@ internal fun componentPosition(
     id: String,
     component: String,
     displayType: String?,
+    depth: Int,
     format: String?
 ): ComponentPosition = mutableMapOf<String, Any?>(
     ID to id,
     ComponentPosition::componentId.name to component,
     ComponentPosition::displayType.name to displayType,
+    ComponentPosition::depth.name to depth,
     ComponentPosition::format.name to format
 ).toPosition()
 
@@ -85,6 +87,7 @@ private fun <V> valueBasedComponent(
     identifier: String,
     type: Component.Type,
     readonly: Boolean,
+    depth: Int,
     value: V?
 ) = mutableMapOf(
     ID to id,
@@ -92,6 +95,7 @@ private fun <V> valueBasedComponent(
     Component::identifier.name to identifier,
     ValueBasedComponent<*>::value.name to value,
     Component::disabled.name to readonly,
+    Component::depth.name to depth,
     Component::type.name to type.name
 )
 
@@ -100,32 +104,36 @@ internal fun textComponent(
     title: String,
     identifier: String,
     readonly: Boolean,
+    depth: Int,
     value: String?
-) = valueBasedComponent(id, title, identifier, Component.Type.text, readonly, value).toTextComponent()
+) = valueBasedComponent(id, title, identifier, Component.Type.text, readonly, depth, value).toTextComponent()
 
 internal fun textAreaComponent(
     id: String,
     title: String,
     identifier: String,
     readonly: Boolean,
+    depth: Int,
     value: String?
-) = valueBasedComponent(id, title, identifier, Component.Type.textarea, readonly, value).toTextAreaComponent()
+) = valueBasedComponent(id, title, identifier, Component.Type.textarea, readonly, depth, value).toTextAreaComponent()
 
 internal fun signatureComponent(
     id: String,
     title: String,
     identifier: String,
     readonly: Boolean,
+    depth: Int,
     value: String?
-) = valueBasedComponent(id, title, identifier, Component.Type.signature, readonly, value).toSignatureComponent()
+) = valueBasedComponent(id, title, identifier, Component.Type.signature, readonly, depth, value).toSignatureComponent()
 
 internal fun numberComponent(
     id: String,
     title: String,
     identifier: String,
     readonly: Boolean,
+    depth: Int,
     value: Number?
-) = valueBasedComponent(id, title, identifier, Component.Type.number, readonly, value?.toDouble()).toNumberComponent()
+) = valueBasedComponent(id, title, identifier, Component.Type.number, readonly, depth, value?.toDouble()).toNumberComponent()
 
 internal fun dateComponent(
     id: String,
@@ -133,6 +141,7 @@ internal fun dateComponent(
     identifier: String,
     readonly: Boolean,
     format: String?,
+    depth: Int,
     value: Long?
 ) = mutableMapOf<String, Any?>(
     ID to id,
@@ -140,6 +149,7 @@ internal fun dateComponent(
     Component::identifier.name to identifier,
     ValueBasedComponent<*>::value.name to value,
     Component::disabled.name to readonly,
+    Component::depth.name to depth,
     DateComponent::format.name to format,
     Component::type.name to Component.Type.date.name
 ).toDateComponent()
@@ -150,6 +160,7 @@ internal fun dropdownComponent(
     identifier: String,
     options: List<Option2>,
     readonly: Boolean,
+    depth: Int,
     selected: Option2?
 ) = mutableMapOf(
     ID to id,
@@ -158,6 +169,7 @@ internal fun dropdownComponent(
     ValueBasedComponent<*>::value.name to selected?.value,
     DropdownComponent::options.name to options.map { it.toMap() }.toMutableList(),
     Component::disabled.name to readonly,
+    Component::depth.name to depth,
     Component::type.name to Component.Type.dropdown.name
 ).toDropdownComponent()
 
@@ -166,11 +178,13 @@ internal fun multiSelectComponent(
     title: String,
     identifier: String,
     options: List<Option2>,
+    depth: Int,
     selected: List<String>
 ) = mutableMapOf<String, Any?>(
     ID to id,
     Component::title.name to title,
     Component::identifier.name to identifier,
+    Component::depth.name to depth,
     ValueBasedComponent<*>::value.name to selected,
     DropdownComponent::options.name to options.map { it.toMap() }.toMutableList(),
     Component::type.name to Component.Type.multiSelect.name
@@ -180,11 +194,13 @@ internal fun fileComponent(
     id: String,
     title: String,
     identifier: String,
+    depth: Int,
     value: List<Attachment>
 ) = mutableMapOf<String, Any?>(
     ID to id,
     Component::title.name to title,
     Component::identifier.name to identifier,
+    Component::depth.name to depth,
     ValueBasedComponent<*>::value.name to value,
     Component::type.name to Component.Type.file.name
 ).toFileComponent()
@@ -194,11 +210,13 @@ internal fun imageComponent(
     title: String,
     identifier: String,
     readonly: Boolean,
+    depth: Int,
     value: List<Attachment>
 ) = mutableMapOf<String, Any?>(
     ID to id,
     Component::title.name to title,
     Component::identifier.name to identifier,
+    Component::depth.name to depth,
     ValueBasedComponent<*>::value.name to value.map { it.toMap() }.toMutableList(),
     Component::disabled.name to readonly,
     Component::type.name to Component.Type.image.name
@@ -208,11 +226,13 @@ internal fun tableComponent(
     id: String,
     title: String,
     identifier: String,
+    depth: Int,
     columns: List<Column>
 ) = mutableMapOf<String, Any?>(
     ID to id,
     Component::title.name to title,
     Component::identifier.name to identifier,
+    Component::depth.name to depth,
     ValueBasedComponent<*>::value.name to mutableListOf<Row>(),
     Component::type.name to Component.Type.table.name,
     COLUMNS to columns.map { it.toMap() }.toMutableList(),
@@ -226,11 +246,13 @@ internal fun chartComponent(
     identifier: String,
     y: Axis,
     x: Axis,
+    depth: Int,
     lines: List<Line>
 ) = mutableMapOf<String, Any?>(
     ID to id,
     Component::title.name to title,
     Component::identifier.name to identifier,
+    Component::depth.name to depth,
     AXIS_Y_TITLE to y.label,
     AXIS_Y_MIN to y.min,
     AXIS_Y_MAX to y.max,
@@ -245,12 +267,15 @@ internal fun columnComponent(
     id: String,
     title: String,
     identifier: String,
+    depth: Int,
     components: List<Component>
 ) = mutableMapOf<String, Any?>(
     ID to id,
     Component::title.name to title,
     Component::identifier.name to identifier,
+    Component::depth.name to depth,
     Component::type.name to Component.Type.column.name,
+    Component::depth.name to Component.Type.column.name,
     ValueBasedComponent<*>::value.name to components.map { it.toMap() }.toMutableList()
 ).toColumnComponent()
 
@@ -258,11 +283,13 @@ internal fun rowComponent(
     id: String,
     title: String,
     identifier: String,
+    depth: Int,
     components: List<Component>
 ) = mutableMapOf<String, Any?>(
     ID to id,
     Component::title.name to title,
     Component::identifier.name to identifier,
+    Component::depth.name to depth,
     Component::type.name to Component.Type.row.name,
     ValueBasedComponent<*>::value.name to components.map { it.toMap() }.toMutableList()
 ).toRowComponent()

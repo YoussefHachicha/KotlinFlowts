@@ -57,14 +57,19 @@ internal class CompCollectionImpl(
     }
 
     override fun layoutsFrom(screen: Screen?): List<ComponentEditor> {
+        println("layoutsFrom screen ${screen?.name}")
         if (screen == null) return emptyList()
         val positions = screen.positions
+        println("layoutsFrom positions ${positions.map { it.componentId }}")
         val ids = positions.map { it.componentId }
+        println("layoutsFrom ids $ids")
         val filteredComponents = app.components.filter { component ->
             val hasId = component.id in ids
             val isLayoutType = component.type == Component.Type.column || component.type == Component.Type.row
             hasId && isLayoutType
         }
+        println("layoutsFrom filteredComponents ${filteredComponents.map { it.type }}")
+        println("layoutsFrom NonFilteredComponents ${app.components.map { it.type }}")
         return filteredComponents
             .mapNotNull { component ->
                 positions.find { it.componentId == component.id }?.let { position ->

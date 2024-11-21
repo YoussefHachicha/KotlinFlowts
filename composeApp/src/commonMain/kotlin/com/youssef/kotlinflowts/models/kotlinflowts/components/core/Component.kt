@@ -8,6 +8,7 @@ interface Component : Mappable {
     val identifier: String
     val type: Type
     val disabled: Boolean
+    val depth: Int
 
     enum class Type {
         text,

@@ -70,7 +70,7 @@ object service {
 //        }
 //
         screen("Contact Information")
-        text("Next of Kin")
+//        text("Next of Kin")
 //        text("Hello")
 //        text("Phone Number")
 //

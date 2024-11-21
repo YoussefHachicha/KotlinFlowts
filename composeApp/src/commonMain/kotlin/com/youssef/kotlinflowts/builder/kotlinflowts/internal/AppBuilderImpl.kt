@@ -25,6 +25,7 @@ class AppBuilderImpl(
     override var updateUi by mutableStateOf(0)
     private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
     override val components: StateFlow<List<Component>> = _components.asStateFlow()
+    override val depth: Int = 1
 
     //the file will contain the code source of our app
     private val file by lazy {
@@ -36,7 +37,7 @@ class AppBuilderImpl(
         ).also { app.files.add(it) }
     }
 
-    override var cursor: MutableScreen? by mutableStateOf(null)
+
 
     override fun name(value: String) {
         app.name = value
@@ -44,11 +45,11 @@ class AppBuilderImpl(
     }
 
     private fun cursor(): MutableScreen {
-        return cursor ?: screen("New Screen")
+        return app.cursor ?: screen("New Screen")
     }
 
     override fun updateCursor(screen: MutableScreen) {
-        cursor = screen
+        app.cursor = screen
     }
 
     override fun screen(name: String?): MutableScreen {
@@ -57,7 +58,7 @@ class AppBuilderImpl(
             name = name ?: "Screen ${file.screens.size + 1}",
             positions = mutableListOf()
         )
-        cursor = s
+        app.cursor = s
         file.screens.add(s)
         file.screenOrder.add(s.id)
         return s

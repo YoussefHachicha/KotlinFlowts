@@ -15,5 +15,4 @@ interface AppBuilder : LayoutBuilder {
 
     val updateUi: Int
 
-    val cursor: MutableScreen?
 }

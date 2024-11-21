@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.update
 class RowBuilderImpl(
     override val identity: IdentityGenerator,
     override val app: MutableApp,
+    override val depth: Int,
 ): RowBuilder {
     private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
     override val components: StateFlow<List<Component>> = _components
@@ -20,6 +21,7 @@ class RowBuilderImpl(
     override fun add(component: Component, position: ComponentPosition) {
         _components.update { it + component }
         app.components.add(component)
+//        app.cursor?.positions?.add(position)
         println("added row components: ${components.value.size}")
     }
 

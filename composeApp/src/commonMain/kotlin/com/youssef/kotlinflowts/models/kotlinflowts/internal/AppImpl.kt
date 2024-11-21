@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import com.youssef.kotlinflowts.builder.kotlinflowts.LayoutBuilder
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableFile
+import com.youssef.kotlinflowts.models.kotlinflowts.MutableScreen
 import com.youssef.kotlinflowts.models.kotlinflowts.components.AbstractMappable
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.toApp
@@ -34,6 +35,8 @@ internal class AppImpl(
     override var components: MutableList<Component> by mutableStateOf(JsonList(wrapped[App::components.name]) { it.toComponent() })
 
     override var builders: MutableMap<String, LayoutBuilder> = mutableMapOf()
+
+    override var cursor: MutableScreen? by mutableStateOf(null)
 
     override fun <R> get(key: String): R = wrapped[key] as R
 

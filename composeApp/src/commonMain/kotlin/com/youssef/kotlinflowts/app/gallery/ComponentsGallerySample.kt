@@ -24,10 +24,13 @@ fun  ComponentsGallerySample(
     val editorLayoutComponents by remember(
         editor,
         currentScreen,
+        editor.toApp().components,
         updateUi
     ) {
         mutableStateOf(editor.components.layoutsFrom(currentScreen))
     }
+
+    //mutableStateOf(editor.toApp().components)
 
     val componentsTypes = Component.Type.entries
     var expanded by remember { mutableStateOf(false) }
@@ -49,7 +52,6 @@ fun  ComponentsGallerySample(
     if (expanded)
         GallerySelector(
             layoutComponents = editorLayoutComponents,
-            expanded = expanded,
             builders = builders,
             onExpandChange = { expanded = it },
         ) { builder ->
