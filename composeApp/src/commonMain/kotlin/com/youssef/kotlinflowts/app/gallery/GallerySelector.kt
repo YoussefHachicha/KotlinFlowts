@@ -56,6 +56,7 @@ fun GallerySelector(
                             GalleryItem(
                                 text = "${layout.title} #${index + 1}",
                                 childLayouts = layouts.value,
+                                layoutId = layout.id,
                             ) {
                                 onExpandChange(false)
                                 add(builders[ it ?: layout.id])
@@ -69,6 +70,7 @@ fun GallerySelector(
                             GalleryItem(
                                 text = "${layout.title} #${index + 1}",
                                 childLayouts = layouts.value,
+                                layoutId = layout.id,
                             ) {
                                 onExpandChange(false)
                                 add(builders[ it ?: layout.id])

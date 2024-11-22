@@ -12,11 +12,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material.icons.outlined.ArrowDropUp
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,6 +42,7 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 @Composable
 fun GalleryItem(
     text: String,
+    layoutId: String = "",
     childLayouts: List<ComponentEditor> = emptyList(),
     image: String? = null,
     onClick: (layoutId: String?) -> Unit,
@@ -58,7 +64,7 @@ fun GalleryItem(
                 .clip(RoundedCornerShape(12.dp))
                 .clickable {
                     if (childLayouts.isEmpty()) {
-                        onClick(null)
+                        onClick(layoutId)
                     } else {
                         isExpanded = !isExpanded
                     }
@@ -77,17 +83,26 @@ fun GalleryItem(
                     )
                 }
             }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
-
-            }
             if (childLayouts.isNotEmpty()) {
-                Icon(
-                    imageVector = if (isExpanded) Icons.Outlined.ArrowDropUp else Icons.Outlined.ArrowDropDown,
-                    contentDescription = if (isExpanded) "Collapse" else "Expand",
-                    tint = Color.Gray
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Add,
+                        contentDescription = "Add",
+                        tint = Color.Gray,
+                        modifier = Modifier
+                            .clickable { onClick(layoutId) }
+                    )
+                    Icon(
+                        imageVector = if (isExpanded) Icons.Outlined.ArrowDropUp else Icons.Outlined.ArrowDropDown,
+                        contentDescription = if (isExpanded) "Collapse" else "Expand",
+                        tint = Color.Gray,
+                        modifier = Modifier
+                            .clickable { isExpanded = !isExpanded }
+                    )
+                }
             }
         }
 
@@ -111,10 +126,12 @@ fun GalleryItem(
                             GalleryItem(
                                 text = "${layout.title} #${index + 1}",
                                 childLayouts = layouts.value,
+                                layoutId = layout.id,
                             ) {
                                 onClick(layout.id)
                             }
                         }
+
                         is RowComponentEditor    -> {
                             val layouts = remember(layout.rowComponents.all) {
                                 mutableStateOf(layout.rowComponents.all.value.filter { it.isLayout() })
@@ -123,6 +140,7 @@ fun GalleryItem(
                             GalleryItem(
                                 text = "${layout.title} #${index + 1}",
                                 childLayouts = layouts.value,
+                                layoutId = layout.id,
                             ) {
                                 onClick(layout.id)
                             }
