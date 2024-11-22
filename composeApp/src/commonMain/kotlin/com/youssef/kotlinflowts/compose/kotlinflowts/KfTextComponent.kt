@@ -1,5 +1,7 @@
 package com.youssef.kotlinflowts.compose.kotlinflowts
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
@@ -12,17 +14,35 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
+import com.youssef.kotlinflowts.utils.clickableNoIndication
+import com.youssef.kotlinflowts.utils.thenIf
 
 @Composable
 internal fun KfTextComponent(
     editor: TextComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.comp.id).fillMaxWidth()) {
+    isSelected: Boolean,
+    select: (ComponentEditor) -> Unit,
+) = Column(modifier = Modifier
+    .testTag(editor.comp.id)
+    .fillMaxWidth()
+    .clickableNoIndication {
+        select(editor)
+    }
+    .thenIf(isSelected){
+        border(
+            width = 1.dp,
+            color = Color.Blue
+        )
+    }
+) {
     KfTextComponentImpl(editor, mode, onSignal)
 }
 

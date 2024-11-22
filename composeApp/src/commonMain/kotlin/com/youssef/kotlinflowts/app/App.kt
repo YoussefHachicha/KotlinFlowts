@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.youssef.kotlinflowts.app.editor.EditorSample
 import com.youssef.kotlinflowts.app.gallery.ComponentsGallerySample
 import com.youssef.kotlinflowts.app.view.ViewSample
 import com.youssef.kotlinflowts.compose.kotlinflowts.rememberEditor
@@ -43,7 +44,10 @@ fun App() {
                 }
             }
             Panel("Editor"){
-
+                EditorSample(
+                    editor = editor,
+                    currentScreen = appBuilder.app.cursor,
+                )
             }
         }
     }

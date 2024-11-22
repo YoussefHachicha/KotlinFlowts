@@ -34,4 +34,6 @@ interface AppEditor : Mappable {
     fun validate(): Validation
 
     fun toApp() : App
+
+    var selectedEditorComponent: ComponentEditor?
 }

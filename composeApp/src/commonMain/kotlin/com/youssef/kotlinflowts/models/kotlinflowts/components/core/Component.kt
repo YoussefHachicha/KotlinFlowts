@@ -4,7 +4,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.Mappable
 
 interface Component : Mappable {
     val id: String
-    val title: String
+    var title: String
     val identifier: String
     val type: Type
     val disabled: Boolean

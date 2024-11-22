@@ -92,8 +92,11 @@ fun App(
                 is TextComponentEditor -> KfTextComponent(
                     editor = it,
                     mode = mode,
+                    isSelected = editor.selectedEditorComponent == it,
                     onSignal = it::emit,
-                )
+                ){
+                    editor.selectedEditorComponent = it
+                }
 
                 is NumberComponentEditor -> KfNumberComponent(
                     editor = it,

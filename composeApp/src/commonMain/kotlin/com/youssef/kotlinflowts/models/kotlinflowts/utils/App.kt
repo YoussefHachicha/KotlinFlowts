@@ -16,7 +16,7 @@ interface App : Mappable {
     val identifier: String
     val name: String
     val files: List<File>
-    val components: List<Component>
+    val components: MutableList<Component>
     val builders: Map<ComponentId, LayoutBuilder>
     val cursor: Screen?
     fun <R> get(key: String): R

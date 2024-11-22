@@ -1,8 +1,12 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.internal
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.youssef.kotlinflowts.editor.kotlinflowts.Valid
 import com.youssef.kotlinflowts.editor.kotlinflowts.Validation
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
 import com.youssef.kotlinflowts.models.kotlinflowts.JoyStage
@@ -68,6 +72,8 @@ internal class AppEditorImpl(
     override fun toMap() = app.toMap()
 
     override fun toApp(): App = app
+
+    override var selectedEditorComponent: ComponentEditor? by mutableStateOf(null)
 
     override fun toJsonObject() = app.toJsonObject()
 
