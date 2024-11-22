@@ -7,9 +7,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.app.gallery.ComponentsGallerySample
 import com.youssef.kotlinflowts.app.view.ViewSample
-import com.youssef.kotlinflowts.app.view.service
 import com.youssef.kotlinflowts.compose.kotlinflowts.rememberEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.toMutableScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -18,10 +18,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     MaterialTheme {
-        val appBuilder = remember { service.getAppBuilder() }
+        val appBuilder = remember { Service.getAppBuilder() }
         val editor = rememberEditor(appBuilder.app)
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.fillMaxSize()
         ) {
             Panel("Gallery"){

@@ -26,7 +26,7 @@ fun RowScope.Panel(
             .border(
                 width = 1.dp,
                 color = Color.Gray,
-                shape = RoundedCornerShape(20.dp)
+                shape = RoundedCornerShape(12.dp)
             )
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
