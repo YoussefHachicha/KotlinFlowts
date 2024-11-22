@@ -1,6 +1,5 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts.row
 
-import com.youssef.kotlinflowts.builder.kotlinflowts.LayoutBuilder
 import com.youssef.kotlinflowts.models.kotlinflowts.ComponentPosition
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
@@ -21,11 +20,5 @@ class RowBuilderImpl(
     override fun add(component: Component, position: ComponentPosition) {
         _components.update { it + component }
         app.components.add(component)
-//        app.cursor?.positions?.add(position)
-        println("added row components: ${components.value.size}")
-    }
-
-    override fun addBuilder(wrapped: Pair<String, LayoutBuilder>) {
-        app.builders[wrapped.first] = wrapped.second
     }
 }

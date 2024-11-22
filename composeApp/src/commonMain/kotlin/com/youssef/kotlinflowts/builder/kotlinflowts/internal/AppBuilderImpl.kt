@@ -71,8 +71,4 @@ class AppBuilderImpl(
         updateUi++
         println("adding text app.components ${app.components.size}")
     }
-
-    override fun addBuilder(wrapped: Pair<String, LayoutBuilder>) {
-        app.builders[wrapped.first] = wrapped.second
-    }
 }

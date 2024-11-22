@@ -10,4 +10,7 @@ interface ComponentEditor {
     val type: Component.Type
 
     val comp: Component
+
+    fun isLayout(): Boolean = type == Component.Type.column || type == Component.Type.row
 }
+

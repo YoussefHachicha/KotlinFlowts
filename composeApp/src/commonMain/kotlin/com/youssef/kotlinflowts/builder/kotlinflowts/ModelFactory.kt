@@ -275,7 +275,6 @@ internal fun columnComponent(
     Component::identifier.name to identifier,
     Component::depth.name to depth,
     Component::type.name to Component.Type.column.name,
-    Component::depth.name to Component.Type.column.name,
     ValueBasedComponent<*>::value.name to components.map { it.toMap() }.toMutableList()
 ).toColumnComponent()
 

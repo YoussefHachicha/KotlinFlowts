@@ -68,4 +68,5 @@ interface LayoutCollection {
     fun find(key: String): ComponentEditor?
 
     val all: StateFlow<List<ComponentEditor>>
+
 }

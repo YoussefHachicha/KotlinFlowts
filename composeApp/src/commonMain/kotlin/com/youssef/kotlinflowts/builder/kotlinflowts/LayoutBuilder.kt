@@ -35,7 +35,9 @@ interface LayoutBuilder {
 
     fun add(component: Component, position: ComponentPosition)
 
-    fun addBuilder(wrapped: Pair<String, LayoutBuilder>)
+    fun addBuilder(wrapped: Pair<String, LayoutBuilder>){
+        app.builders[wrapped.first] = wrapped.second
+    }
 
     private fun <C : Component> buildComponent(id: String?, builder: (uid: String) -> C) {
         add(builder(id ?: identity.generate()))

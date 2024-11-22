@@ -24,7 +24,4 @@ class ColumnBuilderImpl(
         app.components
         println("added column components: ${_components.value.size}")
     }
-    override fun addBuilder(wrapped: Pair<String, LayoutBuilder>) {
-        app.builders[wrapped.first] = wrapped.second
-    }
 }

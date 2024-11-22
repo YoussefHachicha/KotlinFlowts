@@ -36,6 +36,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.TextComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 
 internal class CompCollectionImpl(
     override val app: MutableApp,
@@ -50,6 +51,7 @@ internal class CompCollectionImpl(
         val positions = screen.positions
         val ids = positions.map { it.componentId }
         return app.components.filter {
+            it.depth == 1 &&
             it.id in ids
         }.sortedBy { df ->
             positions.first { it.componentId == df.id }.y
@@ -57,19 +59,14 @@ internal class CompCollectionImpl(
     }
 
     override fun layoutsFrom(screen: Screen?): List<ComponentEditor> {
-        println("layoutsFrom screen ${screen?.name}")
         if (screen == null) return emptyList()
         val positions = screen.positions
-        println("layoutsFrom positions ${positions.map { it.componentId }}")
         val ids = positions.map { it.componentId }
-        println("layoutsFrom ids $ids")
         val filteredComponents = app.components.filter { component ->
             val hasId = component.id in ids
             val isLayoutType = component.type == Component.Type.column || component.type == Component.Type.row
             hasId && isLayoutType
         }
-        println("layoutsFrom filteredComponents ${filteredComponents.map { it.type }}")
-        println("layoutsFrom NonFilteredComponents ${app.components.map { it.type }}")
         return filteredComponents
             .mapNotNull { component ->
                 positions.find { it.componentId == component.id }?.let { position ->
@@ -175,4 +172,6 @@ internal class CompCollectionImpl(
         buildEditor(key, Component.Type.row) { component: RowComponent ->
             RowComponentEditorImpl(app, component, identity, onChange)
         }
+
+
 }

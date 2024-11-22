@@ -3,6 +3,7 @@ package com.youssef.kotlinflowts.app.gallery
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -14,23 +15,21 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.ComponentId
 
 @Composable
-fun  ComponentsGallerySample(
+fun ComponentsGallerySample(
     editor: AppEditor,
     currentScreen: Screen?,
     updateUi: Int,
     builders: MutableMap<ComponentId, LayoutBuilder>,
     add: (Component.Type) -> Unit
 ) {
+
     val editorLayoutComponents by remember(
         editor,
         currentScreen,
-        editor.toApp().components,
-        updateUi
+        updateUi,
     ) {
         mutableStateOf(editor.components.layoutsFrom(currentScreen))
     }
-
-    //mutableStateOf(editor.toApp().components)
 
     val componentsTypes = Component.Type.entries
     var expanded by remember { mutableStateOf(false) }
