@@ -22,23 +22,26 @@ import kotlinx.serialization.json.Json
 
 @Composable
 internal fun KfRichTextComponent(
+    modifier: Modifier = Modifier,
     component: RichTextComponent,
-) = Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
+) = Column(modifier) {
     KfRichTextComponentImpl(component)
 }
 
 @Composable
 internal fun ColumnScope.KfRichTextComponent(
+    modifier: Modifier = Modifier,
     component: RichTextComponent,
-) = Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
+) = Column(modifier) {
     KfRichTextComponentImpl(component)
 }
 
 
 @Composable
 internal fun RowScope.KfRichTextComponent(
+    modifier: Modifier = Modifier,
     component: RichTextComponent,
-) = Column(modifier = Modifier.testTag(component.id).weight(1f)) {
+) = Column(modifier.weight(1f)) {
     KfRichTextComponentImpl(component)
 }
 

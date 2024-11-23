@@ -72,6 +72,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun KfTableComponent(
+    modifier: Modifier = Modifier,
     editor: TableComponentEditor,
     screen: Screen,
     previewRows: Int,
@@ -114,7 +115,7 @@ internal fun KfTableComponent(
             onDismissRequest = { view = UIView.small },
             properties = DialogProperties(usePlatformDefaultWidth = false)
         ) {
-            Surface(modifier = Modifier.fillMaxSize(0.95f)) {
+            Surface(modifier = modifier.fillMaxSize(0.95f)) {
                 Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
                     Row(
                         modifier = Modifier.fillMaxWidth().height(60.dp),

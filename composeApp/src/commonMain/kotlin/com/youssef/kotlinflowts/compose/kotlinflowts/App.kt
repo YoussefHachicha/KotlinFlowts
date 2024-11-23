@@ -32,6 +32,7 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
+import com.youssef.kotlinflowts.utils.hoverSelect
 
 @Composable
 fun App(
@@ -60,7 +61,7 @@ fun App(
         mutableStateOf(screens.find { it.id == screenId } ?: screens.first())
     }
 
-    LaunchedEffect(currentScreen){
+    LaunchedEffect(currentScreen) {
         onChangeScreen(currentScreen)
         editor.selectedEditorComponent = null
     }
@@ -69,13 +70,14 @@ fun App(
         editor,
         currentScreen,
         updateUi
-    ) { mutableStateOf(editor.components.from(currentScreen))  }
+    ) { mutableStateOf(editor.components.from(currentScreen)) }
 
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus -> onFocus?.invoke(ComponentEvent(comp, currentScreen))
-        is Signal.Blur -> onBlur?.invoke(ComponentEvent(comp, currentScreen))
+        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(comp, currentScreen))
+        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(comp, currentScreen))
         is Signal.Change -> onComponentChange?.invoke(ComponentEvent(comp, currentScreen))
     }
+
 
     LazyColumn(modifier = modifier) {
         if (navigation) item {
@@ -89,45 +91,64 @@ fun App(
             Spacer(modifier = Modifier.height(12.dp))
         }
         items(editorComponents, key = { it.id }) { it ->
-            when (it) {
-                is TextComponentEditor -> KfTextComponent(
-                    editor = it,
-                    mode = mode,
-                    isSelected = editor.selectedEditorComponent?.id == it.id,
-                    onSignal = it::emit,
-                ){
-                    editor.selectedEditorComponent = it
-                }
+            val isSelected by remember(editor.selectedEditorComponent?.id) { mutableStateOf(editor.selectedEditorComponent?.id == it.id) }
 
-                is NumberComponentEditor -> KfNumberComponent(
+            when (it) {
+                is TextComponentEditor        -> KfTextComponent(
                     editor = it,
                     mode = mode,
-                    onSignal = it::emit
+                    onSignal = it::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
                 )
 
-                is DateComponentEditor -> KfDateTimeComponent(
+                is NumberComponentEditor      -> KfNumberComponent(
+                    editor = it,
+                    mode = mode,
+                    onSignal = it::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
+                )
+
+                is DateComponentEditor        -> KfDateTimeComponent(
                     editor = it,
                     mode = mode,
                     format = currentScreen.positions.firstOrNull { it.componentId == it.id }?.format
                         ?: it.comp.format,
-                    onSignal = it::emit
+                    onSignal = it::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
                 )
 
                 is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = it,
                     mode = mode,
                     multiple = true,
-                    onSignal = it::emit
+                    onSignal = it::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
                 )
 
-                is DropdownComponentEditor -> KfDropComponent(
+                is DropdownComponentEditor    -> KfDropComponent(
                     editor = it,
                     mode = mode,
                     multiple = false,
-                    onSignal = it::emit
+                    onSignal = it::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
                 )
 
-                is ImageComponentEditor -> KfImageComponent(
+                is ImageComponentEditor       -> KfImageComponent(
                     editor = it,
                     mode = mode,
                     onUpload = onUpload?.let { call ->
@@ -140,43 +161,73 @@ fun App(
                             )
                         }
                     },
-                    onSignal = it::emit
+                    onSignal = it::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
                 )
 
-                is SignatureComponentEditor -> KfSignatureComponent(
+                is SignatureComponentEditor   -> KfSignatureComponent(
                     editor = it,
                     mode = mode,
-                    onSignal = it::emit
+                    onSignal = it::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
                 )
 
-                is TableComponentEditor -> KfTableComponent(
+                is TableComponentEditor       -> KfTableComponent(
                     editor = it,
                     mode = mode,
                     screen = currentScreen,
                     onUpload = onUpload,
                     previewRows = 5,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
                 )
 
-                is TextAreaComponentEditor -> KfTextArea(
+                is TextAreaComponentEditor    -> KfTextArea(
                     editor = it,
                     mode = mode,
-                    onSignal = it::emit
+                    onSignal = it::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
                 )
 
-                is ChartComponentEditor -> KfChartComponent(
+                is ChartComponentEditor       -> KfChartComponent(
                     editor = it,
                     mode = mode,
-                    onSignal = it::emit
+                    onSignal = it::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
                 )
 
-                is BlockComponentEditor -> KfBlockComponent(
+                is BlockComponentEditor       -> KfBlockComponent(
                     component = it.comp,
-                    position = currentScreen.positions.find { it.componentId == it.id }
+                    position = currentScreen.positions.find { it.componentId == it.id },
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
                 )
 
-                is RichTextComponentEditor -> KfRichTextComponent(it.comp)
+                is RichTextComponentEditor    -> KfRichTextComponent(
+                    component = it.comp,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
+                )
 
-                is ColumnComponentEditor -> KfColumnComponent(
+                is ColumnComponentEditor      -> KfColumnComponent(
                     editor = it,
                     screen = currentScreen,
                     selectedComponentId = editor.selectedEditorComponent?.id ?: "",
@@ -185,11 +236,11 @@ fun App(
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
                     showUnsupportedComponents = showUnsupportedComponents,
-                ){
+                ) {
                     editor.selectedEditorComponent = it
                 }
 
-                is RowComponentEditor -> KfRowComponent(
+                is RowComponentEditor         -> KfRowComponent(
                     editor = it,
                     screen = currentScreen,
                     selectedComponentId = editor.selectedEditorComponent?.id ?: "",
@@ -198,11 +249,11 @@ fun App(
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
                     showUnsupportedComponents = showUnsupportedComponents,
-                ){
+                ) {
                     editor.selectedEditorComponent = it
                 }
 
-                else -> if (showUnsupportedComponents) {
+                else                          -> if (showUnsupportedComponents) {
                     Text("Unsupported Component of type = ${it.type}")
                 }
             }

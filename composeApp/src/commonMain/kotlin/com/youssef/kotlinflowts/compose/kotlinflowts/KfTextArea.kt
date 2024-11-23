@@ -22,28 +22,31 @@ import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 
 @Composable
 internal fun KfTextArea(
+    modifier: Modifier = Modifier,
     editor: TextAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfTextAreaImpl(editor, mode, onSignal)
 }
 
 @Composable
 internal fun ColumnScope.KfTextArea(
+    modifier: Modifier = Modifier,
     editor: TextAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfTextAreaImpl(editor, mode, onSignal)
 }
 
 @Composable
 internal fun RowScope.KfTextArea(
+    modifier: Modifier = Modifier,
     editor: TextAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
-) = Column(modifier = Modifier.weight(1f)) {
+) = Column(modifier.weight(1f)) {
     KfTextAreaImpl(editor, mode, onSignal)
 }
 

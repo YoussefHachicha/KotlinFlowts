@@ -76,41 +76,34 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 
 @Composable
 internal fun KfSignatureComponent(
+    modifier: Modifier = Modifier,
     editor: SignatureComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) {
-    val component = remember(editor) { editor.comp }
-
-    Column(modifier = Modifier.fillMaxWidth().testTag(component.id)) {
-        KfSignatureComponentImpl(editor, mode, onSignal)
-    }
+) = Column(modifier) {
+    KfSignatureComponentImpl(editor, mode, onSignal)
 }
+
 
 @Composable
 internal fun ColumnScope.KfSignatureComponent(
+    modifier: Modifier = Modifier,
     editor: SignatureComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) {
-    val component = remember(editor) { editor.comp }
-
-    Column(modifier = Modifier.fillMaxWidth().testTag(component.id)) {
-        KfSignatureComponentImpl(editor, mode, onSignal)
-    }
+) = Column(modifier) {
+    KfSignatureComponentImpl(editor, mode, onSignal)
 }
+
 
 @Composable
 internal fun RowScope.KfSignatureComponent(
+    modifier: Modifier = Modifier,
     editor: SignatureComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) {
-    val component = remember(editor) { editor.comp }
-
-    Column(modifier = Modifier.weight(1f).testTag(component.id)) {
-        KfSignatureComponentImpl(editor, mode, onSignal)
-    }
+) = Column(modifier.weight(1f)) {
+    KfSignatureComponentImpl(editor, mode, onSignal)
 }
 
 @Composable
@@ -124,7 +117,7 @@ private fun KfSignatureComponentImpl(
     var state by remember(component) {
         val s = when (val value = component.value) {
             null -> State.Empty
-            "" -> State.Empty
+            ""   -> State.Empty
             else -> State.Preview(value)
         }
         mutableStateOf(s)
@@ -147,7 +140,7 @@ private fun KfSignatureComponentImpl(
             }
     ) {
         when (val s = state) {
-            is State.Preview -> Preview(
+            is State.Preview   -> Preview(
                 url = s.url,
                 onClicked = {
                     if (component.disabled || mode == Mode.readonly) return@Preview
@@ -171,8 +164,8 @@ private fun KfSignatureComponentImpl(
                 }
             )
 
-            is State.Empty -> {}
-            else -> {}
+            is State.Empty     -> {}
+            else               -> {}
         }
     }
 }
@@ -183,15 +176,15 @@ private sealed interface State {
     data class Capturing(val url: String?) : State
 
     fun toCapturing() = when (this) {
-        is Empty -> Capturing(null)
-        is Preview -> Capturing(url)
+        is Empty     -> Capturing(null)
+        is Preview   -> Capturing(url)
         is Capturing -> this
     }
 
     fun toContentDescription() = when (this) {
-        is Empty -> "empty"
+        is Empty     -> "empty"
         is Capturing -> "updating url from $url"
-        is Preview -> "previewing $url"
+        is Preview   -> "previewing $url"
     }
 }
 
@@ -222,9 +215,16 @@ private fun Capture(
     var size by remember { mutableStateOf<Size?>(null) }
 
     val color = LocalContentColor.current
-    val style = LocalTextStyle.current.copy(fontSize = 60.sp, fontFamily = FontFamily.Cursive, color = color)
+    val style = LocalTextStyle.current.copy(
+        fontSize = 60.sp,
+        fontFamily = FontFamily.Cursive,
+        color = color
+    )
 
-    Dialog(onDismissRequest = onCanceled, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+    Dialog(
+        onDismissRequest = onCanceled,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
         Surface(
             modifier = Modifier
                 .testTag("${component.id}-capture")
@@ -238,9 +238,15 @@ private fun Capture(
             Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
                 val v = value
 
-                Row(modifier = Modifier.fillMaxWidth().height(60.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().height(60.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Row(horizontalArrangement = Arrangement.Start) { KfTitle(component) }
-                    Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        horizontalArrangement = Arrangement.End,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         val redo = remember { mutableStateListOf<Path>() }
                         var deleting by remember { mutableStateOf(false) }
 
@@ -299,7 +305,9 @@ private fun Capture(
                 ) {
                     when {
                         v != null && !drawing && paths.isEmpty() && text.isEmpty() -> Image(v, v)
-                        else -> Canvas(modifier = Modifier.fillMaxWidth().height(200.dp)) {
+                        else                                                       -> Canvas(
+                            modifier = Modifier.fillMaxWidth().height(200.dp)
+                        ) {
                             if (size == null) {
                                 size = this.size
                             }
@@ -312,7 +320,8 @@ private fun Capture(
                     value = text,
                     onValueChange = { text = it },
                     placeholder = { Text("Type signature") },
-                    modifier = Modifier.testTag("${component.id}-capture-text").fillMaxWidth().padding(top = 12.dp)
+                    modifier = Modifier.testTag("${component.id}-capture-text").fillMaxWidth()
+                        .padding(top = 12.dp)
                 )
 
                 Text(
@@ -321,12 +330,19 @@ private fun Capture(
                         "The parties agree that the electronic signatures appearing on this agreement are the same",
                         "as handwritten signatures for the purposes of validity, enforceability, and admissibility."
                     ).joinToString(" "),
-                    style = LocalTextStyle.current.copy(textAlign = TextAlign.Justify, fontSize = 12.sp, fontWeight = FontWeight(300)),
+                    style = LocalTextStyle.current.copy(
+                        textAlign = TextAlign.Justify,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight(300)
+                    ),
                     modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
                 )
 
                 val density = LocalDensity.current
-                Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth().padding(top = 12.dp)) {
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
+                ) {
                     OutlinedButton(
                         modifier = Modifier.testTag("${component.id}-capture-cancel"),
                         onClick = onCanceled,
@@ -428,7 +444,12 @@ private fun DrawScope.drawSignature(
         val pos = Offset(size.width - dimension.width, size.height - dimension.height) / 2f
         drawText(textMeasurer = measurer, topLeft = pos, text = text, style = style)
     } else {
-        for (p in paths + points.toPath()) drawPath(p, color = color, alpha = 0.5f, style = Stroke(width = 4f))
+        for (p in paths + points.toPath()) drawPath(
+            p,
+            color = color,
+            alpha = 0.5f,
+            style = Stroke(width = 4f)
+        )
     }
 }
 

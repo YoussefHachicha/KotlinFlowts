@@ -69,31 +69,34 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.Attachment
 
 @Composable
 internal fun KfImageComponent(
+    modifier: Modifier = Modifier,
     editor: FileBasedComponentEditor,
     mode: Mode,
     onUpload: (suspend () -> List<String>)? = null,
     onSignal: (Signal<List<Attachment>>) -> Unit,
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfImageComponentImpl(editor, mode, onUpload, onSignal)
 }
 
 @Composable
 internal fun ColumnScope.KfImageComponent(
+    modifier: Modifier = Modifier,
     editor: FileBasedComponentEditor,
     mode: Mode,
     onUpload: (suspend () -> List<String>)? = null,
     onSignal: (Signal<List<Attachment>>) -> Unit,
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfImageComponentImpl(editor, mode, onUpload, onSignal)
 }
 
 @Composable
 internal fun RowScope.KfImageComponent(
+    modifier: Modifier = Modifier,
     editor: FileBasedComponentEditor,
     mode: Mode,
     onUpload: (suspend () -> List<String>)? = null,
     onSignal: (Signal<List<Attachment>>) -> Unit,
-) = Column(modifier = Modifier.weight(1f)) {
+) = Column(modifier.weight(1f)) {
     KfImageComponentImpl(editor, mode, onUpload, onSignal)
 }
 

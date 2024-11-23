@@ -21,25 +21,28 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.BlockComponent
 
 @Composable
 internal fun KfBlockComponent(
+    modifier: Modifier = Modifier,
     component: BlockComponent,
     position: ComponentPosition?
-) = Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
+) = Column(modifier) {
     KfBlockComponentImpl(component, position)
 }
 
 @Composable
 internal fun ColumnScope.KfBlockComponent(
+    modifier: Modifier = Modifier,
     component: BlockComponent,
     position: ComponentPosition?
-) = Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
+) = Column(modifier) {
     KfBlockComponentImpl(component, position)
 }
 
 @Composable
 internal fun RowScope.KfBlockComponent(
+    modifier: Modifier = Modifier,
     component: BlockComponent,
     position: ComponentPosition?
-) = Column(modifier = Modifier.testTag(component.id).weight(1f)) {
+) = Column(modifier.weight(1f)) {
     KfBlockComponentImpl(component, position)
 }
 

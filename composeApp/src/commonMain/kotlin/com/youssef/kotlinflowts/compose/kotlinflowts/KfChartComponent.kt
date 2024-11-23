@@ -50,28 +50,31 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.ChartComponent
 
 @Composable
 internal fun KfChartComponent(
+    modifier: Modifier = Modifier,
     editor: ChartComponentEditor,
     mode: Mode,
     onSignal: (Signal<Any?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.comp.id).fillMaxWidth()) {
+) = Column(modifier) {
     KfChartComponentImpl(editor, mode, onSignal)
 }
 
 @Composable
 internal fun ColumnScope.KfChartComponent(
+    modifier: Modifier = Modifier,
     editor: ChartComponentEditor,
     mode: Mode,
     onSignal: (Signal<Any?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.comp.id).fillMaxWidth()) {
+) = Column(modifier) {
     KfChartComponentImpl(editor, mode, onSignal)
 }
 
 @Composable
 internal fun RowScope.KfChartComponent(
+    modifier: Modifier = Modifier,
     editor: ChartComponentEditor,
     mode: Mode,
     onSignal: (Signal<Any?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.comp.id).weight(1f)) {
+) = Column(modifier.weight(1f)) {
     KfChartComponentImpl(editor, mode, onSignal)
 }
 

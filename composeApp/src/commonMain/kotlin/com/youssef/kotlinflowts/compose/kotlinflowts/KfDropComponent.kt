@@ -33,31 +33,34 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.Option2
 
 @Composable
 internal fun KfDropComponent(
+    modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfDropComponentImpl(editor, mode, multiple, onSignal)
 }
 
 @Composable
 internal fun ColumnScope.KfDropComponent(
+    modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfDropComponentImpl(editor, mode, multiple, onSignal)
 }
 
 @Composable
 internal fun RowScope.KfDropComponent(
+    modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(Modifier.weight(1f)) {
+) = Column(modifier.weight(1f)) {
     KfDropComponentImpl(editor, mode, multiple, onSignal)
 }
 

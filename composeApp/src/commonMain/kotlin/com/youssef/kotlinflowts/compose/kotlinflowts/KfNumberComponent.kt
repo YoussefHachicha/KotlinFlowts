@@ -20,29 +20,32 @@ import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 
 @Composable
 internal fun KfNumberComponent(
+    modifier: Modifier = Modifier,
     editor: NumberComponentEditor,
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfNumberComponentImpl(editor, mode, onSignal)
 }
 
 @Composable
 internal fun ColumnScope.KfNumberComponent(
+    modifier: Modifier = Modifier,
     editor: NumberComponentEditor,
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfNumberComponentImpl(editor, mode, onSignal)
 }
 
 
 @Composable
 internal fun RowScope.KfNumberComponent(
+    modifier: Modifier = Modifier,
     editor: NumberComponentEditor,
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
-) = Column(modifier = Modifier.weight(1f)) {
+) = Column(modifier.weight(1f)) {
     KfNumberComponentImpl(editor, mode, onSignal)
 }
 

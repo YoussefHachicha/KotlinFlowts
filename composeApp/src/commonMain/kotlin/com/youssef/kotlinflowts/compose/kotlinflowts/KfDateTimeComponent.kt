@@ -40,31 +40,34 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun KfDateTimeComponent(
+    modifier: Modifier = Modifier,
     editor: DateComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfDateTimeComponentImpl(editor, format, mode, onSignal)
 }
 
 @Composable
 internal fun ColumnScope.KfDateTimeComponent(
+    modifier: Modifier = Modifier,
     editor: DateComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfDateTimeComponentImpl(editor, format, mode, onSignal)
 }
 
 @Composable
 internal fun RowScope.KfDateTimeComponent(
+    modifier: Modifier = Modifier,
     editor: DateComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier.weight(1f)) {
     KfDateTimeComponentImpl(editor, format, mode, onSignal)
 }
 

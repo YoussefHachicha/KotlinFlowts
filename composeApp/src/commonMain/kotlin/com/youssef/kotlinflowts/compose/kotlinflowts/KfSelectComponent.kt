@@ -32,31 +32,34 @@ import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 
 @Composable
 internal fun KfSelectComponent(
+    modifier: Modifier = Modifier,
     editor: MultiSelectComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<List<String>>) -> Unit
-) = Column(Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfSelectComponentImpl(editor, mode, multiple, onSignal)
 }
 
 @Composable
 internal fun ColumnScope.KfSelectComponent(
+    modifier: Modifier = Modifier,
     editor: MultiSelectComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<List<String>>) -> Unit
-) = Column(Modifier.fillMaxWidth()) {
+) = Column(modifier) {
     KfSelectComponentImpl(editor, mode, multiple, onSignal)
 }
 
 @Composable
 internal fun RowScope.KfSelectComponent(
+    modifier: Modifier = Modifier,
     editor: MultiSelectComponentEditor,
     mode: Mode,
     multiple: Boolean,
     onSignal: (Signal<List<String>>) -> Unit
-) = Column(Modifier.weight(1f)) {
+) = Column(modifier.weight(1f)) {
     KfSelectComponentImpl(editor, mode, multiple, onSignal)
 }
 

@@ -21,58 +21,32 @@ import com.youssef.kotlinflowts.utils.hoverSelect
 
 @Composable
 internal fun KfTextComponent(
+    modifier: Modifier = Modifier,
     editor: TextComponentEditor,
     mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-    isSelected: Boolean,
-    select: (ComponentEditor) -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .hoverSelect(
-                isSelected = isSelected,
-                onSelect = { select(editor) }
-            )
-            .testTag(editor.comp.id)
-    ) {
-        KfTextComponentImpl(editor, mode, onSignal)
-    }
+) = Column(modifier = modifier) {
+    KfTextComponentImpl(editor, mode, onSignal)
 }
+
 
 @Composable
 internal fun ColumnScope.KfTextComponent(
+    modifier: Modifier = Modifier,
     editor: TextComponentEditor,
     mode: Mode,
-    isSelected: Boolean,
     onSignal: (Signal<String?>) -> Unit,
-    select: (ComponentEditor) -> Unit,
-) = Column(
-    modifier = Modifier
-        .hoverSelect(
-            isSelected = isSelected,
-            onSelect = { select(editor) }
-        )
-        .testTag(editor.comp.id)
-) {
+) = Column(modifier) {
     KfTextComponentImpl(editor, mode, onSignal)
 }
 
 @Composable
 internal fun RowScope.KfTextComponent(
+    modifier: Modifier = Modifier,
     editor: TextComponentEditor,
     mode: Mode,
-    isSelected: Boolean,
     onSignal: (Signal<String?>) -> Unit,
-    select: (ComponentEditor) -> Unit,
-) = Column(
-    modifier = Modifier
-        .hoverSelect(
-            isSelected = isSelected,
-            onSelect = { select(editor) }
-        )
-        .weight(1f)
-        .testTag(editor.comp.id)
-) {
+) = Column(modifier.weight(1f)) {
     KfTextComponentImpl(editor, mode, onSignal)
 }
 

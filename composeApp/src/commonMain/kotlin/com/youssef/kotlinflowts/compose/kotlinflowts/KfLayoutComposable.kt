@@ -4,7 +4,11 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.ColumnComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.BlockComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ChartComponentEditor
@@ -24,6 +28,7 @@ import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
+import com.youssef.kotlinflowts.utils.hoverSelect
 
 @Composable
 internal fun RowScope.KfLayoutComposable(
@@ -44,54 +49,82 @@ internal fun RowScope.KfLayoutComposable(
         is Signal.Change -> onComponentChange?.invoke(ComponentEvent(component, screen))
     }
     componentEditors.forEach { componentEditor ->
+        val isSelected by remember(selectedComponentId) { mutableStateOf(selectedComponentId == componentEditor.id) }
+
         key(componentEditor.id) {  // Use key for stable identity
             when (componentEditor) {
                 is TextComponentEditor        -> KfTextComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    isSelected = selectedComponentId == componentEditor.id,
                     onSignal = componentEditor::emit,
-                    select = select,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is NumberComponentEditor      -> KfNumberComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is DateComponentEditor        -> KfDateTimeComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     format = componentEditor.comp.format,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = true,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is DropdownComponentEditor    -> KfDropComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = false,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is ImageComponentEditor       -> KfImageComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onUpload = null,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is SignatureComponentEditor   -> KfSignatureComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is TableComponentEditor       -> KfTableComponent(
@@ -99,28 +132,48 @@ internal fun RowScope.KfLayoutComposable(
                     screen = screen,
                     previewRows = 5,
                     mode = Mode.fill,
-                    onUpload = null
+                    onUpload = null,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is TextAreaComponentEditor    -> KfTextArea(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is ChartComponentEditor       -> KfChartComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is BlockComponentEditor       -> KfBlockComponent(
                     component = componentEditor.comp,
-                    position = null
+                    position = null,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is RichTextComponentEditor    -> KfRichTextComponent(
-                    componentEditor.comp
+                    component = componentEditor.comp,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is ColumnComponentEditor      -> KfColumnComponent(
@@ -174,54 +227,82 @@ internal fun ColumnScope.KfLayoutComposable(
         is Signal.Change -> onComponentChange?.invoke(ComponentEvent(component, screen))
     }
     componentEditors.forEach { componentEditor ->
+        val isSelected by remember(selectedComponentId) { mutableStateOf(selectedComponentId == componentEditor.id) }
+
         key(componentEditor.id) {  // Use key for stable identity
             when (componentEditor) {
                 is TextComponentEditor        -> KfTextComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    isSelected = selectedComponentId == componentEditor.id,
                     onSignal = componentEditor::emit,
-                    select = select,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is NumberComponentEditor      -> KfNumberComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is DateComponentEditor        -> KfDateTimeComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     format = componentEditor.comp.format,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = true,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is DropdownComponentEditor    -> KfDropComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = false,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is ImageComponentEditor       -> KfImageComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onUpload = null,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is SignatureComponentEditor   -> KfSignatureComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is TableComponentEditor       -> KfTableComponent(
@@ -229,28 +310,48 @@ internal fun ColumnScope.KfLayoutComposable(
                     screen = screen,
                     previewRows = 5,
                     mode = Mode.fill,
-                    onUpload = null
+                    onUpload = null,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is TextAreaComponentEditor    -> KfTextArea(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is ChartComponentEditor       -> KfChartComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    onSignal = componentEditor::emit
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is BlockComponentEditor       -> KfBlockComponent(
                     component = componentEditor.comp,
-                    position = null
+                    position = null,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is RichTextComponentEditor    -> KfRichTextComponent(
-                    componentEditor.comp
+                    component = componentEditor.comp,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
                 )
 
                 is ColumnComponentEditor      -> KfColumnComponent(
