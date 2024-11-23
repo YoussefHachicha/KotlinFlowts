@@ -1,7 +1,5 @@
 package com.youssef.kotlinflowts.compose.kotlinflowts
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
@@ -14,14 +12,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
-import com.youssef.kotlinflowts.utils.clickableNoIndication
-import com.youssef.kotlinflowts.utils.thenIf
+import com.youssef.kotlinflowts.utils.hoverSelect
 
 @Composable
 internal fun KfTextComponent(
@@ -30,28 +26,34 @@ internal fun KfTextComponent(
     onSignal: (Signal<String?>) -> Unit,
     isSelected: Boolean,
     select: (ComponentEditor) -> Unit,
-) = Column(modifier = Modifier
-    .testTag(editor.comp.id)
-    .fillMaxWidth()
-    .clickableNoIndication {
-        select(editor)
-    }
-    .thenIf(isSelected){
-        border(
-            width = 1.dp,
-            color = Color.Blue
-        )
-    }
 ) {
-    KfTextComponentImpl(editor, mode, onSignal)
+    Column(
+        modifier = Modifier
+            .hoverSelect(
+                isSelected = isSelected,
+                onSelect = { select(editor) }
+            )
+            .testTag(editor.comp.id)
+    ) {
+        KfTextComponentImpl(editor, mode, onSignal)
+    }
 }
 
 @Composable
 internal fun ColumnScope.KfTextComponent(
     editor: TextComponentEditor,
     mode: Mode,
+    isSelected: Boolean,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(modifier = Modifier.testTag(editor.comp.id).fillMaxWidth()) {
+    select: (ComponentEditor) -> Unit,
+) = Column(
+    modifier = Modifier
+        .hoverSelect(
+            isSelected = isSelected,
+            onSelect = { select(editor) }
+        )
+        .testTag(editor.comp.id)
+) {
     KfTextComponentImpl(editor, mode, onSignal)
 }
 
@@ -59,8 +61,18 @@ internal fun ColumnScope.KfTextComponent(
 internal fun RowScope.KfTextComponent(
     editor: TextComponentEditor,
     mode: Mode,
+    isSelected: Boolean,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(modifier = Modifier.weight(1f).testTag(editor.comp.id)) {
+    select: (ComponentEditor) -> Unit,
+) = Column(
+    modifier = Modifier
+        .hoverSelect(
+            isSelected = isSelected,
+            onSelect = { select(editor) }
+        )
+        .weight(1f)
+        .testTag(editor.comp.id)
+) {
     KfTextComponentImpl(editor, mode, onSignal)
 }
 
@@ -89,5 +101,4 @@ private fun KfTextComponentImpl(
         onFocusChanged = focus.handler
     )
 }
-
 

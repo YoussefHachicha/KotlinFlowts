@@ -1,6 +1,6 @@
 package com.youssef.kotlinflowts.models.kotlinflowts
 
-enum class JoyStage {
+enum class Stage {
     all,
     published,
     draft

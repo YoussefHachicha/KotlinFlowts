@@ -5,8 +5,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 
 object Service {
     fun getAppBuilder() = buildApp {
-        name("HEllOOOO")
-
+        name("App")
         screen("Basic Information")
         row {
             text("First Name")
@@ -82,9 +81,5 @@ object Service {
 //            text("hello everyone")
 //            text("hi again")
 //        }
-    }
-
-    fun save(app: App) {
-        println("Document hase been saved")
     }
 }

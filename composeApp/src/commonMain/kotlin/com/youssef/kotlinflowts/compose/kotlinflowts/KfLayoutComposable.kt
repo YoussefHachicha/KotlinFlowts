@@ -29,99 +29,123 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 internal fun RowScope.KfLayoutComposable(
     component: Component,
     screen: Screen,
+    selectedComponentId: String,
     componentEditors: List<ComponentEditor>,
     onBlur: ((event: ComponentEvent) -> Unit)? = null,
     onFocus: ((event: ComponentEvent) -> Unit)? = null,
     onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
     showUnsupportedComponents: Boolean = false,
     separatorComposable: @Composable () -> Unit,
-){
+    select: (ComponentEditor) -> Unit,
+) {
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus -> onFocus?.invoke(ComponentEvent(component, screen))
-        is Signal.Blur -> onBlur?.invoke(ComponentEvent(component, screen))
+        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(component, screen))
+        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(component, screen))
         is Signal.Change -> onComponentChange?.invoke(ComponentEvent(component, screen))
     }
     componentEditors.forEach { componentEditor ->
         key(componentEditor.id) {  // Use key for stable identity
             when (componentEditor) {
-                is TextComponentEditor -> KfTextComponent(
+                is TextComponentEditor        -> KfTextComponent(
+                    editor = componentEditor,
+                    mode = Mode.fill,
+                    isSelected = selectedComponentId == componentEditor.id,
+                    onSignal = componentEditor::emit,
+                    select = select,
+                )
+
+                is NumberComponentEditor      -> KfNumberComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is NumberComponentEditor -> KfNumberComponent(
-                    editor = componentEditor,
-                    mode = Mode.fill,
-                    onSignal = componentEditor::emit
-                )
-                is DateComponentEditor -> KfDateTimeComponent(
+
+                is DateComponentEditor        -> KfDateTimeComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     format = componentEditor.comp.format,
                     onSignal = componentEditor::emit
                 )
+
                 is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = true,
                     onSignal = componentEditor::emit
                 )
-                is DropdownComponentEditor -> KfDropComponent(
+
+                is DropdownComponentEditor    -> KfDropComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = false,
                     onSignal = componentEditor::emit
                 )
-                is ImageComponentEditor -> KfImageComponent(
+
+                is ImageComponentEditor       -> KfImageComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onUpload = null,
                     onSignal = componentEditor::emit
                 )
-                is SignatureComponentEditor -> KfSignatureComponent(
+
+                is SignatureComponentEditor   -> KfSignatureComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is TableComponentEditor -> KfTableComponent(
+
+                is TableComponentEditor       -> KfTableComponent(
                     editor = componentEditor,
                     screen = screen,
                     previewRows = 5,
                     mode = Mode.fill,
                     onUpload = null
                 )
-                is TextAreaComponentEditor -> KfTextArea(
+
+                is TextAreaComponentEditor    -> KfTextArea(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is ChartComponentEditor -> KfChartComponent(
+
+                is ChartComponentEditor       -> KfChartComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is BlockComponentEditor -> KfBlockComponent(
+
+                is BlockComponentEditor       -> KfBlockComponent(
                     component = componentEditor.comp,
                     position = null
                 )
-                is RichTextComponentEditor -> KfRichTextComponent(
+
+                is RichTextComponentEditor    -> KfRichTextComponent(
                     componentEditor.comp
                 )
-                is ColumnComponentEditor -> KfColumnComponent(
+
+                is ColumnComponentEditor      -> KfColumnComponent(
                     editor = componentEditor,
                     screen = screen,
+                    selectedComponentId = selectedComponentId,
+                    isSelected = selectedComponentId == componentEditor.id,
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
+                    select = select,
                 )
-                is RowComponentEditor -> KfRowComponent(
+
+                is RowComponentEditor         -> KfRowComponent(
                     editor = componentEditor,
                     screen = screen,
+                    selectedComponentId = selectedComponentId,
+                    isSelected = selectedComponentId == componentEditor.id,
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
+                    select = select,
                 )
-                else -> if (showUnsupportedComponents) {
+
+                else                          -> if (showUnsupportedComponents) {
                     Text("Unsupported Component of type = ${componentEditor.type}")
                 }
             }
@@ -132,102 +156,126 @@ internal fun RowScope.KfLayoutComposable(
 
 
 @Composable
-internal fun ColumnScope.KfLayoutComposable (
+internal fun ColumnScope.KfLayoutComposable(
     component: Component,
     screen: Screen,
+    selectedComponentId: String,
     componentEditors: List<ComponentEditor>,
     onBlur: ((event: ComponentEvent) -> Unit)? = null,
     onFocus: ((event: ComponentEvent) -> Unit)? = null,
     onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
     showUnsupportedComponents: Boolean = false,
     separatorComposable: @Composable () -> Unit,
-){
+    select: (ComponentEditor) -> Unit,
+) {
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus -> onFocus?.invoke(ComponentEvent(component, screen))
-        is Signal.Blur -> onBlur?.invoke(ComponentEvent(component, screen))
+        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(component, screen))
+        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(component, screen))
         is Signal.Change -> onComponentChange?.invoke(ComponentEvent(component, screen))
     }
     componentEditors.forEach { componentEditor ->
         key(componentEditor.id) {  // Use key for stable identity
             when (componentEditor) {
-                is TextComponentEditor -> KfTextComponent(
+                is TextComponentEditor        -> KfTextComponent(
+                    editor = componentEditor,
+                    mode = Mode.fill,
+                    isSelected = selectedComponentId == componentEditor.id,
+                    onSignal = componentEditor::emit,
+                    select = select,
+                )
+
+                is NumberComponentEditor      -> KfNumberComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is NumberComponentEditor -> KfNumberComponent(
-                    editor = componentEditor,
-                    mode = Mode.fill,
-                    onSignal = componentEditor::emit
-                )
-                is DateComponentEditor -> KfDateTimeComponent(
+
+                is DateComponentEditor        -> KfDateTimeComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     format = componentEditor.comp.format,
                     onSignal = componentEditor::emit
                 )
+
                 is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = true,
                     onSignal = componentEditor::emit
                 )
-                is DropdownComponentEditor -> KfDropComponent(
+
+                is DropdownComponentEditor    -> KfDropComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     multiple = false,
                     onSignal = componentEditor::emit
                 )
-                is ImageComponentEditor -> KfImageComponent(
+
+                is ImageComponentEditor       -> KfImageComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onUpload = null,
                     onSignal = componentEditor::emit
                 )
-                is SignatureComponentEditor -> KfSignatureComponent(
+
+                is SignatureComponentEditor   -> KfSignatureComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is TableComponentEditor -> KfTableComponent(
+
+                is TableComponentEditor       -> KfTableComponent(
                     editor = componentEditor,
                     screen = screen,
                     previewRows = 5,
                     mode = Mode.fill,
                     onUpload = null
                 )
-                is TextAreaComponentEditor -> KfTextArea(
+
+                is TextAreaComponentEditor    -> KfTextArea(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is ChartComponentEditor -> KfChartComponent(
+
+                is ChartComponentEditor       -> KfChartComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit
                 )
-                is BlockComponentEditor -> KfBlockComponent(
+
+                is BlockComponentEditor       -> KfBlockComponent(
                     component = componentEditor.comp,
                     position = null
                 )
-                is RichTextComponentEditor -> KfRichTextComponent(
+
+                is RichTextComponentEditor    -> KfRichTextComponent(
                     componentEditor.comp
                 )
-                is ColumnComponentEditor -> KfColumnComponent(
+
+                is ColumnComponentEditor      -> KfColumnComponent(
                     editor = componentEditor,
                     screen = screen,
+                    selectedComponentId = selectedComponentId,
+                    isSelected = selectedComponentId == componentEditor.id,
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
+                    select = select,
                 )
-                is RowComponentEditor -> KfRowComponent(
+
+                is RowComponentEditor         -> KfRowComponent(
                     editor = componentEditor,
                     screen = screen,
+                    selectedComponentId = selectedComponentId,
+                    isSelected = selectedComponentId == componentEditor.id,
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
+                    select = select,
                 )
-                else -> if (showUnsupportedComponents) {
+
+                else                          -> if (showUnsupportedComponents) {
                     Text("Unsupported Component of type = ${componentEditor.type}")
                 }
             }

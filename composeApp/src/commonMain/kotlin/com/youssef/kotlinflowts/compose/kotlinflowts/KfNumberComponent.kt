@@ -42,7 +42,7 @@ internal fun RowScope.KfNumberComponent(
     editor: NumberComponentEditor,
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier = Modifier.weight(1f)) {
     KfNumberComponentImpl(editor, mode, onSignal)
 }
 

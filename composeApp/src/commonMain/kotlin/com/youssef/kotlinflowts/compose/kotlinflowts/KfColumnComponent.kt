@@ -1,6 +1,9 @@
 package com.youssef.kotlinflowts.compose.kotlinflowts
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,30 +19,39 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.ColumnComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
+import com.youssef.kotlinflowts.utils.clickableNoIndication
+import com.youssef.kotlinflowts.utils.hoverSelect
 
 @Composable
 internal fun KfColumnComponent(
     editor: ColumnComponentEditor,
     screen: Screen,
+    selectedComponentId: String,
+    isSelected: Boolean,
     onBlur: ((event: ComponentEvent) -> Unit)? = null,
     onFocus: ((event: ComponentEvent) -> Unit)? = null,
     onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
     showUnsupportedComponents: Boolean = false,
+    select: (ComponentEditor) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
     val columnComponents by editor.columnComponents.all.collectAsState()
+    val interactionSource = remember { MutableInteractionSource() }
+    val isHovered by interactionSource.collectIsHoveredAsState()
 
     Column(
         modifier = Modifier
-            .testTag(editor.comp.id)
             .fillMaxWidth()
             .border(
                 width = 1.dp,
-                color = Color.Gray,
-                shape = RoundedCornerShape(20.dp)
+                color = if (isSelected || isHovered) Color.Blue else Color.Gray,
+                shape = RoundedCornerShape(12.dp)
             )
+            .hoverable(interactionSource = interactionSource)
+            .clickableNoIndication(onClick = { select(editor) })
             .padding(horizontal = 16.dp)
     ) {
         KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
@@ -50,10 +62,12 @@ internal fun KfColumnComponent(
             component = component,
             screen = screen,
             onBlur = onBlur,
+            selectedComponentId = selectedComponentId,
             onFocus = onFocus,
             onComponentChange = onComponentChange,
             showUnsupportedComponents = showUnsupportedComponents,
             separatorComposable = { Spacer(modifier = Modifier.height(8.dp)) },
+            select = select
         )
     }
 }

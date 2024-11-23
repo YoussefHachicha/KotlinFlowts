@@ -37,8 +37,8 @@ fun App() {
             }
             Panel("View"){
                 ViewSample(
-                    editor = editor,
                     updateUi = appBuilder.updateUi,
+                    editor = editor,
                 ){
                     appBuilder.updateCursor(it.toMutableScreen())
                 }
@@ -46,7 +46,6 @@ fun App() {
             Panel("Editor"){
                 EditorSample(
                     editor = editor,
-                    currentScreen = appBuilder.app.cursor,
                 )
             }
         }

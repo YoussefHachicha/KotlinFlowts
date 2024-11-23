@@ -62,6 +62,7 @@ fun App(
 
     LaunchedEffect(currentScreen){
         onChangeScreen(currentScreen)
+        editor.selectedEditorComponent = null
     }
 
     val editorComponents by remember(
@@ -92,7 +93,7 @@ fun App(
                 is TextComponentEditor -> KfTextComponent(
                     editor = it,
                     mode = mode,
-                    isSelected = editor.selectedEditorComponent == it,
+                    isSelected = editor.selectedEditorComponent?.id == it.id,
                     onSignal = it::emit,
                 ){
                     editor.selectedEditorComponent = it
@@ -178,20 +179,28 @@ fun App(
                 is ColumnComponentEditor -> KfColumnComponent(
                     editor = it,
                     screen = currentScreen,
+                    selectedComponentId = editor.selectedEditorComponent?.id ?: "",
+                    isSelected = editor.selectedEditorComponent?.id == it.id,
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
                     showUnsupportedComponents = showUnsupportedComponents,
-                )
+                ){
+                    editor.selectedEditorComponent = it
+                }
 
                 is RowComponentEditor -> KfRowComponent(
                     editor = it,
                     screen = currentScreen,
+                    selectedComponentId = editor.selectedEditorComponent?.id ?: "",
+                    isSelected = editor.selectedEditorComponent?.id == it.id,
                     onBlur = onBlur,
                     onFocus = onFocus,
                     onComponentChange = onComponentChange,
                     showUnsupportedComponents = showUnsupportedComponents,
-                )
+                ){
+                    editor.selectedEditorComponent = it
+                }
 
                 else -> if (showUnsupportedComponents) {
                     Text("Unsupported Component of type = ${it.type}")

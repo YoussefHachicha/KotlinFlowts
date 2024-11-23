@@ -12,5 +12,9 @@ interface ComponentEditor {
     val comp: Component
 
     fun isLayout(): Boolean = type == Component.Type.column || type == Component.Type.row
+
+    fun changeTitle(title: String) {
+        comp.title = title
+    }
 }
 

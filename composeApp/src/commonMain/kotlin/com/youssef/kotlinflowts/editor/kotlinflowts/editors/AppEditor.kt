@@ -3,15 +3,15 @@ package com.youssef.kotlinflowts.editor.kotlinflowts.editors
 import com.youssef.kotlinflowts.editor.kotlinflowts.Validation
 import com.youssef.kotlinflowts.editor.kotlinflowts.collections.CompCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.collections.ScreenCollection
-import com.youssef.kotlinflowts.models.kotlinflowts.JoyStage
+import com.youssef.kotlinflowts.models.kotlinflowts.Stage
 import com.youssef.kotlinflowts.models.kotlinflowts.Mappable
 import com.youssef.kotlinflowts.models.kotlinflowts.View
-import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
+import com.youssef.kotlinflowts.models.kotlinflowts.utils.ComponentId
 
 interface AppEditor : Mappable {
 
-    var stage: JoyStage
+    var stage: Stage
 
     var name: String
 
@@ -36,4 +36,9 @@ interface AppEditor : Mappable {
     fun toApp() : App
 
     var selectedEditorComponent: ComponentEditor?
+
+    fun changeTitle(
+        title: String,
+        id: ComponentId
+    )
 }

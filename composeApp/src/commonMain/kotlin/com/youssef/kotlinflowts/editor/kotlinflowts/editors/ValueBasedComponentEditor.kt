@@ -6,4 +6,5 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.core.ValueBasedCo
 interface ValueBasedComponentEditor<V> : ComponentEditor {
     override val comp: ValueBasedComponent<V>
     var value: V?
+
 }

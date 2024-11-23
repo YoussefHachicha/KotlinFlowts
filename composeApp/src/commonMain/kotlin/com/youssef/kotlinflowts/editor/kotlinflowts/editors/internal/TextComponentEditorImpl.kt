@@ -11,8 +11,4 @@ internal class TextComponentEditorImpl(
     app: App,
     override val comp: TextComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractValueBasedComponentEditor<String,TextComponent>(app,comp,onChange), TextComponentEditor {
-    override fun changeTitle(title: String) {
-        super.changeTitle(title)
-    }
-}
+) : AbstractValueBasedComponentEditor<String,TextComponent>(app,comp,onChange), TextComponentEditor

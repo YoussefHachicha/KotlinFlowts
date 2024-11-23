@@ -9,12 +9,12 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
-import com.youssef.kotlinflowts.models.kotlinflowts.JoyStage
+import com.youssef.kotlinflowts.models.kotlinflowts.Stage
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.View
-import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.toMutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
+import com.youssef.kotlinflowts.models.kotlinflowts.utils.ComponentId
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.ID
 
 internal class AppEditorImpl(
@@ -33,8 +33,8 @@ internal class AppEditorImpl(
         const val STAGE = "stage"
     }
 
-    override var stage: JoyStage
-        get() = get<String?>(STAGE)?.let { JoyStage.valueOf(it) } ?: JoyStage.draft
+    override var stage: Stage
+        get() = get<String?>(STAGE)?.let { Stage.valueOf(it) } ?: Stage.draft
         set(value) = set(STAGE, value.name)
 
     override var name: String
@@ -74,6 +74,14 @@ internal class AppEditorImpl(
     override fun toApp(): App = app
 
     override var selectedEditorComponent: ComponentEditor? by mutableStateOf(null)
+
+    override fun changeTitle(title: String, id: ComponentId) {
+        val component = app.components.find { it.id == id }
+        component?.let {
+            it.title = title
+            app.components = app.components.toMutableList()
+        }
+    }
 
     override fun toJsonObject() = app.toJsonObject()
 

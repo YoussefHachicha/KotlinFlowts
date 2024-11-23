@@ -172,6 +172,4 @@ internal class CompCollectionImpl(
         buildEditor(key, Component.Type.row) { component: RowComponent ->
             RowComponentEditorImpl(app, component, identity, onChange)
         }
-
-
 }
