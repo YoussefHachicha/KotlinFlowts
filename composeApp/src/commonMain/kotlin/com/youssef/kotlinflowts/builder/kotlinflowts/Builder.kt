@@ -24,6 +24,7 @@ val myApp = mutableMapOf<String, Any?>(
 
 fun buildApp(builder: AppBuilder.() -> Unit):  AppBuilderImpl {
     val db = AppBuilderImpl(myApp, generator)
+    db.addBuilder("mainBuilder" to db)
     db.builder()
     return db
 }

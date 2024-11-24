@@ -3,6 +3,7 @@ package com.youssef.kotlinflowts.editor.kotlinflowts.internal
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import com.youssef.kotlinflowts.editor.kotlinflowts.Valid
 import com.youssef.kotlinflowts.editor.kotlinflowts.Validation
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
@@ -76,9 +77,17 @@ internal class AppEditorImpl(
     override var selectedEditorComponent: ComponentEditor? by mutableStateOf(null)
 
     override fun changeTitle(title: String, id: ComponentId) {
-        val component = app.components.find { it.id == id }
+        val component = components.componentsEditor.find { it.id == id }
         component?.let {
-            it.title = title
+            it.comp.title = title
+            app.components = app.components.toMutableList()
+        }
+    }
+
+    override fun changeBorderColor(color: Color, id: ComponentId) {
+        val component = components.componentsEditor.find { it.id == id }
+        component?.let {
+            it.borderColor = color
             app.components = app.components.toMutableList()
         }
     }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,7 +71,17 @@ fun App(
         editor,
         currentScreen,
         updateUi
-    ) { mutableStateOf(editor.components.from(currentScreen)) }
+    ) {
+        mutableStateOf(editor.components.from(currentScreen))
+    }
+
+    val ss by editor.components.all.collectAsState()
+
+    println("App: ${ss.map { it.type }}")
+
+//    LaunchedEffect(editor, currentScreen, updateUi) {
+//        println("App: ${editor.id} - ${currentScreen.id} - $updateUi")
+//    }
 
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
         is Signal.Focus  -> onFocus?.invoke(ComponentEvent(comp, currentScreen))

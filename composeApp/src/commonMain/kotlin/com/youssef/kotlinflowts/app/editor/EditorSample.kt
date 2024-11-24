@@ -5,14 +5,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
+import com.youssef.kotlinflowts.utils.colorPicker.ColorConfig
 
 @Composable
 fun EditorSample(
     editor: AppEditor,
 ) {
+    val isCollapsed = remember { true }
+
     LazyColumn(
         modifier = Modifier
             .padding(8.dp)
@@ -26,6 +30,15 @@ fun EditorSample(
                         editor.changeTitle(it, compEditor.id)
                     },
                     label = { Text("Title") }
+                )
+                ColorConfig(
+                    selectedColor = compEditor.borderColor,
+                    onColorChanged = {
+                        compEditor.changeBorderColor(it)
+                        editor.changeBorderColor(it, compEditor.id)
+                    },
+                    isCollapsed = isCollapsed,
+                    isRow = isCollapsed
                 )
             }
         }

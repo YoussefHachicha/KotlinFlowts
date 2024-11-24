@@ -18,5 +18,10 @@ interface ComponentEditor {
     fun changeTitle(title: String) {
         comp.title = title
     }
+
+    fun changeBorderColor(color: Color) {
+        borderColor = color
+    }
+
 }
 

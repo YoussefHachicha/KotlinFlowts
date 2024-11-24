@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.editors
 
+import androidx.compose.ui.graphics.Color
 import com.youssef.kotlinflowts.editor.kotlinflowts.Validation
 import com.youssef.kotlinflowts.editor.kotlinflowts.collections.CompCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.collections.ScreenCollection
@@ -39,6 +40,11 @@ interface AppEditor : Mappable {
 
     fun changeTitle(
         title: String,
+        id: ComponentId
+    )
+
+    fun changeBorderColor(
+        color: Color,
         id: ComponentId
     )
 }

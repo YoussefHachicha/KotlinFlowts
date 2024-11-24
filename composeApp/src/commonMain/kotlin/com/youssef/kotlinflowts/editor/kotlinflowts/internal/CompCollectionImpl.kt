@@ -1,9 +1,9 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.internal
 
 import com.youssef.kotlinflowts.editor.kotlinflowts.collections.CompCollection
+import com.youssef.kotlinflowts.editor.kotlinflowts.column.internal.ColumnComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ChartComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.column.internal.ColumnComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DateComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DropdownComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.FileComponentEditorImpl
@@ -23,7 +23,6 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.ChartComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ColumnComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.DateComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.DropdownComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.components.FileComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ImageComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.MultiSelectComponent
@@ -33,36 +32,78 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.SignatureComponen
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TableComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextAreaComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.launch
 
 internal class CompCollectionImpl(
     override val app: MutableApp,
     override val identity: IdentityGenerator,
     override val onChange: ((ChangeEvent) -> Unit)?
 ) : CompCollection {
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
     override fun all() = app.components.map { it.toEditor() }
 
-    override val all: StateFlow<List<ComponentEditor>> = MutableStateFlow(app.components.map { it.toEditor() }).asStateFlow()
+    private val _all: MutableStateFlow<List<ComponentEditor>> = MutableStateFlow(app.components.map { it.toEditor() })
+    override val all: StateFlow<List<ComponentEditor>> = _all
+
+    val componentsEditor: MutableList<ComponentEditor> =  app.components.map { it.toEditor() }.toMutableList()
+
+    init {
+        scope.launch {
+            app.builders["mainBuilder"]?.components?.collect {
+                synchronizeComponents(it)
+            }
+        }
+    }
+
+    private fun synchronizeComponents(newComponents: List<Component>) {
+        val existingEditorsMap = componentsEditor.associateBy { it.id }
+
+        val updatedComponents = mutableListOf<ComponentEditor>()
+
+        newComponents.forEach { component ->
+            val existingEditor = existingEditorsMap[component.id]
+
+            if (existingEditor != null) {
+                existingEditor.updateFromComponent(component)
+                updatedComponents.add(existingEditor)
+            } else {
+                updatedComponents.add(component.toEditor())
+            }
+        }
+
+        componentsEditor.clear()
+        componentsEditor.addAll(updatedComponents)
+        _all.value = updatedComponents
+    }
+
+    private fun ComponentEditor.updateFromComponent(component: Component) {
+        this.title = component.title
+    }
 
     override fun from(screen: Screen): List<ComponentEditor> {
+        println("all.value: ${all.value.map { it.type }}")
         val positions = screen.positions
         val ids = positions.map { it.componentId }
-        return app.components.filter {
-            it.depth == 1 &&
-            it.id in ids
+        return componentsEditor.filter {
+            it.comp.depth == 1 &&
+            it.comp.id in ids
         }.sortedBy { df ->
-            positions.first { it.componentId == df.id }.y
-        }.map { it.toEditor() }
+            positions.first { it.componentId == df.comp.id }.y
+        }
     }
 
     override fun layoutsFrom(screen: Screen?): List<ComponentEditor> {
         if (screen == null) return emptyList()
         val positions = screen.positions
         val ids = positions.map { it.componentId }
-        val filteredComponents = app.components.filter { component ->
+        val filteredComponents = componentsEditor.filter { component ->
             val hasId = component.id in ids
             val isLayoutType = component.type == Component.Type.column || component.type == Component.Type.row
             hasId && isLayoutType
@@ -74,7 +115,7 @@ internal class CompCollectionImpl(
                 }
             }
             .sortedBy { (_, position) -> position.y }
-            .map { (component, _) -> component.toEditor() }
+            .map { it.first }
     }
 
     override fun from(screen: String): List<ComponentEditor> {
@@ -94,9 +135,9 @@ internal class CompCollectionImpl(
 
     override fun find(key: String): ComponentEditor? {
         val component =
-            app.components.find { it.identifier == key || it.id == key || it.title == key }
+            all.value.find { it.identifier == key || it.id == key || it.title == key }
                 ?: return null
-        return component.toEditor()
+        return component
     }
 
     private fun <F : Component, E : ComponentEditor> buildEditor(

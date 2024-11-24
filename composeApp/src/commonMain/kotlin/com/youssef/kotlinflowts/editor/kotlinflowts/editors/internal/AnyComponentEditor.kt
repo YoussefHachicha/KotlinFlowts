@@ -19,20 +19,16 @@ internal open class AnyComponentEditor<out F : Component>(
 
     override var id: String
         get() = this.comp.id
-        set(value) {
-            TODO()
-        }
+        set(value) {}
 
     override var identifier: String
         get() = this.comp.identifier
-        set(value) {
-            TODO()
-        }
+        set(value) {}
 
     override var title: String
         get() = this.comp.title
         set(value) {
-            TODO()
+            this.comp.title = value
         }
 
     override var borderColor: Color by mutableStateOf(Color.Red)
