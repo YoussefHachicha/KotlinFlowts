@@ -47,7 +47,7 @@ internal fun KfColumnComponent(
             .fillMaxWidth()
             .border(
                 width = 1.dp,
-                color = if (isSelected || isHovered) Color.Blue else Color.Gray,
+                color = if (isSelected || isHovered) Color.Blue else editor.borderColor,
                 shape = RoundedCornerShape(12.dp)
             )
             .hoverable(interactionSource = interactionSource)

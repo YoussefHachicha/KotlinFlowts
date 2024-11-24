@@ -1,5 +1,10 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
@@ -29,6 +34,9 @@ internal open class AnyComponentEditor<out F : Component>(
         set(value) {
             TODO()
         }
+
+    override var borderColor: Color by mutableStateOf(Color.Red)
+    override var padding: Int by mutableIntStateOf(0)
 
     override val type get() = comp.type
 }

@@ -7,6 +7,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.type
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.ID
 
+
 internal abstract class AbstractComponent(
     wrapped: MutableMap<String, Any?>
 ) : AbstractMappable(wrapped), Component {

@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.models.kotlinflowts.components.core
 
+import androidx.compose.ui.Modifier
 import com.youssef.kotlinflowts.models.kotlinflowts.Mappable
 
 interface Component : Mappable {
