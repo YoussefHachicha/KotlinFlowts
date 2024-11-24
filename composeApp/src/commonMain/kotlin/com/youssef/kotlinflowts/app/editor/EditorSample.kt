@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -18,6 +19,7 @@ import com.youssef.kotlinflowts.utils.colorPicker.ColorConfig
 @Composable
 fun EditorSample(
     editor: AppEditor,
+    delete: (id: String, builderId: String) -> Unit
 ) {
     val isCollapsed = remember { true }
 
@@ -27,11 +29,11 @@ fun EditorSample(
     ) {
         item {
             editor.selectedEditorComponent?.let { compEditor ->
+                val dd = compEditor.comp
                 OutlinedTextField(
                     value = compEditor.title,
                     onValueChange = {
                         compEditor.changeTitle(it)
-                        editor.changeTitle(it, compEditor.id)
                     },
                     label = { Text("Title") }
                 )
@@ -45,14 +47,21 @@ fun EditorSample(
                         selectedColor = compEditor.borderColor,
                         onColorChanged = {
                             compEditor.changeBorderColor(it)
-                            editor.changeBorderColor(it, compEditor.id)
                         },
                         isCollapsed = isCollapsed,
                         isRow = isCollapsed
                     )
                 }
+                TextButton(
+                    onClick = {
+                        delete(compEditor.id, compEditor.comp.builderId)
 
+                    }
+                ) {
+                    Text("Delete")
+                }
             }
+
         }
     }
 }

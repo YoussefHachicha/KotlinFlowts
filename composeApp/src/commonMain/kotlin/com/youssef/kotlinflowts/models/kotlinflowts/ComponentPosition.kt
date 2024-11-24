@@ -5,6 +5,7 @@ interface ComponentPosition : Mappable {
     val componentId: String
     val displayType: String?
     val depth: Int
+    val builderId: String
     val y: Double
     val x: Double
     val format: String?

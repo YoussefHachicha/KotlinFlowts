@@ -26,6 +26,8 @@ class AppBuilderImpl(
     private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
     override val components: StateFlow<List<Component>> = _components.asStateFlow()
     override val depth: Int = 1
+    override val builderId: String = "mainBuilder"
+
 
     //the file will contain the code source of our app
     private val file by lazy {
@@ -70,5 +72,12 @@ class AppBuilderImpl(
         _components.update { it + component }
         updateUi++
         println("adding text app.components ${app.components.size}")
+    }
+
+    override fun delete(id: String) {
+        cursor().positions.removeIf { it.componentId == id }
+        app.components.removeIf { it.id == id }
+        _components.update { it.filter { it.id != id } }
+        updateUi++
     }
 }

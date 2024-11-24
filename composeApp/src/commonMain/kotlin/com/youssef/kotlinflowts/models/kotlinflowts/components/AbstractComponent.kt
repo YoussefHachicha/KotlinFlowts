@@ -16,5 +16,6 @@ internal abstract class AbstractComponent(
     override val identifier: String get() = wrapped[Component::identifier.name] as String
     override val type: Component.Type get() = wrapped.type()
     override val disabled: Boolean get() = wrapped[Component::disabled.name] as? Boolean == true
+    override val builderId: String get() = wrapped[Component::builderId.name] as String
     override val depth: Int get() = wrapped[Component::depth.name] as Int
 }

@@ -21,6 +21,7 @@ interface LayoutBuilder {
     val app: MutableApp
     val components: StateFlow<List<Component>>
     val depth: Int
+    val builderId: String
 
     private fun add(component: Component) {
         val position = componentPosition(
@@ -28,6 +29,7 @@ interface LayoutBuilder {
             component = component.id,
             displayType = "original",
             depth = depth,
+            builderId = builderId,
             format = null
         )
         add(component, position)
@@ -64,6 +66,8 @@ interface LayoutBuilder {
         }
     }
 
+    fun delete(id: String)
+
     fun text(
         title: String = "Text Field Component",
         id: String? = null,
@@ -77,6 +81,7 @@ interface LayoutBuilder {
             identifier ?: "component-$uid",
             readonly,
             depth,
+            builderId,
             value
         )
     }
@@ -94,6 +99,7 @@ interface LayoutBuilder {
             identifier ?: "component-$uid",
             readonly,
             depth,
+            builderId,
             value
         )
     }
@@ -111,6 +117,7 @@ interface LayoutBuilder {
             identifier ?: "component-$uid",
             readonly,
             depth,
+            builderId,
             value
         )
     }
@@ -128,6 +135,7 @@ interface LayoutBuilder {
             identifier ?: "component-$uid",
             readonly,
             depth,
+            builderId,
             value
         )
     }
@@ -142,12 +150,13 @@ interface LayoutBuilder {
     ) {
         val uid = id ?: identity.generate()
         val component =
-            dateComponent(uid, title, identifier ?: "component-$uid", readonly, format, depth, value)
+            dateComponent(uid, title, identifier ?: "component-$uid", readonly, format, depth, builderId, value)
         val position = componentPosition(
             id = identity.generate(),
             component = component.id,
             displayType = "original",
             depth = depth,
+            builderId = builderId,
             format = format
         )
         add(component, position)
@@ -165,7 +174,7 @@ interface LayoutBuilder {
     ) = buildComponent(id) { uid ->
         val o = options.map { it.toOption() }
         val selected = o.firstOrNull { it.value == value || it.id == value }
-        dropdownComponent(uid, title, identifier ?: "component-$uid", o, readonly, depth, selected)
+        dropdownComponent(uid, title, identifier ?: "component-$uid", o, readonly, depth, builderId, selected)
     }
 
     fun select(
@@ -184,7 +193,7 @@ interface LayoutBuilder {
             }
             out
         }
-        multiSelectComponent(uid, title, identifier ?: "component-$uid", o, depth, selected)
+        multiSelectComponent(uid, title, identifier ?: "component-$uid", o, depth, builderId, selected)
     }
 
     fun select(
@@ -206,7 +215,7 @@ interface LayoutBuilder {
         value: List<String> = emptyList()
     ) = buildComponent(id) { uid ->
         val attachments = value.map { it.toAttachment() }
-        imageComponent(uid, title, identifier ?: "component-$uid", readonly, depth, attachments)
+        imageComponent(uid, title, identifier ?: "component-$uid", readonly, depth, builderId, attachments)
     }
 
     fun image(
@@ -229,6 +238,7 @@ interface LayoutBuilder {
             title,
             identifier ?: "component-$uid",
             depth = depth,
+            builderId = builderId,
             value.map { it.toAttachment() })
     }
 
@@ -245,6 +255,7 @@ interface LayoutBuilder {
             id = uid,
             title = title,
             depth = depth,
+            builderId = builderId,
             identifier = identifier ?: "component-$uid",
             columns = builder.columns
         )
@@ -279,6 +290,7 @@ interface LayoutBuilder {
             y = y,
             x = x,
             depth = depth,
+            builderId = builderId,
             lines = lines
         )
     }
@@ -292,13 +304,14 @@ interface LayoutBuilder {
         components: (LayoutBuilder.() -> Unit)? = null
     ) = buildComponent(id) { uid ->
         val builderDepth = depth + 1
-        val builder = ColumnBuilderImpl(identity, app, builderDepth)
+        val builder = ColumnBuilderImpl(identity, app, builderDepth, uid)
         addBuilder(uid to builder)
         components?.invoke(builder)
         columnComponent(
             id = uid,
             title = title,
             depth = depth,
+            builderId = builderId,
             identifier = identifier ?: "component-$uid",
             components = builder.components.value
         )
@@ -313,13 +326,15 @@ interface LayoutBuilder {
         components: (LayoutBuilder.() -> Unit)? = null
     ) = buildComponent(id) { uid ->
         val builderDepth = depth + 1
-        val builder = RowBuilderImpl(identity, app, builderDepth)
+        val builder = RowBuilderImpl(identity, app, builderDepth, uid)
         addBuilder(uid to builder)
+
         components?.invoke(builder)
         rowComponent(
             id = uid,
             title = title,
             depth = depth,
+            builderId = builderId,
             identifier = identifier ?: "component-$uid",
             components = builder.components.value
         )

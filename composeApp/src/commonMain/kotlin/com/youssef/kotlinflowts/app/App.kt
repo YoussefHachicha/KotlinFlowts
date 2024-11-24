@@ -25,28 +25,33 @@ fun App() {
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.fillMaxSize()
         ) {
-            Panel("Gallery"){
+            Panel("Gallery") {
                 ComponentsGallerySample(
                     editor = editor,
                     updateUi = appBuilder.updateUi,
                     currentScreen = appBuilder.app.cursor,
                     builders = appBuilder.app.builders,
-                ){
+                ) {
                     appBuilder.add(it)
                 }
             }
-            Panel("View"){
+            Panel("View") {
                 ViewSample(
                     updateUi = appBuilder.updateUi,
                     editor = editor,
-                ){
+                ) {
                     appBuilder.updateCursor(it.toMutableScreen())
                 }
             }
-            Panel("Editor"){
+            Panel("Editor") {
                 EditorSample(
                     editor = editor,
-                )
+                ) { id, builderId ->
+                    appBuilder.app.builders[builderId]?.delete(id)
+                    if (editor.selectedEditorComponent?.id == id) {
+                        editor.selectedEditorComponent = null
+                    }
+                }
             }
         }
     }

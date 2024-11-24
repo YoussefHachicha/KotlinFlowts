@@ -37,14 +37,4 @@ interface AppEditor : Mappable {
     fun toApp() : App
 
     var selectedEditorComponent: ComponentEditor?
-
-    fun changeTitle(
-        title: String,
-        id: ComponentId
-    )
-
-    fun changeBorderColor(
-        color: Color,
-        id: ComponentId
-    )
 }

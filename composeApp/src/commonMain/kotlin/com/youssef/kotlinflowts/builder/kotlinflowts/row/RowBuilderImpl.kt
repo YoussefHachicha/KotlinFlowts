@@ -13,6 +13,7 @@ class RowBuilderImpl(
     override val identity: IdentityGenerator,
     override val app: MutableApp,
     override val depth: Int,
+    override var builderId: String,
 ): RowBuilder {
     private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
     override val components: StateFlow<List<Component>> = _components
@@ -20,5 +21,10 @@ class RowBuilderImpl(
     override fun add(component: Component, position: ComponentPosition) {
         _components.update { it + component }
         app.components.add(component)
+    }
+
+    override fun delete(id: String) {
+        _components.update { it.filter { it.id != id } }
+        app.components.removeIf { it.id == id }
     }
 }

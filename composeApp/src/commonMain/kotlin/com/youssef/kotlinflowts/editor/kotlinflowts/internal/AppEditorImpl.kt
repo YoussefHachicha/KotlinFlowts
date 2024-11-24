@@ -76,22 +76,6 @@ internal class AppEditorImpl(
 
     override var selectedEditorComponent: ComponentEditor? by mutableStateOf(null)
 
-    override fun changeTitle(title: String, id: ComponentId) {
-        val component = components.componentsEditor.find { it.id == id }
-        component?.let {
-            it.comp.title = title
-            app.components = app.components.toMutableList()
-        }
-    }
-
-    override fun changeBorderColor(color: Color, id: ComponentId) {
-        val component = components.componentsEditor.find { it.id == id }
-        component?.let {
-            it.borderColor = color
-            app.components = app.components.toMutableList()
-        }
-    }
-
     override fun toJsonObject() = app.toJsonObject()
 
     override fun toJsonString() = app.toJsonString()

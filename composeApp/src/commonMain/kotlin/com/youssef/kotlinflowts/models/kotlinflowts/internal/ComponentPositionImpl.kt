@@ -15,6 +15,7 @@ internal class ComponentPositionImpl(
     override val y get() = wrapped[ComponentPosition::y.name] as? Double ?: 0.0
     override val x get() = wrapped[ComponentPosition::x.name] as? Double ?: 0.0
     override val format get() = wrapped[ComponentPosition::format.name] as? String
+    override val builderId get() = wrapped[ComponentPosition::builderId.name] as String
 
     override val fontColor: String? get() = wrapped[ComponentPosition::fontColor.name] as? String
     override val fontWeight: String? get() = wrapped[ComponentPosition::fontWeight.name] as? String

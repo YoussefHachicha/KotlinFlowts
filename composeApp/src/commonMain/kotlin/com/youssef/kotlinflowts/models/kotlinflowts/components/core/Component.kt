@@ -10,6 +10,7 @@ interface Component : Mappable {
     val type: Type
     val disabled: Boolean
     val depth: Int
+    val builderId: String
 
     enum class Type {
         text,
