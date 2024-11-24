@@ -5,6 +5,7 @@ import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -72,3 +73,50 @@ internal fun KfColumnComponent(
     }
 }
 
+@Composable
+internal fun RowScope.KfColumnComponent(
+    editor: ColumnComponentEditor,
+    screen: Screen,
+    selectedComponentId: String,
+    isSelected: Boolean,
+    onBlur: ((event: ComponentEvent) -> Unit)? = null,
+    onFocus: ((event: ComponentEvent) -> Unit)? = null,
+    onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
+    showUnsupportedComponents: Boolean = false,
+    select: (ComponentEditor) -> Unit,
+) {
+    val component = remember(editor) { editor.comp }
+    val columnComponents by editor.columnComponents.all.collectAsState()
+    val interactionSource = remember { MutableInteractionSource() }
+    val isHovered by interactionSource.collectIsHoveredAsState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f)
+            .border(
+                width = 1.dp,
+                color = if (isSelected || isHovered) Color.Blue else editor.borderColor,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .hoverable(interactionSource = interactionSource)
+            .clickableNoIndication(onClick = { select(editor) })
+            .padding(horizontal = 16.dp)
+    ) {
+        KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
+        Spacer(modifier = Modifier.height(2.dp))
+
+        this.KfLayoutComposable(
+            componentEditors = columnComponents,
+            component = component,
+            screen = screen,
+            onBlur = onBlur,
+            selectedComponentId = selectedComponentId,
+            onFocus = onFocus,
+            onComponentChange = onComponentChange,
+            showUnsupportedComponents = showUnsupportedComponents,
+            separatorComposable = { Spacer(modifier = Modifier.height(8.dp)) },
+            select = select
+        )
+    }
+}

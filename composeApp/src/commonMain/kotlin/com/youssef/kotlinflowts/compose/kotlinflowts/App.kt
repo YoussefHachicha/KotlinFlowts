@@ -75,20 +75,11 @@ fun App(
         mutableStateOf(editor.components.from(currentScreen))
     }
 
-    val ss by editor.components.all.collectAsState()
-
-    println("App: ${ss.map { it.type }}")
-
-//    LaunchedEffect(editor, currentScreen, updateUi) {
-//        println("App: ${editor.id} - ${currentScreen.id} - $updateUi")
-//    }
-
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
         is Signal.Focus  -> onFocus?.invoke(ComponentEvent(comp, currentScreen))
         is Signal.Blur   -> onBlur?.invoke(ComponentEvent(comp, currentScreen))
         is Signal.Change -> onComponentChange?.invoke(ComponentEvent(comp, currentScreen))
     }
-
 
     LazyColumn(modifier = modifier) {
         if (navigation) item {

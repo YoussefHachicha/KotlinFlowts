@@ -49,10 +49,10 @@ internal class CompCollectionImpl(
 
     override fun all() = app.components.map { it.toEditor() }
 
-    private val _all: MutableStateFlow<List<ComponentEditor>> = MutableStateFlow(app.components.map { it.toEditor() })
+    private val _all: MutableStateFlow<List<ComponentEditor>> = MutableStateFlow(all())
     override val all: StateFlow<List<ComponentEditor>> = _all
 
-    val componentsEditor: MutableList<ComponentEditor> =  app.components.map { it.toEditor() }.toMutableList()
+    val componentsEditor: MutableList<ComponentEditor> =  all().toMutableList()
 
     init {
         scope.launch {
@@ -88,7 +88,6 @@ internal class CompCollectionImpl(
     }
 
     override fun from(screen: Screen): List<ComponentEditor> {
-        println("all.value: ${all.value.map { it.type }}")
         val positions = screen.positions
         val ids = positions.map { it.componentId }
         return componentsEditor.filter {
