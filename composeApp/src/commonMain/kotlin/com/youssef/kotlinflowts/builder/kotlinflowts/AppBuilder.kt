@@ -14,5 +14,4 @@ interface AppBuilder : LayoutBuilder {
     override val app: MutableApp
 
     val addCompUpdate: Int
-
 }

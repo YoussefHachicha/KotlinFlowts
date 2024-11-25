@@ -11,6 +11,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.GeneratingTokens
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -30,7 +31,8 @@ fun ScreenNavigator(
     screens: List<Screen>,
     currentScreen: Screen,
     onChange: (Screen) -> Unit,
-    onAdd: (index: Int) -> Unit
+    onAdd: (index: Int) -> Unit,
+    generateCode: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -70,7 +72,18 @@ fun ScreenNavigator(
                     VerticalDivider()
                 }
             }
-        }
+            item {
+                VerticalDivider()
 
+                IconButton(
+                    onClick = { generateCode() }
+                ) {
+                    Icon(
+                        Icons.Default.GeneratingTokens,
+                        contentDescription = "Generate"
+                    )
+                }
+            }
+        }
     }
 }
