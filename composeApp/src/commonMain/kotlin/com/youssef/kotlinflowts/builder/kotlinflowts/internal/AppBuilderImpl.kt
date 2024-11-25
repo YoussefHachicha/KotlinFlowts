@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.youssef.kotlinflowts.builder.kotlinflowts.AppBuilder
-import com.youssef.kotlinflowts.builder.kotlinflowts.LayoutBuilder
 import com.youssef.kotlinflowts.builder.kotlinflowts.file
 import com.youssef.kotlinflowts.builder.kotlinflowts.screen
 import com.youssef.kotlinflowts.models.kotlinflowts.ComponentPosition
@@ -22,7 +21,9 @@ class AppBuilderImpl(
     override val app: MutableApp,
     override val identity: IdentityGenerator
 ) : AppBuilder {
-    override var updateUi by mutableStateOf(0)
+    override var addCompUpdate by mutableStateOf(0)
+    var addScreenUpdate by mutableStateOf(0)
+
     private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
     override val components: StateFlow<List<Component>> = _components.asStateFlow()
     override val depth: Int = 1
@@ -63,6 +64,7 @@ class AppBuilderImpl(
         app.cursor = s
         file.screens.add(s)
         file.screenOrder.add(s.id)
+        addScreenUpdate++
         return s
     }
 
@@ -70,7 +72,7 @@ class AppBuilderImpl(
         cursor().positions.add(position)
         app.components.add(component)
         _components.update { it + component }
-        updateUi++
+        addCompUpdate++
         println("adding text app.components ${app.components.size}")
     }
 
@@ -78,6 +80,6 @@ class AppBuilderImpl(
         cursor().positions.removeIf { it.componentId == id }
         app.components.removeIf { it.id == id }
         _components.update { it.filter { it.id != id } }
-        updateUi++
+        addCompUpdate++
     }
 }

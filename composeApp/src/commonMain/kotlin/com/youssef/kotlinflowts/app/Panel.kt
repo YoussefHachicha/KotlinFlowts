@@ -2,6 +2,7 @@ package com.youssef.kotlinflowts.app
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,14 +14,38 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.youssef.kotlinflowts.models.kotlinflowts.components.table.Column
 
 @Composable
 fun RowScope.Panel(
     panelTitle: String,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Column(
         modifier = Modifier
+            .weight(1f)
+            .fillMaxSize()
+            .border(
+                width = 1.dp,
+                color = Color.Gray,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        Text(panelTitle)
+        Spacer(modifier = Modifier.height(8.dp))
+        content()
+    }
+}
+
+@Composable
+fun ColumnScope.Panel(
+    modifier: Modifier = Modifier,
+    panelTitle: String,
+    content: @Composable () -> Unit,
+) {
+    Column(
+        modifier = modifier
             .weight(1f)
             .fillMaxSize()
             .border(

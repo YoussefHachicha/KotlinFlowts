@@ -7,11 +7,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.BlockComponentEditor
@@ -41,8 +39,7 @@ fun App(
     updateUi: Int,
     mode: Mode = Mode.fill,
     onUpload: (suspend (ComponentEvent) -> List<String>)? = null,
-    screenId: String? = null,
-    navigation: Boolean = true,
+    currentScreen: Screen,
     onBlur: ((event: ComponentEvent) -> Unit)? = null,
     onFocus: ((event: ComponentEvent) -> Unit)? = null,
     onComponentChange: ((event: ComponentEvent) -> Unit)? = null,
@@ -50,17 +47,6 @@ fun App(
     modifier: Modifier = Modifier,
     onChangeScreen: (Screen) -> Unit,
 ) {
-    val view = remember(editor) {
-        editor.views.find { it.type == "mobile" }
-    }
-
-    val screens = remember(editor, view) {
-        view?.screens ?: editor.screens.raw()
-    }
-
-    var currentScreen by remember(screens, screenId) {
-        mutableStateOf(screens.find { it.id == screenId } ?: screens.first())
-    }
 
     LaunchedEffect(currentScreen) {
         onChangeScreen(currentScreen)
@@ -82,16 +68,6 @@ fun App(
     }
 
     LazyColumn(modifier = modifier) {
-        if (navigation) item {
-            KfScreenSelector(
-                screens = screens,
-                screen = currentScreen,
-                onChange = {
-                    currentScreen = it
-                }
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-        }
         items(editorComponents, key = { it.id }) { it ->
             val isSelected by remember(editor.selectedEditorComponent?.id) { mutableStateOf(editor.selectedEditorComponent?.id == it.id) }
 
