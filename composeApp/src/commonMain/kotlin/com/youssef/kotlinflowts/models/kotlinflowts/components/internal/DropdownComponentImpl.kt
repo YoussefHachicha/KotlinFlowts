@@ -10,4 +10,11 @@ internal open class DropdownComponentImpl(
     wrapped: MutableMap<String, Any?>
 ) : AbstractValueBasedComponent<String>(wrapped), DropdownComponent {
     override val options: List<Option2> = JsonList(wrapped[DropdownComponent::options.name]) { it.toOption() }
+    override fun generateCode(): String {
+        return """
+            Text(
+                text = "Dropdown",
+            )
+        """.trimIndent()
+    }
 }

@@ -20,4 +20,11 @@ internal open class TableComponentImpl(
     override val columnsOrder get() = wrapped[COLUMN_ORDER] as MutableList<String>
 
     override val rowOrder get() = wrapped[TableComponent::rowOrder.name] as MutableList<String>
+
+    override fun generateCode(): String {
+        //TODO
+        return """
+            Text("Table component")
+        """.trimIndent()
+    }
 }

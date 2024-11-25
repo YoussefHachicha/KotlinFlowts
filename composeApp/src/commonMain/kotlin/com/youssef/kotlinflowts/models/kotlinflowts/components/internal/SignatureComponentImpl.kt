@@ -5,4 +5,10 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.SignatureComponen
 @PublishedApi
 internal class SignatureComponentImpl(
     wrapped: MutableMap<String, Any?>
-) : AbstractValueBasedComponent<String>(wrapped), SignatureComponent
+) : AbstractValueBasedComponent<String>(wrapped), SignatureComponent{
+    override fun generateCode(): String {
+        return """
+            Text("Signature component")
+        """.trimIndent()
+    }
+}
