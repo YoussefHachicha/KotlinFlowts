@@ -73,7 +73,6 @@ class AppBuilderImpl(
         app.components.add(component)
         _components.update { it + component }
         addCompUpdate++
-        println("adding text app.components ${app.components.size}")
     }
 
     override fun delete(id: String) {

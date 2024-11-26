@@ -1,11 +1,16 @@
 package com.youssef.kotlinflowts.app.view
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -44,46 +49,60 @@ fun ScreenNavigator(
                 shape = RoundedCornerShape(12.dp)
             )
     ) {
-        IconButton(onClick = { onAdd(screens.size + 1) }) {
+        // Button A - Always stuck to the start
+        IconButton(
+            onClick = { onAdd(screens.size + 1) },
+            modifier = Modifier.weight(0.1f)
+        ) {
             Icon(
                 Icons.Default.Add,
                 contentDescription = "Add"
             )
         }
+
         VerticalDivider()
 
+        // Flexible LazyRow that shrinks
         LazyRow(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            contentPadding = PaddingValues(horizontal = 8.dp),
+            modifier = Modifier.weight(0.8f)
         ) {
             itemsIndexed(screens) { index, screen ->
-                val isSelected by remember(currentScreen.id) { mutableStateOf(currentScreen.id == screen.id) }
-                Text(
-                    text = screen.name,
-                    color = if (isSelected) Color.Black else Color.Gray,
-                    softWrap = false,
-                    maxLines = 1,
-                    modifier = Modifier
-                        .clickableNoIndication {
-                            onChange(screen)
-                        }
-                        .padding(8.dp),
-                )
-                if (index != screens.size - 1) {
-                    VerticalDivider()
+                val isSelected by remember(currentScreen.id) {
+                    mutableStateOf(currentScreen.id == screen.id)
                 }
-            }
-            item {
-                VerticalDivider()
 
-                IconButton(
-                    onClick = { generateCode() }
-                ) {
-                    Icon(
-                        Icons.Default.GeneratingTokens,
-                        contentDescription = "Generate"
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = screen.name,
+                        color = if (isSelected) Color.Black else Color.Gray,
+                        softWrap = false,
+                        maxLines = 1,
+                        modifier = Modifier
+                            .clickableNoIndication { onChange(screen) }
+                            .padding(8.dp)
                     )
+
+                    if (index != screens.size - 1) {
+                        VerticalDivider()
+                    }
                 }
             }
+        }
+
+
+        VerticalDivider()
+
+        // Button B - Always stuck to the end
+        IconButton(
+            onClick = { generateCode() },
+            modifier = Modifier.weight(0.1f)
+        ) {
+            Icon(
+                Icons.Default.GeneratingTokens,
+                contentDescription = "Generate"
+            )
         }
     }
 }

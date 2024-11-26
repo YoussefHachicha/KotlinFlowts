@@ -5,22 +5,26 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.app.editor.EditorSample
 import com.youssef.kotlinflowts.app.gallery.ComponentsGallerySample
 import com.youssef.kotlinflowts.app.view.ScreenNavigator
 import com.youssef.kotlinflowts.app.view.ViewSample
 import com.youssef.kotlinflowts.compose.kotlinflowts.rememberEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.toMutableScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -77,9 +81,10 @@ fun App() {
                     },
                     generateCode = {
                         val comp = editor.components.from(currentScreen)
-                        comp.forEach {
-                            println(it.generateCode())
+                        val result = comp.joinToString(separator = "\n") {
+                            it.generateCode()
                         }
+                        println(currentScreen.generateCode(result))
                     },
                     modifier = Modifier.weight(0.1f),
                 )
@@ -99,5 +104,4 @@ fun App() {
         }
     }
 }
-
 
