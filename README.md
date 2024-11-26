@@ -6,16 +6,21 @@
 ![badge][badge-mac]
 ![badge][badge-windows]
 
-## Project Demo
+## Features
 
-Here is a demo of the project:
+Explore the interactive demo of the project [here](https://youtu.be/Gj1MaFLyTiQ).
 
-[Video Demo](https://youtu.be/Gj1MaFLyTiQ)
+### Key Features:
+- **Add Components**: Easily add reusable components to your application.
+- **Add Screens**: Seamlessly create and manage multiple screens.
+- **Edit Components**: Modify and update existing components to suit your needs.
+- **Generate Code**: Automatically generate the necessary code for screens and components.
 
+Take a look at the demo to see these features in action!
 
 ## Contribute
 
-Welcome contribute!
+Welcome, contribute!
 
 
 [badge-android]: http://img.shields.io/badge/-android-6EDB8D.svg?style=flat
