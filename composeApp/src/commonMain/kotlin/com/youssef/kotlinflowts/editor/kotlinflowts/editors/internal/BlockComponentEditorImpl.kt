@@ -8,4 +8,12 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 internal open class BlockComponentEditorImpl(
     app: App,
     override val comp: BlockComponent,
-) : AnyComponentEditor<BlockComponent>(app,comp,null), BlockComponentEditor
+) : AnyComponentEditor<BlockComponent>(app,comp,null), BlockComponentEditor {
+    override fun generateCode(): String {
+        return """
+            Text(
+                text = "Block",
+            )
+        """.trimIndent()
+    }
+}

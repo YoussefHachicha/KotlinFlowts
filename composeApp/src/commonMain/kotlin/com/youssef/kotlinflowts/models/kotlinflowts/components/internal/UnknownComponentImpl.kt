@@ -7,9 +7,5 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.UnknownComponent
 internal class UnknownComponentImpl(
     wrapped: MutableMap<String, Any?>
 ) : AbstractComponent(wrapped), UnknownComponent {
-    override fun generateCode(): String {
-        return """
-            Text("Unknown component")
-        """.trimIndent()
-    }
+
 }

@@ -12,4 +12,12 @@ internal class ImageComponentEditorImpl(
     override val comp: ImageComponent,
     identity: IdentityGenerator,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractFileBasedComponentEditor(app, comp, identity, onChange), ImageComponentEditor
+) : AbstractFileBasedComponentEditor(app, comp, identity, onChange), ImageComponentEditor {
+    override fun generateCode(): String {
+        return """
+            Text(
+                text = "Image",
+            )
+        """.trimIndent()
+    }
+}

@@ -12,8 +12,6 @@ interface Component : Mappable {
     val depth: Int
     val builderId: String
 
-    fun generateCode(): String
-
     enum class Type {
         text,
         textarea,

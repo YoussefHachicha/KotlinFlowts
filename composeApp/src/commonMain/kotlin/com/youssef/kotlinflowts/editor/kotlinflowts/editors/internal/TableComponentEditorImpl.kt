@@ -16,6 +16,13 @@ internal class TableComponentEditorImpl(
     onChange: ((ChangeEvent) -> Unit)?
 ) : AbstractListBasedComponentEditor<Row>(app, comp, onChange), TableComponentEditor {
     override val rows = RowCollectionImpl(app, comp, this, identity, onChange)
+
+    override fun generateCode(): String {
+        //TODO
+        return """
+            Text("Table component")
+        """.trimIndent()
+    }
 }
 
 

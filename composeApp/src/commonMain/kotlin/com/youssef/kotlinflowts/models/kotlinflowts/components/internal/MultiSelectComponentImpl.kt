@@ -13,12 +13,4 @@ internal open class MultiSelectComponentImpl(
 ) : AbstractComponent(wrapped), MultiSelectComponent {
     override val options: List<Option2> = JsonList(wrapped[DropdownComponent::options.name]) { it.toOption() }
     override val value: MutableList<String> get() = wrapped[MultiSelectComponent::value.name] as MutableList<String>
-
-    override fun generateCode(): String {
-        return """
-            Text(
-                text = "Multi Select",
-            )
-        """.trimIndent()
-    }
 }

@@ -20,6 +20,7 @@ import com.youssef.kotlinflowts.app.gallery.ComponentsGallerySample
 import com.youssef.kotlinflowts.app.view.ScreenNavigator
 import com.youssef.kotlinflowts.app.view.ViewSample
 import com.youssef.kotlinflowts.compose.kotlinflowts.rememberEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.toMutableScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -75,8 +76,7 @@ fun App() {
                         currentScreen = appBuilder.screen(null)
                     },
                     generateCode = {
-                        val comp = editor.components.from(currentScreen).map { it.comp }
-                        //now i need to printLn the generated code
+                        val comp = editor.components.from(currentScreen)
                         comp.forEach {
                             println(it.generateCode())
                         }
@@ -98,7 +98,6 @@ fun App() {
             }
         }
     }
-
 }
 
 

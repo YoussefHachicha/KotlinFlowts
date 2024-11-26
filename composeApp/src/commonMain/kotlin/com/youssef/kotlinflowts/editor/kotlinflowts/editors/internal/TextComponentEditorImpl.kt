@@ -11,4 +11,18 @@ internal class TextComponentEditorImpl(
     app: App,
     override val comp: TextComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractValueBasedComponentEditor<String,TextComponent>(app,comp,onChange), TextComponentEditor
+) : AbstractValueBasedComponentEditor<String,TextComponent>(app,comp,onChange), TextComponentEditor{
+    override fun generateCode(): String {
+        return """
+            OutlinedTextField(
+                value = "${value.orEmpty()}",
+                onValueChange = { },
+                readOnly = ${comp.disabled},
+                singleLine = true,
+                maxLines = 1,
+                colors = OutlinedTextFieldDefaults.colors(),
+                modifier = Modifier.fillMaxWidth()
+            )
+        """.trimIndent()
+    }
+}

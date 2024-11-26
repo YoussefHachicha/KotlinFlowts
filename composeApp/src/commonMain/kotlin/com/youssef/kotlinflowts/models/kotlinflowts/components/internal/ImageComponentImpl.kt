@@ -6,11 +6,4 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.ImageComponent
 internal class ImageComponentImpl(
     wrapped: MutableMap<String, Any?>
 ) : AbstractFileBasedComponent(wrapped), ImageComponent {
-    override fun generateCode(): String {
-        return """
-            Text(
-                text = "Image",
-            )
-        """.trimIndent()
-    }
 }

@@ -6,11 +6,4 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.FileComponent
 internal class FileComponentImpl(
     wrapped: MutableMap<String, Any?>
 ) : AbstractFileBasedComponent(wrapped), FileComponent {
-    override fun generateCode(): String {
-        return """
-            Text(
-                text = "File",
-            )
-        """.trimIndent()
-    }
 }

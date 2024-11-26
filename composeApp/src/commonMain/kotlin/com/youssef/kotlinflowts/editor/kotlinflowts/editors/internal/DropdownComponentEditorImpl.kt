@@ -27,4 +27,12 @@ internal class DropdownComponentEditorImpl(
     }
 
     override fun select(option: Option2?) = select(option?.id)
+
+    override fun generateCode(): String {
+        return """
+            Text(
+                text = "Dropdown",
+            )
+        """.trimIndent()
+    }
 }

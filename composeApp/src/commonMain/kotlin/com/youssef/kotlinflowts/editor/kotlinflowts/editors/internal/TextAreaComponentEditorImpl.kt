@@ -10,4 +10,17 @@ internal class TextAreaComponentEditorImpl(
     app: App,
     override val comp: TextAreaComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractValueBasedComponentEditor<String,TextAreaComponent>(app,comp,onChange), TextAreaComponentEditor
+) : AbstractValueBasedComponentEditor<String,TextAreaComponent>(app,comp,onChange), TextAreaComponentEditor {
+    override fun generateCode(): String {
+        return """
+            OutlinedTextField(
+                value = "${value.orEmpty()}",
+                onValueChange = { },
+                readOnly = ${comp.disabled},
+                minLines = 5,
+                colors = TextFieldDefaults.colors(),
+                modifier = Modifier.fillMaxWidth()
+            )
+        """.trimIndent()
+    }
+}

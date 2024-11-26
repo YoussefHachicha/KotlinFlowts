@@ -31,12 +31,4 @@ internal open class ChartComponentImpl(
             min = wrapped[AXIS_X_MIN] as? Double ?: 0.0,
             max = wrapped[AXIS_X_MAX] as? Double ?: 100.0,
         )
-
-    override fun generateCode(): String {
-        return """
-            Text(
-                text = "Chart",
-            )
-        """.trimIndent()
-    }
 }

@@ -55,4 +55,12 @@ internal class MultiSelectComponentEditorImpl(
     override fun unselect(option: Option2?) = unselect(option?.id)
 
     override fun select(option: Option2?) = select(option?.id)
+
+    override fun generateCode(): String {
+        return """
+            Text(
+                text = "Multi Select",
+            )
+        """.trimIndent()
+    }
 }

@@ -8,4 +8,12 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 internal open class RichTextComponentEditorImpl(
     app: App,
     override val comp: RichTextComponent,
-) : AnyComponentEditor<RichTextComponent>(app,comp,null), RichTextComponentEditor
+) : AnyComponentEditor<RichTextComponent>(app,comp,null), RichTextComponentEditor {
+    override fun generateCode(): String {
+        return """
+            Text(
+                text = "Rich Text",
+            )
+        """.trimIndent()
+    }
+}

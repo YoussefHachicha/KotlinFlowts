@@ -21,10 +21,5 @@ internal open class TableComponentImpl(
 
     override val rowOrder get() = wrapped[TableComponent::rowOrder.name] as MutableList<String>
 
-    override fun generateCode(): String {
-        //TODO
-        return """
-            Text("Table component")
-        """.trimIndent()
-    }
+
 }

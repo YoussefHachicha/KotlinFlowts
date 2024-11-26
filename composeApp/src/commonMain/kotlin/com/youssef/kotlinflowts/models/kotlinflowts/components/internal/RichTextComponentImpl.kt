@@ -6,11 +6,5 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.RichTextComponent
 internal open class RichTextComponentImpl(
     wrapped: MutableMap<String, Any?>
 ) : AbstractValueBasedComponent<String>(wrapped), RichTextComponent{
-    override fun generateCode(): String {
-        return """
-            Text(
-                text = "Rich Text",
-            )
-        """.trimIndent()
-    }
+
 }

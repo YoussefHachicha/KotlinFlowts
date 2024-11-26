@@ -12,4 +12,12 @@ internal class FileComponentEditorImpl(
     override val comp: FileComponent,
     identity: IdentityGenerator,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractFileBasedComponentEditor(app, comp, identity, onChange), FileComponentEditor
+) : AbstractFileBasedComponentEditor(app, comp, identity, onChange), FileComponentEditor {
+    override fun generateCode(): String {
+        return """
+            Text(
+                text = "File",
+            )
+        """.trimIndent()
+    }
+}

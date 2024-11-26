@@ -2,6 +2,7 @@ package com.youssef.kotlinflowts.editor.kotlinflowts.row.internal
 
 import com.youssef.kotlinflowts.editor.kotlinflowts.LayoutCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.AbstractListBasedComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.internal.CodeFormatter
 import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
@@ -17,4 +18,11 @@ internal class RowComponentEditorImpl(
     val onChange: ((ChangeEvent) -> Unit)?,
 ) : AbstractListBasedComponentEditor<Component>(app, comp, onChange), RowComponentEditor {
     override val rowComponents: LayoutCollection = RowCollectionImpl(app, identity, comp, onChange)
+
+    override fun generateCode(): String {
+        return CodeFormatter.generateContainerCode(
+            containerType = comp.type,
+            components = rowComponents.all()
+        )
+    }
 }

@@ -10,4 +10,10 @@ internal class SignatureComponentEditorImpl(
     app: App,
     override val comp: SignatureComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractValueBasedComponentEditor<String, SignatureComponent>(app, comp, onChange), SignatureComponentEditor
+) : AbstractValueBasedComponentEditor<String, SignatureComponent>(app, comp, onChange), SignatureComponentEditor {
+    override fun generateCode(): String {
+        return """
+            Text("Signature component")
+        """.trimIndent()
+    }
+}

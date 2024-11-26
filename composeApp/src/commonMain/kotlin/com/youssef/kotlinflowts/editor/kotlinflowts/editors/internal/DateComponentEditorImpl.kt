@@ -10,4 +10,12 @@ internal class DateComponentEditorImpl(
     app: App,
     override val comp: DateComponent,
     onChange: ((ChangeEvent) -> Unit)?
-) : AbstractValueBasedComponentEditor<Long, DateComponent>(app, comp, onChange), DateComponentEditor
+) : AbstractValueBasedComponentEditor<Long, DateComponent>(app, comp, onChange), DateComponentEditor {
+    override fun generateCode(): String {
+        return """
+            Text(
+                text = "Date",
+            )
+        """.trimIndent()
+    }
+}

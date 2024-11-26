@@ -7,12 +7,5 @@ internal open class DateComponentImpl(
     wrapped: MutableMap<String, Any?>
 ) : AbstractValueBasedComponent<Long>(wrapped), DateComponent {
     override val format: String? get() = wrapped["format"] as String?
-    override fun generateCode(): String {
-        return """
-            Text(
-                text = "Date",
-            )
-        """.trimIndent()
-    }
 }
 

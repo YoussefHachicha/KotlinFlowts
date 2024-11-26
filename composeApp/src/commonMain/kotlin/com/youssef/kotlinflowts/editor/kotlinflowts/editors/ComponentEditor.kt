@@ -10,6 +10,14 @@ interface ComponentEditor {
     val type: Component.Type
     val comp: Component
 
+    fun generateCode(): String {
+        return """
+            Text(
+                text = "${type.name}",
+            )
+        """.trimIndent()
+    }
+
     var borderColor: Color
     var padding: Int
 

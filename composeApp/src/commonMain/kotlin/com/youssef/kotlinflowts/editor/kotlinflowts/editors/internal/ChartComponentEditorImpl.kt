@@ -16,4 +16,11 @@ internal class ChartComponentEditorImpl(
     onChange: ((ChangeEvent) -> Unit)?
 ) : AnyComponentEditor<ChartComponent>(app, field, onChange), ChartComponentEditor {
     override val lines: LineCollection = LineCollectionImpl(app, identity, field, onChange)
+    override fun generateCode(): String {
+        return """
+            Text(
+                text = "Chart",
+            )
+        """.trimIndent()
+    }
 }
