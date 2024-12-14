@@ -11,12 +11,12 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 
 @PublishedApi
-internal open class AnyComponentEditor<out F : Component>(
+internal open class AnyComponentEditor<out C : Component>(
     app: App,
-    override val comp: F,
+    override val comp: C,
     onChange: ((ChangeEvent) -> Unit)?,
     private val initialTitle: String = comp.title
-) : EventTrigger<F>(app, comp, onChange), ComponentEditor {
+) : EventTrigger<C>(app, comp, onChange), ComponentEditor {
 
     override var id: String
         get() = this.comp.id

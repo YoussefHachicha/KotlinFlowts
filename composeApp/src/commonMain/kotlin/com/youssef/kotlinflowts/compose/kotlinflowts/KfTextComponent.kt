@@ -59,20 +59,17 @@ private fun KfTextComponentImpl(
     val component = remember(editor) { editor.comp }
     KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
     Spacer(modifier = Modifier.height(2.dp))
-    var value by remember(editor) { mutableStateOf(editor.comp.value) }
-    val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 
     RawTextComponent(
-        value = value,
+        value = editor.value ?: "",
         borders = true,
         maxLines = 1,
         readonly = component.disabled || mode == Mode.readonly,
         modifier = Modifier.fillMaxWidth().testTag("${component.id}-body"),
         onChange = {
-            value = it
-            onSignal(Signal.Change(value))
+            editor.value = it
+            onSignal(Signal.Change(it))
         },
-        onFocusChanged = focus.handler
     )
 }
 

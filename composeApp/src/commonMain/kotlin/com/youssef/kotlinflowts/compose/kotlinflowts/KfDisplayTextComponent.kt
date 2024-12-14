@@ -49,10 +49,12 @@ private fun KfDisplayTextComponentImpl(
     val component = remember(editor) { editor.comp }
     KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
     Spacer(modifier = Modifier.height(2.dp))
-    val value by remember(editor) {
+
+    val value by remember(editor.value) {
         onSignal(Signal.Change(editor.comp.value))
-        mutableStateOf(editor.comp.value ?: "text")
+        mutableStateOf(editor.value ?: "text")
     }
+
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 
     Text(

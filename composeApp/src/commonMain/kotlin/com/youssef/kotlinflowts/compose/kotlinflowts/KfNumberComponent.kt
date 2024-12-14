@@ -56,24 +56,16 @@ private fun KfNumberComponentImpl(
     onSignal: (Signal<Double>) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    var value by remember { mutableStateOf(component.value?.toString() ?: "") }
-    val focus = remember(onSignal) {
-        FocusManager(onSignal) {
-            editor.value = value.toTolerableNumber() ?: 0.0
-        }
-    }
-
     KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
     OutlinedTextField(
-        value = value,
+        value = component.value?.toString() ?: "",
         onValueChange = {
             val v = it.toTolerableNumber() ?: 0.0
-            value = v.toString()
+            component.value = v
             onSignal(Signal.Change(v))
         },
         readOnly = component.disabled || mode == Mode.readonly,
-        modifier = Modifier.testTag("${component.id}-body").fillMaxWidth()
-            .onFocusChanged(focus.handler),
+        modifier = Modifier.testTag("${component.id}-body").fillMaxWidth(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
 

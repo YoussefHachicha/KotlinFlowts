@@ -57,21 +57,18 @@ internal fun KfTextAreaImpl(
     onSignal: (Signal<String>) -> Unit
 ) {
     val component = remember(editor) { editor.comp }
-    var value by remember { mutableStateOf(component.value ?: "") }
-    val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 
     Text(editor.title, modifier = Modifier.testTag("${component.id}-title"))
     Spacer(modifier = Modifier.height(4.dp))
     OutlinedTextField(
-        value = value,
+        value = editor.value ?: "",
         onValueChange = {
-            value = it
+            editor.value = it
             onSignal(Signal.Change(it))
         },
         readOnly = component.disabled || mode == Mode.readonly,
         minLines = 5,
         modifier = Modifier.testTag("${component.id}-body")
             .fillMaxWidth()
-            .onFocusChanged(focus.handler)
     )
 }

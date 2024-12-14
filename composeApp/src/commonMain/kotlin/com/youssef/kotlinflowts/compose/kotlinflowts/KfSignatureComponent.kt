@@ -204,8 +204,6 @@ private fun Capture(
 
     val paths = remember { mutableStateListOf<Path>() }
 
-    var text by remember { mutableStateOf("") }
-
     val measurer = TextMeasurer(
         defaultFontFamilyResolver = LocalFontFamilyResolver.current,
         defaultDensity = LocalDensity.current,
@@ -267,14 +265,16 @@ private fun Capture(
                         }
 
 
-                        if (v != null || paths.isNotEmpty() || text.isNotEmpty()) DeleteOption(
+                        if (v != null || paths.isNotEmpty() || (component.value
+                                ?: "").isNotEmpty()
+                        ) DeleteOption(
                             component = component.comp,
                             deleting = deleting,
                             onDelete = { deleting = true },
                             onConfirm = {
                                 value = null
                                 paths.clear()
-                                text = ""
+                                component.value = ""
                                 cleared = true
                                 deleting = false
                             },
@@ -304,21 +304,32 @@ private fun Capture(
                         )
                 ) {
                     when {
-                        v != null && !drawing && paths.isEmpty() && text.isEmpty() -> Image(v, v)
-                        else                                                       -> Canvas(
+                        v != null && !drawing && paths.isEmpty() && (component.value
+                            ?: "").isEmpty() -> Image(v, v)
+
+                        else                 -> Canvas(
                             modifier = Modifier.fillMaxWidth().height(200.dp)
                         ) {
                             if (size == null) {
                                 size = this.size
                             }
-                            drawSignature(measurer, style, paths, points, text, color)
+                            drawSignature(
+                                measurer,
+                                style,
+                                paths,
+                                points,
+                                component.value ?: "",
+                                color
+                            )
                         }
                     }
                 }
 
                 OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = component.value ?: "",
+                    onValueChange = {
+                        component.value = it
+                    },
                     placeholder = { Text("Type signature") },
                     modifier = Modifier.testTag("${component.id}-capture-text").fillMaxWidth()
                         .padding(top = 12.dp)
@@ -354,7 +365,7 @@ private fun Capture(
                     Button(
                         modifier = Modifier.testTag("${component.id}-capture-submit"),
                         onClick = {
-                            if (text.isEmpty() && paths.isEmpty()) {
+                            if ((component.value ?: "").isEmpty() && paths.isEmpty()) {
                                 if (cleared) {
                                     return@Button onCaptured(null)
                                 } else {
@@ -373,7 +384,7 @@ private fun Capture(
                                 canvas = canvas,
                                 size = Size(width.toFloat(), height.toFloat())
                             ) {
-                                drawSignature(measurer, style, paths, points, text, Color.Black)
+                                drawSignature(measurer, style, paths, points, component.value ?: "", Color.Black)
                             }
                             onCaptured("data:image/png;base64," + Base64.encode(bitmap.toByteArray()))
                         },

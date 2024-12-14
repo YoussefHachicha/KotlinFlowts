@@ -9,11 +9,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ValueBasedComponentEditor
 import com.youssef.kotlinflowts.utils.colorPicker.ColorConfig
 
 @Composable
@@ -36,6 +39,19 @@ fun EditorSample(
                     },
                     label = { Text("Title") }
                 )
+                when(compEditor is ValueBasedComponentEditor<*>) {
+                    true -> {
+                        OutlinedTextField(
+                            value = (compEditor.value ?: "").toString(),
+                            onValueChange = {
+                                compEditor.changeValue(it)
+                            },
+                            label = { Text("Value") }
+                        )
+                    }
+                    false -> {}
+                }
+
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically,

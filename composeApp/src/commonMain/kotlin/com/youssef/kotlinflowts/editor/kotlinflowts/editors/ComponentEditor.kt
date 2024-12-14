@@ -27,6 +27,7 @@ interface ComponentEditor {
         this.title = title
     }
 
+
     fun changeBorderColor(color: Color) {
         borderColor = color
     }

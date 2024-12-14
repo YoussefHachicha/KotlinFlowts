@@ -22,7 +22,7 @@ internal fun RawTextComponent(
     maxLines: Int = Int.MAX_VALUE,
     readonly: Boolean = false,
     minLines: Int = 1,
-    onFocusChanged: (FocusState) -> Unit,
+    onFocusChanged: (FocusState) -> Unit = {},
 ) {
     var v by remember(value) { mutableStateOf(value ?: "") }
     OutlinedTextField(
