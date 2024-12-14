@@ -156,7 +156,7 @@ private fun KfSignatureComponentImpl(
                     state = if (it == null) State.Empty else State.Preview(it)
                     onSignal(Signal.Change(it))
                     onSignal(Signal.Blur(it))
-                    editor.value = it
+//                    editor.value = it
                 },
                 onCanceled = {
                     state = if (s.url == null) State.Empty else State.Preview(s.url)
@@ -218,6 +218,30 @@ private fun Capture(
         fontFamily = FontFamily.Cursive,
         color = color
     )
+    val density = LocalDensity.current
+
+    val buttonAction = {
+        if ((component.value ?: "").isEmpty() && paths.isEmpty()) {
+            if (cleared) {
+                 onCaptured(null)
+            }
+        }
+        val width = size?.width?.toInt() ?: 0
+        val height = size?.height?.toInt() ?: 0
+
+        val scope = CanvasDrawScope()
+        val bitmap = ImageBitmap(width, height)
+        val canvas = androidx.compose.ui.graphics.Canvas(bitmap)
+        scope.draw(
+            density = density,
+            layoutDirection = LayoutDirection.Ltr,
+            canvas = canvas,
+            size = Size(width.toFloat(), height.toFloat())
+        ) {
+            drawSignature(measurer, style, paths, points, component.value ?: "", Color.Black)
+        }
+        onCaptured("data:image/png;base64," + Base64.encode(bitmap.toByteArray()))
+    }
 
     Dialog(
         onDismissRequest = onCanceled,
@@ -349,7 +373,6 @@ private fun Capture(
                     modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
                 )
 
-                val density = LocalDensity.current
                 Row(
                     horizontalArrangement = Arrangement.End,
                     modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
@@ -364,30 +387,7 @@ private fun Capture(
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
                         modifier = Modifier.testTag("${component.id}-capture-submit"),
-                        onClick = {
-                            if ((component.value ?: "").isEmpty() && paths.isEmpty()) {
-                                if (cleared) {
-                                    return@Button onCaptured(null)
-                                } else {
-                                    return@Button
-                                }
-                            }
-                            val width = size?.width?.toInt() ?: return@Button
-                            val height = size?.height?.toInt() ?: return@Button
-
-                            val scope = CanvasDrawScope()
-                            val bitmap = ImageBitmap(width, height)
-                            val canvas = androidx.compose.ui.graphics.Canvas(bitmap)
-                            scope.draw(
-                                density = density,
-                                layoutDirection = LayoutDirection.Ltr,
-                                canvas = canvas,
-                                size = Size(width.toFloat(), height.toFloat())
-                            ) {
-                                drawSignature(measurer, style, paths, points, component.value ?: "", Color.Black)
-                            }
-                            onCaptured("data:image/png;base64," + Base64.encode(bitmap.toByteArray()))
-                        },
+                        onClick = { buttonAction() },
                         shape = RoundedCornerShape(8.dp),
                     ) {
                         Text("Submit")
