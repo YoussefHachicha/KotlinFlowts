@@ -23,7 +23,6 @@ class ColumnBuilderImpl(
         app.components.add(component)
 //        app.cursor?.positions?.add(position)
         app.components
-        println("added column components: ${_components.value.size}")
     }
 
     override fun delete(id: String) {

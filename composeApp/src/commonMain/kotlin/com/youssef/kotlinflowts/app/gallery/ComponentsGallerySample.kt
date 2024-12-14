@@ -63,7 +63,6 @@ fun ComponentsGallerySample(
             if (builder == null) {
                 add(selectedComponentType)
             } else {
-                println("Custom Builder $builder")
                 builder.add(selectedComponentType)
             }
         }

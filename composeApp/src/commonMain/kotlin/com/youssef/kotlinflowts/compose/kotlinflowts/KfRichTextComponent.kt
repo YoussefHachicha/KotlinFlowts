@@ -70,7 +70,6 @@ private fun BlockView(block: Block) {
     val text = buildAnnotatedString {
         append(block.text)
         for (range in block.inlineStyleRanges) {
-            println("Range: $range")
             val style = when {
                 range.style.startsWith("fontsize-") -> {
                     val size = range.style.removePrefix("fontsize-").toIntOrNull() ?: 16
