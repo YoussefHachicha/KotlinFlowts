@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.models.kotlinflowts.utils
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.youssef.kotlinflowts.models.kotlinflowts.Mappable
 
 open class JsonList<T : Mappable>(

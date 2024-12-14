@@ -113,12 +113,13 @@ private fun KfImageComponentImpl(
         editor.title,
         modifier = Modifier.testTag("${component.id}-preview-title").padding(bottom = 8.dp)
     )
+    val attachments by derivedStateOf { editor.fileValue.toList() }
 
     RawImageComponent(
         id = component.id,
         title = component.title,
         borderColor = editor.borderColor,
-        uploaded = editor.value,
+        uploaded = attachments,
         readonly = component.disabled || mode == Mode.readonly,
         onUpload = onUpload,
         onDialog = { opened ->
@@ -163,13 +164,16 @@ internal fun RawImageComponent(
     onRemoved: (List<String>) -> Unit,
     preview: @Composable (params: PreviewParams) -> Unit,
 ) {
-    val value = remember { mutableStateListOf(*uploaded.map { it.url }.toTypedArray()) }
+    val value = remember(uploaded) {
+        mutableStateListOf(*uploaded.map { it.url }.toTypedArray())
+    }
+
     val selected = remember { mutableStateListOf<String>() }
     var isDialogOpened by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
     val params by remember(value, selected, isDialogOpened) {
-        derivedStateOf {
+        mutableStateOf(
             PreviewParams(
                 value = value,
                 selected = selected,
@@ -182,7 +186,7 @@ internal fun RawImageComponent(
                 scope = scope,
                 onAdded = onAdded
             )
-        }
+        )
     }
 
     preview(params)

@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.table.internal
 
+import androidx.compose.runtime.mutableStateListOf
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.EventTrigger
 import com.youssef.kotlinflowts.editor.kotlinflowts.table.ImageCellEditor
 import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
@@ -20,20 +21,29 @@ internal class ImageCellEditorImpl(
     row: Row,
     onChange: ((ChangeEvent) -> Unit)?
 ) : EventTrigger<TableComponent>(app, field, onChange), ImageCellEditor {
-    override val value: MutableList<Attachment> = JsonList(row.cells[column.id]) { it.toAttachment() }
+
+    private val _value =  mutableStateListOf<Attachment>()
+    override val fileValue: List<Attachment> = _value
+
+    init {
+        _value.addAll(JsonList(row.cells[column.id]) { it.toAttachment() })
+    }
 
     override fun add(url: String) = add(listOf(url))
 
     override fun add(urls: List<String>) {
         val attachments = urls.map { Attachment(id = identity.generate(), it) }
-        value.addAll(attachments)
+        println("add Image: ${_value.size}. urls:${attachments.map { it.url }}")
+
+
+        _value.addAll(attachments)
         notifyChange()
     }
 
     override fun set(urls: List<String>) {
         val attachments = urls.map { Attachment(id = identity.generate(), it) }
-        value.clear()
-        value.addAll(attachments)
+        _value.clear()
+        _value.addAll(attachments)
         notifyChange()
     }
 
@@ -43,13 +53,18 @@ internal class ImageCellEditorImpl(
     }
 
     override fun remove(keys: List<String>) {
-        val found = value.filter { it.id in keys || it.url in keys || it.fileName in keys }
+        val found = fileValue.filter { it.id in keys || it.url in keys || it.fileName in keys }
         if (found.isEmpty()) return
-        value.removeAll(found)
+        _value.removeAll(found)
         notifyChange()
     }
 
     private fun notifyChange() {
         notifyChange(component.value.map { it.toMap() }.toMutableList())
+    }
+
+    override fun clear() {
+        _value.clear()
+        notifyChange()
     }
 }

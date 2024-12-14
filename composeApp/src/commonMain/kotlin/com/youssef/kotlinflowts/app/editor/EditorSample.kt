@@ -12,12 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.compose.kotlinflowts.toTolerableNumber
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.FileBasedComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ImageComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextAreaComponentEditor
@@ -45,8 +48,8 @@ fun EditorSample(
                     },
                     label = { Text("Title") }
                 )
-                when (compEditor is ValueBasedComponentEditor<*>) {
-                    true  -> {
+                when (compEditor) {
+                    is ValueBasedComponentEditor<*> -> {
                         when (compEditor) {
                             is DateComponentEditor -> {}
                             else                   -> {
@@ -58,7 +61,7 @@ fun EditorSample(
                                                 it.toTolerableNumber() ?: 0.0
                                             )
 
-                                            is TextAreaComponentEditor -> compEditor.changeValue(it)
+                                            is TextAreaComponentEditor  -> compEditor.changeValue(it)
                                             is TextComponentEditor      -> compEditor.changeValue(it)
                                             is SignatureComponentEditor -> compEditor.changeValue(it)
                                         }
@@ -70,7 +73,41 @@ fun EditorSample(
                         }
                     }
 
-                    false -> {}
+                    is FileBasedComponentEditor     -> {
+                        when (compEditor) {
+                            is ImageComponentEditor -> {
+                                var url by remember(
+                                    compEditor.fileValue.firstOrNull()?.url.orEmpty()
+                                ) { mutableStateOf(compEditor.fileValue.firstOrNull()?.url.orEmpty()) }
+                                OutlinedTextField(
+                                    value = url,
+                                    onValueChange = {
+                                        url = it
+                                    },
+                                    label = { Text("Url") }
+                                )
+                                TextButton(
+                                    onClick = {
+                                        if (compEditor.fileValue.isEmpty()) {
+                                            println("adding sss")
+                                            compEditor.add(url)
+                                        } else {
+                                            compEditor.clear()
+                                            compEditor.add(url)
+                                        }
+                                    }
+                                ) {
+                                    Text("Load Image")
+                                }
+                            }
+
+                            else                    -> {}
+                        }
+                    }
+
+                    else                            -> {
+
+                    }
                 }
 
                 Row(

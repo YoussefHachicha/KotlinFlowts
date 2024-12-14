@@ -16,10 +16,9 @@ internal abstract class AbstractValueBasedComponentEditor<V, C : ValueBasedCompo
     private val initialValue:  V? = comp.value
 ) : AnyComponentEditor<C>(app, comp, onChange), ValueBasedComponentEditor<V> {
     override var value: V? by mutableStateOf(initialValue)
-//        get() = this.comp.value
-//        set(value) {
-//            this.comp.value = value
-//            notifyChange(value)
-//        }
 
+    override fun changeValue(value: V) {
+        this.value = value
+        notifyChange(value)
+    }
 }

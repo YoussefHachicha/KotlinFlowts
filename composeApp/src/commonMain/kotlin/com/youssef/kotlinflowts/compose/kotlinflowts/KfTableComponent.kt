@@ -221,7 +221,7 @@ internal fun KfTableComponent(
                                         id = "${component.id}-$row:$col",
                                         title = cell.column.title,
                                         readonly = mode == Mode.readonly,
-                                        uploaded = cell.value,
+                                        uploaded = cell.fileValue,
                                         onUpload = uploadHandler,
                                         onDialog = {},
                                         onAdded = { cell.add(it) },
@@ -397,7 +397,7 @@ private fun Preview(
                 else /* col != -1 && row != -1 */ -> when (val cell = editor.rows.get(row)?.col(col)) {
                     is TextCellEditor -> Text(text = cell.value ?: "", modifier = modifier)
                     is DropdownCellEditor -> Text(text = cell.selected()?.value ?: "", modifier = modifier)
-                    is ImageCellEditor -> Text(text = "${cell.value.size}", modifier = modifier)
+                    is ImageCellEditor -> Text(text = "${cell.fileValue.size}", modifier = modifier)
                 }
             }
         }

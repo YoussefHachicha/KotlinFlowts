@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal
 
+import androidx.compose.runtime.mutableStateListOf
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.FileBasedComponentEditor
 import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
@@ -17,6 +18,9 @@ internal abstract class AbstractFileBasedComponentEditor(
     onChange: ((ChangeEvent) -> Unit)?
 ) : AbstractListBasedComponentEditor<Attachment>(app, comp, onChange), FileBasedComponentEditor {
 
+    private val _value = mutableStateListOf<Attachment>()
+    override val fileValue: List<Attachment> = _value
+
     override fun add(url: String) = add(listOf(url))
 
     override fun add(urls: List<String>) {
@@ -26,7 +30,8 @@ internal abstract class AbstractFileBasedComponentEditor(
                 Attachment::url.name to it
             ).toAttachment()
         }.toMutableList()
-        value.addAll(attachments)
+        _value.addAll(attachments)
+        println("add Image: ${fileValue.size}. urls:${attachments.map { it.url }}")
     }
 
     override fun set(urls: List<String>) {
@@ -37,7 +42,7 @@ internal abstract class AbstractFileBasedComponentEditor(
             ).toAttachment()
         }.toMutableList()
         comp.value.clear()
-        value.addAll(attachments)
+        _value.addAll(attachments)
     }
 
     override fun remove(key: String?) {
@@ -48,6 +53,10 @@ internal abstract class AbstractFileBasedComponentEditor(
     override fun remove(keys: List<String>) {
         val found = comp.value.filter { it.id in keys || it.url in keys || it.fileName in keys }
         if(found.isEmpty()) return
-        value.removeAll(found)
+        _value.removeAll(found)
+    }
+
+    override fun clear() {
+        _value.clear()
     }
 }
