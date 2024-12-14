@@ -18,4 +18,9 @@ internal class DateComponentEditorImpl(
             )
         """.trimIndent()
     }
+
+    override fun changeValue(value: Long) {
+        this.value = value
+        notifyChange(value)
+    }
 }

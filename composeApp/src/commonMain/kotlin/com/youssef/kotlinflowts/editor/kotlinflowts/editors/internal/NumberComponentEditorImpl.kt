@@ -22,4 +22,9 @@ internal class NumberComponentEditorImpl(
             )
         """.trimIndent()
     }
+
+    override fun changeValue(value: Double) {
+        this.value = value
+        notifyChange(value)
+    }
 }

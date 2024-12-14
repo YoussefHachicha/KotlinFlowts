@@ -25,4 +25,9 @@ internal class TextComponentEditorImpl(
             )
         """.trimIndent()
     }
+
+    override fun changeValue(value: String) {
+        this.value = value
+        notifyChange(value)
+    }
 }

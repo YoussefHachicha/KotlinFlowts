@@ -58,10 +58,10 @@ private fun KfNumberComponentImpl(
     val component = remember(editor) { editor.comp }
     KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
     OutlinedTextField(
-        value = component.value?.toString() ?: "",
+        value = editor.value?.toString() ?: "",
         onValueChange = {
             val v = it.toTolerableNumber() ?: 0.0
-            component.value = v
+            editor.value = v
             onSignal(Signal.Change(v))
         },
         readOnly = component.disabled || mode == Mode.readonly,
@@ -71,6 +71,6 @@ private fun KfNumberComponentImpl(
 
 }
 
-private fun String.toTolerableNumber() = filter {
+fun String.toTolerableNumber() = filter {
     it in '0'..'9' || it == '.'
 }.removeSuffix(".0").toDoubleOrNull()

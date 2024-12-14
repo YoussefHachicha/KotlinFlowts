@@ -15,7 +15,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.youssef.kotlinflowts.compose.kotlinflowts.toTolerableNumber
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.SignatureComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextAreaComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ValueBasedComponentEditor
 import com.youssef.kotlinflowts.utils.colorPicker.ColorConfig
 
@@ -39,16 +45,31 @@ fun EditorSample(
                     },
                     label = { Text("Title") }
                 )
-                when(compEditor is ValueBasedComponentEditor<*>) {
-                    true -> {
-                        OutlinedTextField(
-                            value = (compEditor.value ?: "").toString(),
-                            onValueChange = {
-                                compEditor.changeValue(it)
-                            },
-                            label = { Text("Value") }
-                        )
+                when (compEditor is ValueBasedComponentEditor<*>) {
+                    true  -> {
+                        when (compEditor) {
+                            is DateComponentEditor -> {}
+                            else                   -> {
+                                OutlinedTextField(
+                                    value = (compEditor.value ?: "").toString(),
+                                    onValueChange = {
+                                        when (compEditor) {
+                                            is NumberComponentEditor    -> compEditor.changeValue(
+                                                it.toTolerableNumber() ?: 0.0
+                                            )
+
+                                            is TextAreaComponentEditor -> compEditor.changeValue(it)
+                                            is TextComponentEditor      -> compEditor.changeValue(it)
+                                            is SignatureComponentEditor -> compEditor.changeValue(it)
+                                        }
+                                    },
+                                    label = { Text("Value") }
+                                )
+
+                            }
+                        }
                     }
+
                     false -> {}
                 }
 
