@@ -245,6 +245,7 @@ internal fun RawImageComponent(
                         Picture(
                             url = it,
                             selected = marked,
+                            borderColor = borderColor,
                             margin = 4.dp,
                             onSelectorClicked = { url: String ->
                                 if (marked) selected.remove(url) else selected.add(url)
@@ -283,6 +284,7 @@ internal fun FirstImagePreview(
         else -> Box {
             Picture(
                 url = first,
+                borderColor = borderColor,
                 selected = params.selected.contains(first),
                 onDelete = { url: String ->
                     params.value.remove(url)
@@ -341,6 +343,7 @@ internal fun UploadLabel(
 @Composable
 internal fun Picture(
     url: String,
+    borderColor: Color,
     selected: Boolean,
     onSelectorClicked: ((String) -> Unit)? = null,
     onDelete: ((String) -> Unit)? = null,
@@ -351,7 +354,7 @@ internal fun Picture(
         .padding(margin)
         .border(
             width = 2.dp,
-            color = LocalContentColor.current.copy(alpha = 0.2f),
+            color = borderColor,
             shape = RoundedCornerShape(8.dp)
         ).padding(4.dp)
         .then(modifier)
