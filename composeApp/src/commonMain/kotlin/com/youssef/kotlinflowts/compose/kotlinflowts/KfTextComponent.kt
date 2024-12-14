@@ -63,6 +63,7 @@ private fun KfTextComponentImpl(
     RawTextComponent(
         value = editor.value ?: "",
         borders = true,
+        borderColor = editor.borderColor,
         maxLines = 1,
         readonly = component.disabled || mode == Mode.readonly,
         modifier = Modifier.fillMaxWidth().testTag("${component.id}-body"),

@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFontFamilyResolver
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -224,9 +225,10 @@ internal fun KfTableComponent(
                                         onUpload = uploadHandler,
                                         onDialog = {},
                                         onAdded = { cell.add(it) },
+                                        borderColor = editor.borderColor,
                                         onRemoved = { cell.remove(it) },
                                     ) {
-                                        UploadLabel(modifier = Modifier.fillMaxWidth(), onClick = it::openModal)
+                                        UploadLabel(modifier = Modifier.fillMaxWidth(), borderColor = editor.borderColor, onClick = it::openModal)
                                     }
                                 }
                             }
@@ -261,6 +263,7 @@ internal fun KfTableComponent(
                     RowCapture(
                         title = editor.title,
                         columns = component.columns,
+                        borderColor = editor.borderColor,
                         mode = mode,
                         onUpload = uploadHandler,
                         onClose = { subDialog = false }
@@ -278,6 +281,7 @@ private enum class UIView {
 @Composable
 private fun RowCapture(
     title: String,
+    borderColor: Color,
     columns: List<Column>,
     mode: Mode,
     onUpload: (suspend () -> List<String>)?,
@@ -314,6 +318,7 @@ private fun RowCapture(
             is ImageColumn -> RawImageComponent(
                 id = column.id,
                 title = column.title,
+                borderColor = borderColor,
                 readonly = mode == Mode.readonly,
                 onDialog = {},
                 uploaded = emptyList(),
@@ -321,7 +326,7 @@ private fun RowCapture(
                 onAdded = {},
                 onRemoved = {}
             ) {
-                FirstImagePreview(id = "new-row", params = it, onFocus = {}, onRemove = {})
+                FirstImagePreview(id = "new-row", params = it, borderColor= borderColor, onFocus = {}, onRemove = {})
             }
 
             else -> Text("Unsupported table column type '${column.type}'")

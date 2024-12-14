@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -60,6 +61,7 @@ internal fun KfTextAreaImpl(
 
     Text(editor.title, modifier = Modifier.testTag("${component.id}-title"))
     Spacer(modifier = Modifier.height(4.dp))
+
     OutlinedTextField(
         value = editor.value ?: "",
         onValueChange = {
@@ -68,6 +70,10 @@ internal fun KfTextAreaImpl(
         },
         readOnly = component.disabled || mode == Mode.readonly,
         minLines = 5,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = editor.borderColor,
+            unfocusedBorderColor = editor.borderColor,
+        ),
         modifier = Modifier.testTag("${component.id}-body")
             .fillMaxWidth()
     )

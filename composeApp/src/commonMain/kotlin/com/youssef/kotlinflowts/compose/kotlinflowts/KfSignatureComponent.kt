@@ -131,7 +131,7 @@ private fun KfSignatureComponentImpl(
             .semantics { contentDescription = state.toContentDescription() }
             .border(
                 width = 1.dp,
-                color = LocalContentColor.current.copy(alpha = 0.6f),
+                color = editor.borderColor,
                 shape = RoundedCornerShape(4.dp)
             ).clickable {
                 if (component.disabled || mode == Mode.readonly) return@clickable

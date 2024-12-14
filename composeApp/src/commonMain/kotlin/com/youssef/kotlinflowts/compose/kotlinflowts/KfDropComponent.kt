@@ -84,6 +84,7 @@ private fun KfDropComponentImpl(
         readonly = component.disabled || mode == Mode.readonly,
         multiple = multiple,
         borders = true,
+        borderColor = editor.borderColor,
         onChange = {
             selected = it.firstOrNull()?.value
             onSignal(Signal.Change(selected))
@@ -100,6 +101,7 @@ internal fun RawDropComponent(
     options: List<Option2>,
     value: List<String>,
     readonly: Boolean,
+    borderColor: Color = Color.Transparent,
     multiple: Boolean,
     borders: Boolean,
     onChange: (List<Option2>) -> Unit,
@@ -125,12 +127,12 @@ internal fun RawDropComponent(
             onValueChange = {},
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
             colors = if (borders) {
-                OutlinedTextFieldDefaults.colors()
-            } else {
                 OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent,
+                    focusedBorderColor = borderColor,
+                    unfocusedBorderColor = borderColor,
                 )
+            } else {
+                OutlinedTextFieldDefaults.colors()
             },
             modifier = Modifier.fillMaxWidth().menuAnchor().clickable { expanded = !readonly }
         )

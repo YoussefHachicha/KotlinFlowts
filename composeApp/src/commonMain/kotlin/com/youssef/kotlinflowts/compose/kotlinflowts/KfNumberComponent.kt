@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -65,8 +66,12 @@ private fun KfNumberComponentImpl(
             onSignal(Signal.Change(v))
         },
         readOnly = component.disabled || mode == Mode.readonly,
-        modifier = Modifier.testTag("${component.id}-body").fillMaxWidth(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = editor.borderColor,
+            unfocusedBorderColor = editor.borderColor,
+        ),
+        modifier = Modifier.testTag("${component.id}-body").fillMaxWidth()
     )
 
 }

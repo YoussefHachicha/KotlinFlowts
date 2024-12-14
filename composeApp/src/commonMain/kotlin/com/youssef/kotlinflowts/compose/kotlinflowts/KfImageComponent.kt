@@ -117,6 +117,7 @@ private fun KfImageComponentImpl(
     RawImageComponent(
         id = component.id,
         title = component.title,
+        borderColor = editor.borderColor,
         uploaded = editor.value,
         readonly = component.disabled || mode == Mode.readonly,
         onUpload = onUpload,
@@ -135,6 +136,7 @@ private fun KfImageComponentImpl(
             FirstImagePreview(
                 id = component.id,
                 params = params,
+                borderColor = editor.borderColor,
                 onFocus = {
                     onSignal(if (it.hasFocus) Signal.Focus else Signal.Blur(Unit))
                 },
@@ -152,6 +154,7 @@ private fun KfImageComponentImpl(
 internal fun RawImageComponent(
     id: String,
     title: String,
+    borderColor: Color,
     uploaded: List<Attachment>,
     readonly: Boolean,
     onUpload: (suspend () -> List<String>)? = null,
@@ -197,6 +200,7 @@ internal fun RawImageComponent(
                     if (!readonly) Row(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
                         UploadLabel(
                             onClick = params::onUploadHandler,
+                            borderColor = borderColor,
                             modifier = Modifier.testTag("$id-body-upload").padding(8.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
@@ -257,12 +261,14 @@ internal fun RawImageComponent(
 internal fun FirstImagePreview(
     id: String,
     params: PreviewParams,
+    borderColor: Color,
     onFocus: (FocusState) -> Unit,
     onRemove: (String) -> Unit
 ) = Column(modifier = Modifier.testTag("$id-preview").fillMaxWidth()) {
     when (val first = params.value.firstOrNull()) {
         null -> UploadLabel(
             modifier = Modifier.testTag("$id-preview-label").fillMaxWidth().height(200.dp),
+            borderColor = borderColor,
             onClick = {
                 if (params.onUpload == null || params.readonly) return@UploadLabel
                 onFocus(ActiveFocusState)
@@ -307,6 +313,7 @@ internal fun FirstImagePreview(
 @Composable
 internal fun UploadLabel(
     modifier: Modifier = Modifier,
+    borderColor: Color,
     onClick: () -> Unit,
 ) = Row(
     verticalAlignment = Alignment.CenterVertically,
@@ -315,7 +322,7 @@ internal fun UploadLabel(
         .dashedBorder(
             width = 2.dp,
             radius = 8.dp,
-            color = LocalContentColor.current
+            color = borderColor
         )
         .padding(4.dp)
         .background(color = LocalContentColor.current.copy(alpha = 0.2f), RoundedCornerShape(8.dp))

@@ -18,6 +18,7 @@ import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -138,7 +139,11 @@ private fun KfDateTimeComponentImpl(
             onValueChange = {},
             interactionSource = interaction,
             modifier = Modifier.testTag("${component.id}-body-output").fillMaxWidth(),
-            readOnly = true
+            readOnly = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = editor.borderColor,
+                unfocusedBorderColor = editor.borderColor,
+            ),
         )
     }
 

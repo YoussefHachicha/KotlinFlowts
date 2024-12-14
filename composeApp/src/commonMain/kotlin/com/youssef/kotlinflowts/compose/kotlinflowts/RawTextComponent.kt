@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 internal fun RawTextComponent(
     value: String?,
     borders: Boolean = true,
+    borderColor: Color = Color.Transparent,
     modifier: Modifier = Modifier,
     onChange: (String) -> Unit,
     maxLines: Int = Int.MAX_VALUE,
@@ -37,12 +38,12 @@ internal fun RawTextComponent(
         maxLines = maxLines,
         minLines = minLines,
         colors = if (borders) {
-            OutlinedTextFieldDefaults.colors()
-        } else {
             OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.Transparent,
-                unfocusedBorderColor = Color.Transparent,
+                focusedBorderColor = borderColor,
+                unfocusedBorderColor =borderColor,
             )
+        } else {
+            OutlinedTextFieldDefaults.colors()
         }
     )
 }
