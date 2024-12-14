@@ -5,23 +5,24 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 
 @Composable
 internal fun KfTitle(
-    component: Component,
+    component: ComponentEditor,
     modifier: Modifier = Modifier
 ) = KfTitle(component.title, modifier)
 
 @Composable
 internal fun ColumnScope.KfTitle(
-    component: Component,
+    component: ComponentEditor,
     modifier: Modifier = Modifier
 ) = KfTitle(component.title, modifier)
 
 @Composable
 internal fun RowScope.KfTitle(
-    component: Component,
+    component: ComponentEditor,
     modifier: Modifier = Modifier
 ) = KfTitle(component.title, modifier)
 

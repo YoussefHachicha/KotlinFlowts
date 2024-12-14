@@ -79,7 +79,7 @@ private fun KfSelectComponentImpl(
     }
 
     val focus = remember(onSignal) { FocusManager(onSignal) { } }
-    KfTitle(component, modifier = Modifier.testTag("${component.id}-title"))
+    KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
     Surface(
         color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.2f),
         shape = RoundedCornerShape(10.dp),

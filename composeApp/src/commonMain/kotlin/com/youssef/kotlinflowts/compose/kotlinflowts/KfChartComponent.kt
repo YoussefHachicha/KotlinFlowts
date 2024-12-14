@@ -90,7 +90,7 @@ private fun KfChartComponentImpl(
     val lines = remember(component.value) { mutableStateListOf(*(component.value ?: emptyList()).toTypedArray()) }
     val readonly = component.disabled || mode == Mode.readonly
 
-    KfTitle(component.title, modifier = Modifier.testTag("${component.id}-preview-title"))
+    KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-preview-title"))
     Spacer(modifier = Modifier.height(8.dp))
     OutlinedButton(
         onClick = {
@@ -118,7 +118,7 @@ private fun KfChartComponentImpl(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    KfTitle(component.title, modifier = Modifier.testTag("${component.id}-capture-title"))
+                    KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-capture-title"))
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = "${component.id}-capture-close",

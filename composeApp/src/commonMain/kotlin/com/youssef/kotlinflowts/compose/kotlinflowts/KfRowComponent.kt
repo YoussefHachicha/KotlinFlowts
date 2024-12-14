@@ -58,7 +58,7 @@ internal fun KfRowComponent(
             .clickableNoIndication(onClick = { select(editor) })
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
@@ -111,7 +111,7 @@ internal fun RowScope.KfRowComponent(
             .clickableNoIndication(onClick = { select(editor) })
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()

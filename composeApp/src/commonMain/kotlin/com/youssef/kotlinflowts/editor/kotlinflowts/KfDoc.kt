@@ -1,3 +1,3 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts
 
-typealias JoyDoc = Map<String,Any?>
+typealias KfDoc = Map<String,Any?>

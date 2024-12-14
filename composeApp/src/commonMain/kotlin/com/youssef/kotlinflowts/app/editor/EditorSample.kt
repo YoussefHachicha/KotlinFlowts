@@ -29,7 +29,6 @@ fun EditorSample(
     ) {
         item {
             editor.selectedEditorComponent?.let { compEditor ->
-                val dd = compEditor.comp
                 OutlinedTextField(
                     value = compEditor.title,
                     onValueChange = {

@@ -24,7 +24,7 @@ interface ComponentEditor {
     fun isLayout(): Boolean = type == Component.Type.column || type == Component.Type.row
 
     fun changeTitle(title: String) {
-        comp.title = title
+        this.title = title
     }
 
     fun changeBorderColor(color: Color) {

@@ -63,7 +63,7 @@ private fun KfNumberComponentImpl(
         }
     }
 
-    KfTitle(component, modifier = Modifier.testTag("${component.id}-title"))
+    KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
     OutlinedTextField(
         value = value,
         onValueChange = {

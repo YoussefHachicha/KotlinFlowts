@@ -110,7 +110,7 @@ private fun KfImageComponentImpl(
     val component = remember(editor) { editor.comp }
 
     Text(
-        component.title,
+        editor.title,
         modifier = Modifier.testTag("${component.id}-preview-title").padding(bottom = 8.dp)
     )
 

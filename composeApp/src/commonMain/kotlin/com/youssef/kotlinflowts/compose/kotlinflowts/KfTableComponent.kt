@@ -122,7 +122,7 @@ internal fun KfTableComponent(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        KfTitle(component, modifier = Modifier.padding(bottom = 4.dp))
+                        KfTitle(editor, modifier = Modifier.padding(bottom = 4.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             if (selectedRow.size == 1) {
                                 val width = with(density) { measurer.measure("More").size.width.toDp() + 40.dp }
@@ -259,7 +259,7 @@ internal fun KfTableComponent(
             ) {
                 Surface(modifier = Modifier.fillMaxSize(0.8f)) {
                     RowCapture(
-                        title = component.title,
+                        title = editor.title,
                         columns = component.columns,
                         mode = mode,
                         onUpload = uploadHandler,
@@ -361,7 +361,7 @@ private fun Preview(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        KfTitle(component)
+        KfTitle(editor)
         Row {
             TextButton(onClick = onClick, contentPadding = PaddingValues(0.dp), shape = RoundedCornerShape(2.dp)) {
                 Text("View")

@@ -122,7 +122,7 @@ private fun KfSignatureComponentImpl(
         }
         mutableStateOf(s)
     }
-    KfTitle(component, modifier = Modifier.testTag("${component.id}-preview-title"))
+    KfTitle(editor, modifier = Modifier.testTag("${component.id}-preview-title"))
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -150,7 +150,7 @@ private fun KfSignatureComponentImpl(
             )
 
             is State.Capturing -> Capture(
-                component = component,
+                component = editor,
                 url = s.url,
                 onCaptured = {
                     state = if (it == null) State.Empty else State.Preview(it)
@@ -192,7 +192,7 @@ private sealed interface State {
 @OptIn(ExperimentalEncodingApi::class)
 @Composable
 private fun Capture(
-    component: SignatureComponent,
+    component: SignatureComponentEditor,
     url: String? = null,
     onCaptured: (String?) -> Unit,
     onCanceled: () -> Unit,
@@ -268,7 +268,7 @@ private fun Capture(
 
 
                         if (v != null || paths.isNotEmpty() || text.isNotEmpty()) DeleteOption(
-                            component = component,
+                            component = component.comp,
                             deleting = deleting,
                             onDelete = { deleting = true },
                             onConfirm = {

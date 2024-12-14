@@ -55,7 +55,7 @@ internal fun KfColumnComponent(
             .clickableNoIndication(onClick = { select(editor) })
             .padding(horizontal = 16.dp)
     ) {
-        KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
         Spacer(modifier = Modifier.height(2.dp))
 
         this.KfLayoutComposable(
@@ -103,7 +103,7 @@ internal fun RowScope.KfColumnComponent(
             .clickableNoIndication(onClick = { select(editor) })
             .padding(horizontal = 16.dp)
     ) {
-        KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
         Spacer(modifier = Modifier.height(2.dp))
 
         this.KfLayoutComposable(

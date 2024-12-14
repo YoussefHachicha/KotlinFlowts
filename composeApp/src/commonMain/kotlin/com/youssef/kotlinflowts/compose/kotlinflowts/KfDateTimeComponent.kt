@@ -130,7 +130,7 @@ private fun KfDateTimeComponentImpl(
 
     Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
         KfTitle(
-            component,
+            editor,
             modifier = Modifier.testTag("${component.id}-title")
         )
         OutlinedTextField(

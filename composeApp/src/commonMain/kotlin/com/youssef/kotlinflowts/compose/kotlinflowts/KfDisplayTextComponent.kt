@@ -47,7 +47,7 @@ private fun KfDisplayTextComponentImpl(
     onSignal: (Signal<String?>) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
+    KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
     Spacer(modifier = Modifier.height(2.dp))
     val value by remember(editor) {
         onSignal(Signal.Change(editor.comp.value))
