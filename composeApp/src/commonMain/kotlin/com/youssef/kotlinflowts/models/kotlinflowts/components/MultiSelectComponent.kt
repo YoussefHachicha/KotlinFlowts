@@ -4,5 +4,6 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.core.ListBasedCom
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.Option2
 
 interface MultiSelectComponent : ListBasedComponent<String> {
-    val options: List<Option2>
+    val options: MutableList<Option2>
+    val multiple: Boolean
 }

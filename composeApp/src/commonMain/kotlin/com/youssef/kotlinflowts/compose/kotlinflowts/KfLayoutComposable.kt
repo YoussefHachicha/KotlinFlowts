@@ -87,7 +87,6 @@ internal fun RowScope.KfLayoutComposable(
                 is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    multiple = true,
                     onSignal = componentEditor::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,
@@ -264,7 +263,6 @@ internal fun ColumnScope.KfLayoutComposable(
                 is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    multiple = true,
                     onSignal = componentEditor::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,

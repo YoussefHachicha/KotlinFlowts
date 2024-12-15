@@ -15,11 +15,13 @@ import com.youssef.kotlinflowts.app.editor.components.DeleteButton
 import com.youssef.kotlinflowts.app.editor.components.EditorTitle
 import com.youssef.kotlinflowts.app.editor.components.HandleDropdownEditor
 import com.youssef.kotlinflowts.app.editor.components.HandleFileBasedEditor
+import com.youssef.kotlinflowts.app.editor.components.HandleMultiSelectEditor
 import com.youssef.kotlinflowts.app.editor.components.HandleValueBasedEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DropdownComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DropdownEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.FileBasedComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.MultiSelectComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ValueBasedComponentEditor
 
 @Composable
@@ -50,6 +52,7 @@ fun EditorSample(
                     is ValueBasedComponentEditor<*> -> HandleValueBasedEditor(compEditor)
                     is FileBasedComponentEditor -> HandleFileBasedEditor(compEditor)
                     is DropdownComponentEditor -> HandleDropdownEditor(compEditor)
+                    is MultiSelectComponentEditor -> HandleMultiSelectEditor(compEditor)
                     else -> {}
                 }
 
@@ -57,3 +60,4 @@ fun EditorSample(
         }
     }
 }
+

@@ -182,6 +182,7 @@ interface LayoutBuilder {
         title: String = "Select Component",
         options: List<String>,
         id: String? = null,
+        multiple: Boolean = true,
         identifier: String? = null,
         readonly: Boolean = false,
         value: List<String> = emptyList()
@@ -194,17 +195,18 @@ interface LayoutBuilder {
             }
             out
         }
-        multiSelectComponent(uid, title, identifier ?: "component-$uid", o, depth, builderId, selected)
+        multiSelectComponent(uid, title, identifier ?: "component-$uid", multiple, o, depth, builderId, selected)
     }
 
     fun select(
         title: String = "Select Component",
         options: List<String>,
         id: String? = null,
+        multiple: Boolean = true,
         identifier: String? = null,
         readonly: Boolean = false,
         value: String
-    ) = select(title, options, id, identifier, readonly, listOf(value))
+    ) = select(title, options, id, multiple, identifier, readonly, listOf(value))
 
     private fun String.toAttachment() = Attachment(id = identity.generate(), url = this)
 

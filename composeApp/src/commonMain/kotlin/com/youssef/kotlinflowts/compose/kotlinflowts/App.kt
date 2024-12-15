@@ -107,7 +107,6 @@ fun App(
                 is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = it,
                     mode = mode,
-                    multiple = true,
                     onSignal = it::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,

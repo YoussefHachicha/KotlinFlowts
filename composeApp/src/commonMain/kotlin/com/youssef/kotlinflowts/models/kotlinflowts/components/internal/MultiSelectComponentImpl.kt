@@ -11,6 +11,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.toOption
 internal open class MultiSelectComponentImpl(
     wrapped: MutableMap<String, Any?>
 ) : AbstractComponent(wrapped), MultiSelectComponent {
-    override val options: List<Option2> = JsonList(wrapped[DropdownComponent::options.name]) { it.toOption() }
+    override val options: MutableList<Option2> = JsonList(wrapped[DropdownComponent::options.name]) { it.toOption() }
     override val value: MutableList<String> get() = wrapped[MultiSelectComponent::value.name] as MutableList<String>
+    override val multiple: Boolean get() = wrapped[DropdownComponent::multiple.name] as Boolean
 }

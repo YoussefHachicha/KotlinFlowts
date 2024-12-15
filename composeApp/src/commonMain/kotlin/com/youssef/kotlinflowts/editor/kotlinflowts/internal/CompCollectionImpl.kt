@@ -179,7 +179,7 @@ internal class CompCollectionImpl(
 
     override fun select(key: String) =
         buildEditor(key, Component.Type.multiSelect) { component: MultiSelectComponent ->
-            MultiSelectComponentEditorImpl(app, component, onChange)
+            MultiSelectComponentEditorImpl(app, component, identity, onChange)
         }
 
     override fun image(key: String) =

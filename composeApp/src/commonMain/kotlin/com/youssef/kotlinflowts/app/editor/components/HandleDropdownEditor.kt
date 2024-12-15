@@ -20,7 +20,7 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DropdownComponentEdi
 
 @Composable
 internal fun HandleDropdownEditor(compEditor: DropdownComponentEditor) {
-    var option by remember { mutableStateOf("") }
+    var newOption by remember { mutableStateOf("") }
 
     KfOption(
         label = "Multiple options",
@@ -29,15 +29,15 @@ internal fun HandleDropdownEditor(compEditor: DropdownComponentEditor) {
     )
 
     OutlinedTextField(
-        value = option,
-        onValueChange = { option = it },
+        value = newOption,
+        onValueChange = { newOption = it },
         label = { Text("Option") }
     )
 
     TextButton(
         onClick = {
-            compEditor.addOption(option)
-            option = ""
+            compEditor.addOption(newOption)
+            newOption = ""
         }
     ) {
         Text("Add Option")

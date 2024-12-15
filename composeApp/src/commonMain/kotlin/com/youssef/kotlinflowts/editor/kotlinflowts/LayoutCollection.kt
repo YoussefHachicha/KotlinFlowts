@@ -49,7 +49,7 @@ interface LayoutCollection {
         is TextAreaComponent            -> TextAreaComponentEditorImpl(app, this, onChange)
         is NumberComponent              -> NumberComponentEditorImpl(app, this, onChange)
         is DropdownComponent            -> DropdownComponentEditorImpl(app, this, identity, onChange)
-        is MultiSelectComponent         -> MultiSelectComponentEditorImpl(app, this, onChange)
+        is MultiSelectComponent         -> MultiSelectComponentEditorImpl(app, this, identity, onChange)
         is DateComponent                -> DateComponentEditorImpl(app, this, onChange)
         is SignatureComponent           -> SignatureComponentEditorImpl(app, this, onChange)
         is TableComponent               -> TableComponentEditorImpl(app, this, identity, onChange)

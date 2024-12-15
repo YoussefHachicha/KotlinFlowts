@@ -37,9 +37,10 @@ internal fun KfDropComponent(
     modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
+    multiple: Boolean = editor.multiple,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier) {
-    KfDropComponentImpl(editor, mode, editor.multiple, onSignal)
+    KfDropComponentImpl(editor, mode, multiple, onSignal)
 }
 
 @Composable
@@ -47,9 +48,10 @@ internal fun ColumnScope.KfDropComponent(
     modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
+    multiple: Boolean = editor.multiple,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier) {
-    KfDropComponentImpl(editor, mode, editor.multiple, onSignal)
+    KfDropComponentImpl(editor, mode, multiple, onSignal)
 }
 
 @Composable
@@ -57,9 +59,10 @@ internal fun RowScope.KfDropComponent(
     modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
+    multiple: Boolean = editor.multiple,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier.weight(1f)) {
-    KfDropComponentImpl(editor, mode, editor.multiple, onSignal)
+    KfDropComponentImpl(editor, mode, multiple, onSignal)
 }
 
 @Composable

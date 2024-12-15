@@ -7,6 +7,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.MutableScreen
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 import com.youssef.kotlinflowts.models.kotlinflowts.components.DateComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.DropdownComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.MultiSelectComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TableComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.ValueBasedComponent
@@ -191,6 +192,7 @@ internal fun multiSelectComponent(
     id: String,
     title: String,
     identifier: String,
+    multiple: Boolean,
     options: List<Option2>,
     depth: Int,
     builderId: String,
@@ -202,7 +204,8 @@ internal fun multiSelectComponent(
     Component::depth.name to depth,
     Component::builderId.name to builderId,
     ValueBasedComponent<*>::value.name to selected,
-    DropdownComponent::options.name to options.map { it.toMap() }.toMutableList(),
+    MultiSelectComponent::options.name to options.map { it.toMap() }.toMutableList(),
+    MultiSelectComponent::multiple.name to multiple,
     Component::type.name to Component.Type.multiSelect.name
 ).toMultiSelectComponent()
 
