@@ -10,4 +10,8 @@ interface DropdownEditor {
     fun select(option: Option2?)
 
     fun selected(): Option2?
+
+    fun addOption(value: String)
+
+    fun removeOption(id: String)
 }

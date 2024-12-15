@@ -174,7 +174,7 @@ internal class CompCollectionImpl(
 
     override fun dropdown(key: String) =
         buildEditor(key, Component.Type.dropdown) { component: DropdownComponent ->
-            DropdownComponentEditorImpl(app, component, onChange)
+            DropdownComponentEditorImpl(app, component, identity, onChange)
         }
 
     override fun select(key: String) =

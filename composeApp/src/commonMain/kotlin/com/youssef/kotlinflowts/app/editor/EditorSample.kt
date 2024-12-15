@@ -1,32 +1,21 @@
 package com.youssef.kotlinflowts.app.editor
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.youssef.kotlinflowts.compose.kotlinflowts.toTolerableNumber
+import com.youssef.kotlinflowts.app.editor.components.BorderColorConfig
+import com.youssef.kotlinflowts.app.editor.components.DeleteButton
+import com.youssef.kotlinflowts.app.editor.components.EditorTitle
+import com.youssef.kotlinflowts.app.editor.components.HandleDropdownEditor
+import com.youssef.kotlinflowts.app.editor.components.HandleFileBasedEditor
+import com.youssef.kotlinflowts.app.editor.components.HandleValueBasedEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DropdownEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.FileBasedComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ImageComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.SignatureComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextAreaComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ValueBasedComponentEditor
-import com.youssef.kotlinflowts.utils.colorPicker.ColorConfig
 
 @Composable
 fun EditorSample(
@@ -36,105 +25,23 @@ fun EditorSample(
     val isCollapsed = remember { true }
 
     LazyColumn(
-        modifier = Modifier
-            .padding(8.dp)
+        modifier = Modifier.padding(8.dp)
     ) {
         item {
             editor.selectedEditorComponent?.let { compEditor ->
-                OutlinedTextField(
-                    value = compEditor.title,
-                    onValueChange = {
-                        compEditor.changeTitle(it)
-                    },
-                    label = { Text("Title") }
-                )
+                EditorTitle(compEditor)
+
                 when (compEditor) {
-                    is ValueBasedComponentEditor<*> -> {
-                        when (compEditor) {
-                            is DateComponentEditor -> {}
-                            else                   -> {
-                                OutlinedTextField(
-                                    value = (compEditor.value ?: "").toString(),
-                                    onValueChange = {
-                                        when (compEditor) {
-                                            is NumberComponentEditor    -> compEditor.changeValue(
-                                                it.toTolerableNumber() ?: 0.0
-                                            )
-
-                                            is TextAreaComponentEditor  -> compEditor.changeValue(it)
-                                            is TextComponentEditor      -> compEditor.changeValue(it)
-                                            is SignatureComponentEditor -> compEditor.changeValue(it)
-                                        }
-                                    },
-                                    label = { Text("Value") }
-                                )
-
-                            }
-                        }
-                    }
-
-                    is FileBasedComponentEditor     -> {
-                        when (compEditor) {
-                            is ImageComponentEditor -> {
-                                var url by remember(
-                                    compEditor.fileValue.firstOrNull()?.url.orEmpty()
-                                ) { mutableStateOf(compEditor.fileValue.firstOrNull()?.url.orEmpty()) }
-                                OutlinedTextField(
-                                    value = url,
-                                    onValueChange = {
-                                        url = it
-                                    },
-                                    label = { Text("Url") }
-                                )
-                                TextButton(
-                                    onClick = {
-                                        if (compEditor.fileValue.isEmpty()) {
-                                            println("adding sss")
-                                            compEditor.add(url)
-                                        } else {
-                                            compEditor.clear()
-                                            compEditor.add(url)
-                                        }
-                                    }
-                                ) {
-                                    Text("Load Image")
-                                }
-                            }
-
-                            else                    -> {}
-                        }
-                    }
-
-                    else                            -> {
-
-                    }
+                    is ValueBasedComponentEditor<*> -> HandleValueBasedEditor(compEditor)
+                    is FileBasedComponentEditor -> HandleFileBasedEditor(compEditor)
+                    is DropdownEditor -> HandleDropdownEditor(compEditor)
+                    else -> {}
                 }
 
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Border Color:")
-                    ColorConfig(
-                        selectedColor = compEditor.borderColor,
-                        onColorChanged = {
-                            compEditor.changeBorderColor(it)
-                        },
-                        isCollapsed = isCollapsed,
-                        isRow = isCollapsed
-                    )
-                }
-                TextButton(
-                    onClick = {
-                        delete(compEditor.id, compEditor.comp.builderId)
+                BorderColorConfig(compEditor, isCollapsed)
 
-                    }
-                ) {
-                    Text("Delete")
-                }
+                DeleteButton(compEditor, delete)
             }
-
         }
     }
 }

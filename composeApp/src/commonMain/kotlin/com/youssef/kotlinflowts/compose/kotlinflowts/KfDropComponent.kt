@@ -16,6 +16,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -72,6 +73,8 @@ private fun KfDropComponentImpl(
     onSignal: (Signal<String?>) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
+    
+    val options by derivedStateOf { editor.options.toList() }
 
     var selected by remember(editor) { mutableStateOf(editor.selected()?.value) }
 
@@ -79,7 +82,7 @@ private fun KfDropComponentImpl(
 
     KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
     RawDropComponent(
-        options = component.options,
+        options = options,
         value = selected?.let { listOf(it) } ?: emptyList(),
         readonly = component.disabled || mode == Mode.readonly,
         multiple = multiple,
