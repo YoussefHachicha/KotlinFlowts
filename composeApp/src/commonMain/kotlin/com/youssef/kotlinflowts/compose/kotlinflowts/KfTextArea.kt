@@ -68,7 +68,7 @@ internal fun KfTextAreaImpl(
             editor.value = it
             onSignal(Signal.Change(it))
         },
-        readOnly = component.disabled || mode == Mode.readonly,
+        readOnly = editor.disabled || mode == Mode.readonly,
         minLines = 5,
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = editor.borderColor,

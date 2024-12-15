@@ -65,7 +65,7 @@ private fun KfTextComponentImpl(
         borders = true,
         borderColor = editor.borderColor,
         maxLines = 1,
-        readonly = component.disabled || mode == Mode.readonly,
+        readonly = editor.disabled || mode == Mode.readonly,
         modifier = Modifier.fillMaxWidth().testTag("${component.id}-body"),
         onChange = {
             editor.value = it

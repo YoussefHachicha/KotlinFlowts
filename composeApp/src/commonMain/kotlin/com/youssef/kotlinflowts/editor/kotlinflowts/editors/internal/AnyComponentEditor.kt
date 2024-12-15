@@ -28,7 +28,7 @@ internal open class AnyComponentEditor<out C : Component>(
 
     override var title: String by mutableStateOf(initialTitle)
     override var borderColor: Color by mutableStateOf(Color.Gray)
-    override var padding: Int by mutableIntStateOf(0)
+    override var disabled: Boolean by mutableStateOf(false)
 
     override val type get() = comp.type
 

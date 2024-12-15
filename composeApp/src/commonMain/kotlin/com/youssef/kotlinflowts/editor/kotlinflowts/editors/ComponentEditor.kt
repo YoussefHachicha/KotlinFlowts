@@ -18,7 +18,7 @@ interface ComponentEditor {
     }
 
     var borderColor: Color
-    var padding: Int
+    var disabled: Boolean
 
     fun isLayout(): Boolean = type == Component.Type.column || type == Component.Type.row
 
@@ -26,6 +26,7 @@ interface ComponentEditor {
 
     fun changeBorderColor(color: Color) { borderColor = color }
 
+    fun changeDisabled() { disabled = !disabled }
 
 }
 

@@ -134,7 +134,7 @@ private fun KfSignatureComponentImpl(
                 color = editor.borderColor,
                 shape = RoundedCornerShape(4.dp)
             ).clickable {
-                if (component.disabled || mode == Mode.readonly) return@clickable
+                if (editor.disabled || mode == Mode.readonly) return@clickable
                 onSignal(Signal.Focus)
                 state = state.toCapturing()
             }
@@ -143,7 +143,7 @@ private fun KfSignatureComponentImpl(
             is State.Preview   -> Preview(
                 url = s.url,
                 onClicked = {
-                    if (component.disabled || mode == Mode.readonly) return@Preview
+                    if (editor.disabled || mode == Mode.readonly) return@Preview
                     state = s.toCapturing()
                     onSignal(Signal.Focus)
                 }

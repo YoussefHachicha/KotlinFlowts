@@ -17,6 +17,7 @@ import com.youssef.kotlinflowts.app.editor.components.HandleDropdownEditor
 import com.youssef.kotlinflowts.app.editor.components.HandleFileBasedEditor
 import com.youssef.kotlinflowts.app.editor.components.HandleMultiSelectEditor
 import com.youssef.kotlinflowts.app.editor.components.HandleValueBasedEditor
+import com.youssef.kotlinflowts.compose.kotlinflowts.KfOption
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DropdownComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DropdownEditor
@@ -40,6 +41,12 @@ fun EditorSample(
 
                 BorderColorConfig(compEditor, isCollapsed)
 
+                KfOption(
+                    label = "Disable",
+                    selected = compEditor.disabled,
+                    onClick = { compEditor.changeDisabled() }
+                )
+
                 DeleteButton(compEditor, delete)
 
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -55,7 +62,6 @@ fun EditorSample(
                     is MultiSelectComponentEditor -> HandleMultiSelectEditor(compEditor)
                     else -> {}
                 }
-
             }
         }
     }

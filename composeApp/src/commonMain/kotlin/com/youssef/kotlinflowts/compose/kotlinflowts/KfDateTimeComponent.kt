@@ -83,7 +83,7 @@ private fun KfDateTimeComponentImpl(
     val component = remember(editor) { editor.comp }
     val value = component.value?.let { java.time.Instant.ofEpochMilli(it) }
     var dialog by remember { mutableStateOf(false) }
-    val readonly = remember(component, mode) { component.disabled || mode == Mode.readonly }
+    val readonly = remember(component, mode) { editor.disabled || mode == Mode.readonly }
 
     val pattern = remember {
         format?.replace("YYYY", "{YYYY}")

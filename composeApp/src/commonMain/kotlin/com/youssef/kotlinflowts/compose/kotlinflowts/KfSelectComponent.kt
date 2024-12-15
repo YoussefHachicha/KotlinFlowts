@@ -96,7 +96,7 @@ private fun KfSelectComponentImpl(
                     selected = option.id in values,
                     modifier = Modifier.semantics { contentDescription = option.value },
                     onClick = {
-                        if (component.disabled || mode == Mode.readonly) return@KfOption
+                        if (editor.disabled || mode == Mode.readonly) return@KfOption
                         if (!multiple) values.clear()
                         if (option.id in values) {
                             editor.unselect(option)

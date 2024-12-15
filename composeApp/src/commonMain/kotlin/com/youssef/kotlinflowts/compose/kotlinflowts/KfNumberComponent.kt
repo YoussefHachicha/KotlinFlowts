@@ -65,7 +65,7 @@ private fun KfNumberComponentImpl(
             editor.value = v
             onSignal(Signal.Change(v))
         },
-        readOnly = component.disabled || mode == Mode.readonly,
+        readOnly = editor.disabled || mode == Mode.readonly,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = editor.borderColor,

@@ -120,7 +120,7 @@ private fun KfImageComponentImpl(
         title = component.title,
         borderColor = editor.borderColor,
         uploaded = attachments,
-        readonly = component.disabled || mode == Mode.readonly,
+        readonly = editor.disabled || mode == Mode.readonly,
         onUpload = onUpload,
         onDialog = { opened ->
 

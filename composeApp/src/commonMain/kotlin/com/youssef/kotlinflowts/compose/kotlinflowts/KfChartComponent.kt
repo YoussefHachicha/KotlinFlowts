@@ -89,7 +89,7 @@ private fun KfChartComponentImpl(
     val component = remember(editor) { editor.comp }
     var capturing by remember { mutableStateOf(false) }
     val lines = remember(component.value) { mutableStateListOf(*(component.value ?: emptyList()).toTypedArray()) }
-    val readonly = component.disabled || mode == Mode.readonly
+    val readonly = editor.disabled || mode == Mode.readonly
 
     KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-preview-title"))
     Spacer(modifier = Modifier.height(8.dp))

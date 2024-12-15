@@ -85,7 +85,7 @@ private fun KfDropComponentImpl(
     RawDropComponent(
         options = options,
         value = selected?.let { listOf(it) } ?: emptyList(),
-        readonly = component.disabled || mode == Mode.readonly,
+        readonly = editor.disabled || mode == Mode.readonly,
         multiple = multiple,
         borders = true,
         borderColor = editor.borderColor,
