@@ -168,13 +168,14 @@ interface LayoutBuilder {
         title: String = "Dropdown Component",
         options: List<String>,
         id: String? = null,
+        multiple: Boolean = false,
         identifier: String? = null,
         readonly: Boolean = false,
         value: String? = null
     ) = buildComponent(id) { uid ->
         val o = options.map { it.toOption() }
         val selected = o.firstOrNull { it.value == value || it.id == value }
-        dropdownComponent(uid, title, identifier ?: "component-$uid", o, readonly, depth, builderId, selected)
+        dropdownComponent(uid, title, identifier ?: "component-$uid", multiple, o, readonly, depth, builderId, selected)
     }
 
     fun select(

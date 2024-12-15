@@ -98,7 +98,6 @@ internal fun RowScope.KfLayoutComposable(
                 is DropdownComponentEditor    -> KfDropComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    multiple = false,
                     onSignal = componentEditor::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,
@@ -276,7 +275,6 @@ internal fun ColumnScope.KfLayoutComposable(
                 is DropdownComponentEditor    -> KfDropComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    multiple = false,
                     onSignal = componentEditor::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,

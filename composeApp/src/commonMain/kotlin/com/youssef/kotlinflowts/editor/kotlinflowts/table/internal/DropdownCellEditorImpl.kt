@@ -1,6 +1,9 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.table.internal
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.EventTrigger
 import com.youssef.kotlinflowts.editor.kotlinflowts.table.DropdownCellEditor
 import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
@@ -10,7 +13,6 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.table.DropdownCol
 import com.youssef.kotlinflowts.models.kotlinflowts.components.table.Row
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.Option2
-import com.youssef.kotlinflowts.models.kotlinflowts.utils.internal.OptionImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.option
 
 internal class DropdownCellEditorImpl(
@@ -29,11 +31,14 @@ internal class DropdownCellEditorImpl(
         _options.addAll(column.options)
     }
 
+    override var selected: Option2? by mutableStateOf(selected())
+
     private fun find(key: String?) = options.find { it.id == key || it.value == key }
 
     override fun select(key: String?) {
         val option = find(key)
         row.cells[column.id] = option?.id
+        selected = option
         notifyChange(component.value.map { it.toMap() }.toMutableList())
     }
 
@@ -47,13 +52,18 @@ internal class DropdownCellEditorImpl(
         val option = value.toOption()
         if (_options.contains(option)) return
         _options.add(option)
+        column.options.add(option)
         notifyChange(component.value.map { it.toMap() }.toMutableList())
     }
 
     override fun removeOption(id: String) {
         if (!_options.map { it.id }.contains(id)) return
-        _options.removeIf { it.id == id }
-        notifyChange(component.value.map { it.toMap() }.toMutableList())
+        if (_options.removeIf { it.id == id }) {
+            column.options.removeIf { it.id == id }
+            selected = null
+            notifyChange(_options.map { it.toMap() }.toMutableList())
+        }
     }
+
 }
 

@@ -118,7 +118,7 @@ private fun KfSelectComponentImpl(
 }
 
 @Composable
-private fun KfOption(
+fun KfOption(
     label: String,
     selected: Boolean,
     onClick: () -> Unit,

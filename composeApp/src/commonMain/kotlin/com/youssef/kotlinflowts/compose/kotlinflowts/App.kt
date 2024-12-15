@@ -118,7 +118,6 @@ fun App(
                 is DropdownComponentEditor    -> KfDropComponent(
                     editor = it,
                     mode = mode,
-                    multiple = false,
                     onSignal = it::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,

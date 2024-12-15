@@ -9,5 +9,6 @@ import com.youssef.kotlinflowts.models.kotlinflowts.utils.toOption
 internal open class DropdownComponentImpl(
     wrapped: MutableMap<String, Any?>
 ) : AbstractValueBasedComponent<String>(wrapped), DropdownComponent {
-    override val options: List<Option2> = JsonList(wrapped[DropdownComponent::options.name]) { it.toOption() }
+    override val options: MutableList<Option2> = JsonList(wrapped[DropdownComponent::options.name]) { it.toOption() }
+    override val multiple: Boolean get() = wrapped[DropdownComponent::multiple.name] as Boolean
 }

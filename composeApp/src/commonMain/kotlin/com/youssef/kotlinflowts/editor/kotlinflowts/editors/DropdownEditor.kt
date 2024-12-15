@@ -11,6 +11,8 @@ interface DropdownEditor {
 
     fun selected(): Option2?
 
+    val selected: Option2?
+
     fun addOption(value: String)
 
     fun removeOption(id: String)

@@ -37,10 +37,9 @@ internal fun KfDropComponent(
     modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
-    multiple: Boolean,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier) {
-    KfDropComponentImpl(editor, mode, multiple, onSignal)
+    KfDropComponentImpl(editor, mode, editor.multiple, onSignal)
 }
 
 @Composable
@@ -48,10 +47,9 @@ internal fun ColumnScope.KfDropComponent(
     modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
-    multiple: Boolean,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier) {
-    KfDropComponentImpl(editor, mode, multiple, onSignal)
+    KfDropComponentImpl(editor, mode, editor.multiple, onSignal)
 }
 
 @Composable
@@ -59,10 +57,9 @@ internal fun RowScope.KfDropComponent(
     modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
-    multiple: Boolean,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier.weight(1f)) {
-    KfDropComponentImpl(editor, mode, multiple, onSignal)
+    KfDropComponentImpl(editor, mode, editor.multiple, onSignal)
 }
 
 @Composable
@@ -73,7 +70,7 @@ private fun KfDropComponentImpl(
     onSignal: (Signal<String?>) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    
+
     val options by derivedStateOf { editor.options.toList() }
 
     var selected by remember(editor) { mutableStateOf(editor.selected()?.value) }
@@ -81,6 +78,7 @@ private fun KfDropComponentImpl(
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.select(selected) } }
 
     KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
+
     RawDropComponent(
         options = options,
         value = selected?.let { listOf(it) } ?: emptyList(),
@@ -90,6 +88,7 @@ private fun KfDropComponentImpl(
         borderColor = editor.borderColor,
         onChange = {
             selected = it.firstOrNull()?.value
+            editor.select(it.lastOrNull())
             onSignal(Signal.Change(selected))
         },
         modifier = Modifier.testTag("${component.id}-body").onFocusChanged(focus.handler)
