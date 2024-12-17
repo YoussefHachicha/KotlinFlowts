@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,7 +24,7 @@ internal fun KfTextComponent(
     editor: TextComponentEditor,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier = modifier.testTag(editor.comp.id).fillMaxWidth()) {
-    KfTextComponentImpl(editor, onSignal)
+    KfTextComponentImpl(editor, onSignal, modifier)
 }
 
 @Composable
@@ -32,7 +33,7 @@ internal fun ColumnScope.KfTextComponent(
     editor: TextComponentEditor,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier = modifier.testTag(editor.comp.id).fillMaxWidth()) {
-    KfTextComponentImpl(editor, onSignal)
+    KfTextComponentImpl(editor, onSignal, modifier)
 }
 
 @Composable
@@ -41,19 +42,19 @@ internal fun RowScope.KfTextComponent(
     editor: TextComponentEditor,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier = modifier.weight(1f).testTag(editor.comp.id)) {
-    KfTextComponentImpl(editor, onSignal)
+    KfTextComponentImpl(editor, onSignal, modifier)
 }
 
 @Composable
 private fun KfTextComponentImpl(
     editor: TextComponentEditor,
     onSignal: (Signal<String?>) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val component = remember(editor) { editor.comp }
+
     if (!editor.disableTitle)
         KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
-
-    Spacer(modifier = Modifier.height(2.dp))
 
     val value by remember(editor.value) {
         onSignal(Signal.Change(editor.comp.value))
@@ -71,5 +72,3 @@ private fun KfTextComponentImpl(
             .onFocusChanged(focus.handler)
     )
 }
-
-

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -54,8 +55,6 @@ private fun KfTextComponentImpl(
     val component = remember(editor) { editor.comp }
     if (!editor.disableTitle)
         KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
-
-    Spacer(modifier = Modifier.height(2.dp))
 
     RawTextComponent(
         value = editor.value ?: "",

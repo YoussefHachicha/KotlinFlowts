@@ -29,6 +29,7 @@ internal fun HandleValueBasedEditor(compEditor: ValueBasedComponentEditor<*>) {
                         is SignatureComponentEditor -> compEditor.changeValue(it)
                     }
                 },
+                enabled = !compEditor.disabled,
                 label = { Text("Value") }
             )
         }

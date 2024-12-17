@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -56,9 +57,12 @@ internal fun KfTextAreaImpl(
     val component = remember(editor) { editor.comp }
 
     if (!editor.disableTitle)
-        Text(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+        Text(editor.title, modifier = Modifier
+            .padding(bottom = 4.dp)
+            .testTag("${component.id}-title")
+        )
 
-    Spacer(modifier = Modifier.height(4.dp))
+
 
     OutlinedTextField(
         value = editor.value ?: "",

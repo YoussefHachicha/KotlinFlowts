@@ -61,6 +61,7 @@ internal fun KfRowComponent(
     ) {
         if (!editor.disableTitle)
             KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,

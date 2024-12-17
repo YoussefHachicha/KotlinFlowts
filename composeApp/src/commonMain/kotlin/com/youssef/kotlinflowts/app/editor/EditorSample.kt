@@ -39,7 +39,7 @@ fun EditorSample(
 
                 KfOption(
                     label = "Disable Title",
-                    selected = compEditor.disabled,
+                    selected = compEditor.disableTitle,
                     onClick = { compEditor.changeDisableTitle() }
                 )
 

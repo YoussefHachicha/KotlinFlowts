@@ -92,9 +92,8 @@ private fun KfChartComponentImpl(
     val readonly = editor.disabled || mode == Mode.readonly
 
     if (!editor.disableTitle)
-        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-preview-title"))
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-preview-title"), 8)
 
-    Spacer(modifier = Modifier.height(8.dp))
     OutlinedButton(
         onClick = {
             capturing = true

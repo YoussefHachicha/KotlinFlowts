@@ -124,7 +124,7 @@ internal fun KfTableComponent(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         if (!editor.disableTitle)
-                            KfTitle(editor, modifier = Modifier.padding(bottom = 4.dp))
+                            KfTitle(editor, modifier = Modifier, 4)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             if (selectedRow.size == 1) {

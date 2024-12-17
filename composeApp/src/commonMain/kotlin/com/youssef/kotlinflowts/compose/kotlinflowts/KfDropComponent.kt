@@ -83,7 +83,6 @@ private fun KfDropComponentImpl(
     if (!editor.disableTitle)
         KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
 
-
     RawDropComponent(
         options = options,
         value = selected?.let { listOf(it) } ?: emptyList(),
