@@ -99,7 +99,7 @@ internal fun KfTableComponent(
     val uploadHandler = if (onUpload != null) {
         suspend {
             val event = ComponentEvent(
-                component = editor.comp,
+                componentEditor = editor,
                 screen = screen
             )
             onUpload(event)

@@ -60,7 +60,6 @@ internal fun KfColumnComponent(
 
         this.KfLayoutComposable(
             componentEditors = columnComponents,
-            component = component,
             screen = screen,
             onBlur = onBlur,
             selectedComponentId = selectedComponentId,
@@ -108,7 +107,6 @@ internal fun RowScope.KfColumnComponent(
 
         this.KfLayoutComposable(
             componentEditors = columnComponents,
-            component = component,
             screen = screen,
             onBlur = onBlur,
             selectedComponentId = selectedComponentId,

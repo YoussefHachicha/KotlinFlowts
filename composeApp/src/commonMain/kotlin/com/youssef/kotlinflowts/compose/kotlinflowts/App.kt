@@ -63,9 +63,9 @@ fun App(
     }
 
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(comp, currentScreen))
-        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(comp, currentScreen))
-        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(comp, currentScreen))
+        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(this, currentScreen))
+        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(this, currentScreen))
+        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(this, currentScreen))
     }
 
     LazyColumn(modifier = modifier) {
@@ -141,7 +141,7 @@ fun App(
                         {
                             call(
                                 ComponentEvent(
-                                    it.comp,
+                                    it,
                                     currentScreen
                                 )
                             )

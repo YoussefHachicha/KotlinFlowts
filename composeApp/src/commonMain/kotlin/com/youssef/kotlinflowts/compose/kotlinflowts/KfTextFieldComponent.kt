@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldComponentEditor
@@ -56,17 +57,22 @@ private fun KfTextComponentImpl(
     if (!editor.disableTitle)
         KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
 
+    val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = editor.value } }
+
     RawTextComponent(
         value = editor.value ?: "",
         borders = true,
         borderColor = editor.borderColor,
         maxLines = 1,
         readonly = editor.disabled || mode == Mode.readonly,
-        modifier = Modifier.fillMaxWidth().testTag("${component.id}-body"),
         onChange = {
             editor.value = it
             onSignal(Signal.Change(it))
         },
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("${component.id}-body")
+            .onFocusChanged(focus.handler)
     )
 }
 

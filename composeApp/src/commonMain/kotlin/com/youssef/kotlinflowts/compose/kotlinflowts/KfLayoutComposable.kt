@@ -28,12 +28,10 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
-import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.utils.hoverSelect
 
 @Composable
 internal fun RowScope.KfLayoutComposable(
-    component: Component,
     screen: Screen,
     selectedComponentId: String,
     componentEditors: List<ComponentEditor>,
@@ -45,10 +43,11 @@ internal fun RowScope.KfLayoutComposable(
     select: (ComponentEditor) -> Unit,
 ) {
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(component, screen))
-        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(component, screen))
-        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(component, screen))
+        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(this, screen))
+        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(this, screen))
+        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(this, screen))
     }
+
     componentEditors.forEach { componentEditor ->
         val isSelected by remember(selectedComponentId) { mutableStateOf(selectedComponentId == componentEditor.id) }
 
@@ -219,7 +218,6 @@ internal fun RowScope.KfLayoutComposable(
 
 @Composable
 internal fun ColumnScope.KfLayoutComposable(
-    component: Component,
     screen: Screen,
     selectedComponentId: String,
     componentEditors: List<ComponentEditor>,
@@ -231,10 +229,11 @@ internal fun ColumnScope.KfLayoutComposable(
     select: (ComponentEditor) -> Unit,
 ) {
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(component, screen))
-        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(component, screen))
-        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(component, screen))
+        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(this, screen))
+        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(this, screen))
+        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(this, screen))
     }
+
     componentEditors.forEach { componentEditor ->
         val isSelected by remember(selectedComponentId) { mutableStateOf(selectedComponentId == componentEditor.id) }
 

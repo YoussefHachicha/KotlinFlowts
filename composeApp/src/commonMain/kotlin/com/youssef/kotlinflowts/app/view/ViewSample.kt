@@ -27,7 +27,10 @@ fun ViewSample(
             updateUi = updateUi,
             currentScreen = currentScreen,
             showUnsupportedComponents = true,
-            onChangeScreen = onChangeScreen
+            onChangeScreen = onChangeScreen,
+            onFocus = {
+                editor.selectedEditorComponent = it.componentEditor
+            }
         )
     }
 }

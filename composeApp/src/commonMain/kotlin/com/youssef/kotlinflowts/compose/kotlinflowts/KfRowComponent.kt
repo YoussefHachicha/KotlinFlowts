@@ -27,7 +27,6 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 import com.youssef.kotlinflowts.utils.clickableNoIndication
-import com.youssef.kotlinflowts.utils.hoverSelect
 
 @Composable
 internal fun KfRowComponent(
@@ -68,7 +67,6 @@ internal fun KfRowComponent(
             modifier = Modifier.fillMaxWidth()
         ) {
             this.KfLayoutComposable(
-                component = component,
                 screen = screen,
                 selectedComponentId = selectedComponentId,
                 componentEditors = rowComponents,
@@ -122,7 +120,6 @@ internal fun RowScope.KfRowComponent(
             modifier = Modifier.fillMaxWidth()
         ) {
             this.KfLayoutComposable(
-                component = component,
                 screen = screen,
                 selectedComponentId = selectedComponentId,
                 componentEditors = rowComponents,

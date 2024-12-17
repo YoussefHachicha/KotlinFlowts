@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldAreaComponentEditor
@@ -62,7 +63,7 @@ internal fun KfTextAreaImpl(
             .testTag("${component.id}-title")
         )
 
-
+    val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = editor.value } }
 
     OutlinedTextField(
         value = editor.value ?: "",
@@ -78,5 +79,6 @@ internal fun KfTextAreaImpl(
         ),
         modifier = Modifier.testTag("${component.id}-body")
             .fillMaxWidth()
+            .onFocusChanged(focus.handler)
     )
 }

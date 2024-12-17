@@ -95,7 +95,9 @@ private fun KfDropComponentImpl(
             editor.select(it.lastOrNull())
             onSignal(Signal.Change(selected))
         },
-        modifier = Modifier.testTag("${component.id}-body").onFocusChanged(focus.handler)
+        modifier = Modifier
+            .testTag("${component.id}-body")
+            .onFocusChanged(focus.handler)
     )
 }
 
@@ -126,6 +128,7 @@ internal fun RawDropComponent(
         onExpandedChange = { expanded = !readonly && it },
         modifier = modifier.fillMaxWidth()
     ) {
+
         OutlinedTextField(
             value = values.joinToString(", ") { it.value },
             maxLines = 4,
@@ -140,7 +143,10 @@ internal fun RawDropComponent(
             } else {
                 OutlinedTextFieldDefaults.colors()
             },
-            modifier = Modifier.fillMaxWidth().menuAnchor().clickable { expanded = !readonly }
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor()
+                .clickable { expanded = !readonly }
         )
 
         ExposedDropdownMenu(
