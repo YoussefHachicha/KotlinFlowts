@@ -53,7 +53,7 @@ internal fun KfColumnComponent(
             )
             .hoverable(interactionSource = interactionSource)
             .clickableNoIndication(onClick = { select(editor) })
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         if (!editor.disableTitle)
             KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
@@ -100,10 +100,10 @@ internal fun RowScope.KfColumnComponent(
             )
             .hoverable(interactionSource = interactionSource)
             .clickableNoIndication(onClick = { select(editor) })
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
-        Spacer(modifier = Modifier.height(2.dp))
+        if (!editor.disableTitle)
+            KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"), 2)
 
         this.KfLayoutComposable(
             componentEditors = columnComponents,

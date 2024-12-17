@@ -113,7 +113,8 @@ internal fun RowScope.KfRowComponent(
             .clickableNoIndication(onClick = { select(editor) })
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+        if (!editor.disableTitle)
+            KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
