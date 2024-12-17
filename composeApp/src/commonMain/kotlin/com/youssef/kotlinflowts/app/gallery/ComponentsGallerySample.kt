@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,7 +35,7 @@ fun ComponentsGallerySample(
 
     val componentsTypes = Component.Type.entries
     var expanded by remember { mutableStateOf(false) }
-    var selectedComponentType by remember { mutableStateOf(Component.Type.text) }
+    var selectedComponentType by remember { mutableStateOf(Component.Type.textField) }
 
     LazyColumn(
         modifier = Modifier

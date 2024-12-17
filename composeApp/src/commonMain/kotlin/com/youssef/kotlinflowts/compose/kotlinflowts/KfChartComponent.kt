@@ -91,7 +91,9 @@ private fun KfChartComponentImpl(
     val lines = remember(component.value) { mutableStateListOf(*(component.value ?: emptyList()).toTypedArray()) }
     val readonly = editor.disabled || mode == Mode.readonly
 
-    KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-preview-title"))
+    if (!editor.disableTitle)
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-preview-title"))
+
     Spacer(modifier = Modifier.height(8.dp))
     OutlinedButton(
         onClick = {

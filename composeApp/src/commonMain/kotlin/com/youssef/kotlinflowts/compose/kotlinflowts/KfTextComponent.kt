@@ -6,71 +6,70 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
-import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
-import com.youssef.kotlinflowts.utils.hoverSelect
 
 @Composable
 internal fun KfTextComponent(
     modifier: Modifier = Modifier,
     editor: TextComponentEditor,
-    mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(modifier = modifier) {
-    KfTextComponentImpl(editor, mode, onSignal)
+) = Column(modifier = modifier.testTag(editor.comp.id).fillMaxWidth()) {
+    KfTextComponentImpl(editor, onSignal)
 }
-
 
 @Composable
 internal fun ColumnScope.KfTextComponent(
     modifier: Modifier = Modifier,
     editor: TextComponentEditor,
-    mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(modifier) {
-    KfTextComponentImpl(editor, mode, onSignal)
+) = Column(modifier = modifier.testTag(editor.comp.id).fillMaxWidth()) {
+    KfTextComponentImpl(editor, onSignal)
 }
 
 @Composable
 internal fun RowScope.KfTextComponent(
     modifier: Modifier = Modifier,
     editor: TextComponentEditor,
-    mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
-) = Column(modifier.weight(1f)) {
-    KfTextComponentImpl(editor, mode, onSignal)
+) = Column(modifier = modifier.weight(1f).testTag(editor.comp.id)) {
+    KfTextComponentImpl(editor, onSignal)
 }
 
 @Composable
 private fun KfTextComponentImpl(
     editor: TextComponentEditor,
-    mode: Mode,
     onSignal: (Signal<String?>) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+    if (!editor.disableTitle)
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+
     Spacer(modifier = Modifier.height(2.dp))
 
-    RawTextComponent(
-        value = editor.value ?: "",
-        borders = true,
-        borderColor = editor.borderColor,
+    val value by remember(editor.value) {
+        onSignal(Signal.Change(editor.comp.value))
+        mutableStateOf(editor.value.orEmpty())
+    }
+
+    val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
+
+    Text(
+        text = value,
         maxLines = 1,
-        readonly = editor.disabled || mode == Mode.readonly,
-        modifier = Modifier.fillMaxWidth().testTag("${component.id}-body"),
-        onChange = {
-            editor.value = it
-            onSignal(Signal.Change(it))
-        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("${component.id}-body")
+            .onFocusChanged(focus.handler)
     )
 }
+
 

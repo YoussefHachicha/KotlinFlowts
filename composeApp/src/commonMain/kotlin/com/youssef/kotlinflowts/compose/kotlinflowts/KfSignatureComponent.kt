@@ -122,7 +122,9 @@ private fun KfSignatureComponentImpl(
         }
         mutableStateOf(s)
     }
-    KfTitle(editor, modifier = Modifier.testTag("${component.id}-preview-title"))
+    if (!editor.disableTitle)
+        KfTitle(editor, modifier = Modifier.testTag("${component.id}-preview-title"))
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()

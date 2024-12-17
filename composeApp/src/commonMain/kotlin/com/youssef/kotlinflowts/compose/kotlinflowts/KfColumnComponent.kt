@@ -55,7 +55,8 @@ internal fun KfColumnComponent(
             .clickableNoIndication(onClick = { select(editor) })
             .padding(horizontal = 16.dp)
     ) {
-        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+        if (!editor.disableTitle)
+            KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
         Spacer(modifier = Modifier.height(2.dp))
 
         this.KfLayoutComposable(

@@ -1,24 +1,14 @@
 package com.youssef.kotlinflowts.app
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import com.youssef.kotlinflowts.builder.kotlinflowts.buildApp
-import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 
 object Service {
     fun getAppBuilder() = buildApp {
         name("App")
         screen("Basic Information")
         row {
-            text("First Name")
-            text("Last Name")
+            textField("First Name")
+            textField("Last Name")
         }
 //        image(
 //            title = "Image",

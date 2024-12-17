@@ -8,21 +8,17 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberFieldComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 
 @Composable
-internal fun KfNumberComponent(
+internal fun KfNumberFieldComponent(
     modifier: Modifier = Modifier,
-    editor: NumberComponentEditor,
+    editor: NumberFieldComponentEditor,
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
 ) = Column(modifier) {
@@ -30,9 +26,9 @@ internal fun KfNumberComponent(
 }
 
 @Composable
-internal fun ColumnScope.KfNumberComponent(
+internal fun ColumnScope.KfNumberFieldComponent(
     modifier: Modifier = Modifier,
-    editor: NumberComponentEditor,
+    editor: NumberFieldComponentEditor,
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
 ) = Column(modifier) {
@@ -41,9 +37,9 @@ internal fun ColumnScope.KfNumberComponent(
 
 
 @Composable
-internal fun RowScope.KfNumberComponent(
+internal fun RowScope.KfNumberFieldComponent(
     modifier: Modifier = Modifier,
-    editor: NumberComponentEditor,
+    editor: NumberFieldComponentEditor,
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
 ) = Column(modifier.weight(1f)) {
@@ -52,12 +48,14 @@ internal fun RowScope.KfNumberComponent(
 
 @Composable
 private fun KfNumberComponentImpl(
-    editor: NumberComponentEditor,
+    editor: NumberFieldComponentEditor,
     mode: Mode,
     onSignal: (Signal<Double>) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
+    if (!editor.disableTitle)
+        KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
+
     OutlinedTextField(
         value = editor.value?.toString() ?: "",
         onValueChange = {

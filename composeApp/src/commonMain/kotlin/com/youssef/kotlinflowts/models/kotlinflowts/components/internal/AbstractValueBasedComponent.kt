@@ -11,8 +11,4 @@ internal abstract class AbstractValueBasedComponent<V>(
     wrapped: MutableMap<String, Any?>
 ) : AbstractComponent(wrapped), ValueBasedComponent<V> {
     override var value: V? by mutableStateOf(wrapped[ValueBasedComponent<*>::value.name] as? V)
-//        get() = wrapped[ValueBasedComponent<*>::value.name] as? V
-//        set(value) {
-//            wrapped[ValueBasedComponent<*>::value.name] = value
-//        }
 }

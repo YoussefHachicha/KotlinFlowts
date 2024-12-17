@@ -123,7 +123,9 @@ internal fun KfTableComponent(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        KfTitle(editor, modifier = Modifier.padding(bottom = 4.dp))
+                        if (!editor.disableTitle)
+                            KfTitle(editor, modifier = Modifier.padding(bottom = 4.dp))
+
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             if (selectedRow.size == 1) {
                                 val width = with(density) { measurer.measure("More").size.width.toDp() + 40.dp }
@@ -405,8 +407,8 @@ private fun Preview(
 }
 
 private fun colWidth(type: Component.Type, preview: Boolean) = when (type) {
-    Component.Type.text -> 150.dp
-    Component.Type.dropdown -> 200.dp
+    Component.Type.textField -> 150.dp
+    Component.Type.dropdown  -> 200.dp
     Component.Type.image -> if (preview) 100.dp else 200.dp
     else -> 100.dp
 }

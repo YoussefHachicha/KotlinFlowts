@@ -2,41 +2,43 @@ package com.youssef.kotlinflowts.editor.kotlinflowts
 
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.internal.ColumnComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.AnyComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.BlockComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ChartComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DateComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DateFieldFieldComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DropdownComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.FileComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ImageComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.MultiSelectComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.NumberComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.NumberFieldComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.RichTextComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.SignatureComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TableComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextAreaComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextFieldAreaComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextFieldComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.row.internal.RowComponentEditorImpl
 import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
 import com.youssef.kotlinflowts.models.kotlinflowts.components.BlockComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ChartComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ColumnComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.components.DateComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.DateFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.DropdownComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.FileComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ImageComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.MultiSelectComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.components.NumberComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.NumberFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.RichTextComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.RowComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.SignatureComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TableComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.components.TextAreaComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldAreaComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
-import androidx.compose.runtime.State
 import kotlinx.coroutines.flow.StateFlow
 
 interface LayoutCollection {
@@ -45,13 +47,14 @@ interface LayoutCollection {
     val identity: IdentityGenerator
 
     fun Component.toEditor(): ComponentEditor = when (this) {
-        is TextComponent                -> TextComponentEditorImpl(app, this, onChange)
-        is TextAreaComponent            -> TextAreaComponentEditorImpl(app, this, onChange)
-        is NumberComponent              -> NumberComponentEditorImpl(app, this, onChange)
-        is DropdownComponent            -> DropdownComponentEditorImpl(app, this, identity, onChange)
-        is MultiSelectComponent         -> MultiSelectComponentEditorImpl(app, this, identity, onChange)
-        is DateComponent                -> DateComponentEditorImpl(app, this, onChange)
-        is SignatureComponent           -> SignatureComponentEditorImpl(app, this, onChange)
+        is TextComponent   -> TextComponentEditorImpl(app, this, onChange)
+        is TextFieldComponent     -> TextFieldComponentEditorImpl(app, this, onChange)
+        is TextFieldAreaComponent -> TextFieldAreaComponentEditorImpl(app, this, onChange)
+        is NumberFieldComponent   -> NumberFieldComponentEditorImpl(app, this, onChange)
+        is DropdownComponent      -> DropdownComponentEditorImpl(app, this, identity, onChange)
+        is MultiSelectComponent -> MultiSelectComponentEditorImpl(app, this, identity, onChange)
+        is DateFieldComponent   -> DateFieldFieldComponentEditorImpl(app, this, onChange)
+        is SignatureComponent   -> SignatureComponentEditorImpl(app, this, onChange)
         is TableComponent               -> TableComponentEditorImpl(app, this, identity, onChange)
         is ChartComponent               -> ChartComponentEditorImpl(app, this, identity, onChange)
         is ImageComponent               -> ImageComponentEditorImpl(app, this, identity, onChange)

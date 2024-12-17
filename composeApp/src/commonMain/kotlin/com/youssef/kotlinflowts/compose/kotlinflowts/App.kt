@@ -14,19 +14,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.BlockComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ChartComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateFieldComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.ColumnComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DropdownComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ImageComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.MultiSelectComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberFieldComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.RichTextComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TableComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextAreaComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldAreaComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
@@ -72,7 +73,16 @@ fun App(
             val isSelected by remember(editor.selectedEditorComponent?.id) { mutableStateOf(editor.selectedEditorComponent?.id == it.id) }
 
             when (it) {
-                is TextComponentEditor        -> KfTextComponent(
+                is TextComponentEditor -> KfTextComponent(
+                    editor = it,
+                    onSignal = it::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { editor.selectedEditorComponent = it }
+                    ),
+                )
+
+                is TextFieldComponentEditor -> KfTextFieldComponent(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit,
@@ -82,7 +92,7 @@ fun App(
                     ),
                 )
 
-                is NumberComponentEditor      -> KfNumberComponent(
+                is NumberFieldComponentEditor -> KfNumberFieldComponent(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit,
@@ -92,7 +102,7 @@ fun App(
                     ),
                 )
 
-                is DateComponentEditor        -> KfDateTimeComponent(
+                is DateFieldComponentEditor -> KfDateTimeFieldComponent(
                     editor = it,
                     mode = mode,
                     format = currentScreen.positions.firstOrNull { it.componentId == it.id }?.format
@@ -166,7 +176,7 @@ fun App(
                     ),
                 )
 
-                is TextAreaComponentEditor    -> KfTextArea(
+                is TextFieldAreaComponentEditor -> KfTextFieldArea(
                     editor = it,
                     mode = mode,
                     onSignal = it::emit,

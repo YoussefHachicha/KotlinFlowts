@@ -12,6 +12,7 @@ internal fun EditorTitle(compEditor: ComponentEditor) {
         onValueChange = {
             compEditor.changeTitle(it)
         },
+        enabled = !compEditor.disabled,
         label = { Text("Title") }
     )
 }

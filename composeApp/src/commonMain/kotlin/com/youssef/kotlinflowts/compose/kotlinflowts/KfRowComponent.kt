@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -58,9 +59,11 @@ internal fun KfRowComponent(
             .clickableNoIndication(onClick = { select(editor) })
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+        if (!editor.disableTitle)
+            KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
             this.KfLayoutComposable(
@@ -114,6 +117,7 @@ internal fun RowScope.KfRowComponent(
         KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
             this.KfLayoutComposable(

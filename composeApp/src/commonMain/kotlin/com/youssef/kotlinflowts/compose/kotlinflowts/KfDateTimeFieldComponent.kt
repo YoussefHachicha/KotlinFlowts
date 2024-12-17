@@ -35,14 +35,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateFieldComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun KfDateTimeComponent(
+internal fun KfDateTimeFieldComponent(
     modifier: Modifier = Modifier,
-    editor: DateComponentEditor,
+    editor: DateFieldComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
@@ -51,9 +51,9 @@ internal fun KfDateTimeComponent(
 }
 
 @Composable
-internal fun ColumnScope.KfDateTimeComponent(
+internal fun ColumnScope.KfDateTimeFieldComponent(
     modifier: Modifier = Modifier,
-    editor: DateComponentEditor,
+    editor: DateFieldComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
@@ -62,9 +62,9 @@ internal fun ColumnScope.KfDateTimeComponent(
 }
 
 @Composable
-internal fun RowScope.KfDateTimeComponent(
+internal fun RowScope.KfDateTimeFieldComponent(
     modifier: Modifier = Modifier,
-    editor: DateComponentEditor,
+    editor: DateFieldComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
@@ -75,7 +75,7 @@ internal fun RowScope.KfDateTimeComponent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun KfDateTimeComponentImpl(
-    editor: DateComponentEditor,
+    editor: DateFieldComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
@@ -130,10 +130,12 @@ private fun KfDateTimeComponentImpl(
     }
 
     Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
-        KfTitle(
-            editor,
-            modifier = Modifier.testTag("${component.id}-title")
-        )
+        if (!editor.disableTitle)
+            KfTitle(
+                editor,
+                modifier = Modifier.testTag("${component.id}-title")
+            )
+
         OutlinedTextField(
             value = pattern.format(date.selectedDateMillis, time.hour, time.minute),
             onValueChange = {},

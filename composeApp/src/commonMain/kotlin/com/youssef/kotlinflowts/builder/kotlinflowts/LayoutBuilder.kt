@@ -47,13 +47,14 @@ interface LayoutBuilder {
 
     fun add(type: Component.Type){
         when (type) {
-            Component.Type.text -> text()
-            Component.Type.textarea -> textarea()
-            Component.Type.number -> number()
-            Component.Type.dropdown -> dropdown(options = emptyList())
+            Component.Type.text          -> text()
+            Component.Type.textField     -> textField()
+            Component.Type.textFieldArea -> textFieldArea()
+            Component.Type.numberField   -> numberField()
+            Component.Type.dropdown      -> dropdown(options = emptyList())
             Component.Type.multiSelect -> select(options = emptyList())
-            Component.Type.date -> date()
-            Component.Type.richText -> textarea()
+            Component.Type.dateField   -> dateField()
+            Component.Type.richText    -> textFieldArea()
             Component.Type.signature -> signature()
             Component.Type.table -> table()
             Component.Type.chart -> chart()
@@ -69,7 +70,7 @@ interface LayoutBuilder {
     fun delete(id: String)
 
     fun text(
-        title: String = "Text Field Component",
+        title: String = "Text Component",
         id: String? = null,
         identifier: String? = null,
         readonly: Boolean = false,
@@ -86,14 +87,32 @@ interface LayoutBuilder {
         )
     }
 
-    fun textarea(
-        title: String = "Text Area Component",
+    fun textField(
+        title: String = "TextField Component",
         id: String? = null,
         identifier: String? = null,
         readonly: Boolean = false,
         value: String? = null
     ) = buildComponent(id) { uid ->
-        textAreaComponent(
+        textFieldComponent(
+            uid,
+            title,
+            identifier ?: "component-$uid",
+            readonly,
+            depth,
+            builderId,
+            value
+        )
+    }
+
+    fun textFieldArea(
+        title: String = "TextField Area Component",
+        id: String? = null,
+        identifier: String? = null,
+        readonly: Boolean = false,
+        value: String? = null
+    ) = buildComponent(id) { uid ->
+        textFieldAreaComponent(
             uid,
             title,
             identifier ?: "component-$uid",
@@ -122,14 +141,14 @@ interface LayoutBuilder {
         )
     }
 
-    fun number(
-        title: String = "Number Component",
+    fun numberField(
+        title: String = "NumberField Component",
         id: String? = null,
         identifier: String? = null,
         readonly: Boolean = false,
         value: Number? = null
     ) = buildComponent(id) { uid ->
-        numberComponent(
+        numberFieldComponent(
             uid,
             title,
             identifier ?: "component-$uid",
@@ -140,8 +159,8 @@ interface LayoutBuilder {
         )
     }
 
-    fun date(
-        title: String = "Date Component",
+    fun dateField(
+        title: String = "DateField Component",
         id: String? = null,
         identifier: String? = null,
         format: String? = null,
@@ -150,7 +169,7 @@ interface LayoutBuilder {
     ) {
         val uid = id ?: identity.generate()
         val component =
-            dateComponent(uid, title, identifier ?: "component-$uid", readonly, format, depth, builderId, value)
+            dateFieldComponent(uid, title, identifier ?: "component-$uid", readonly, format, depth, builderId, value)
         val position = componentPosition(
             id = identity.generate(),
             component = component.id,

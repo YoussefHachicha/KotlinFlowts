@@ -3,16 +3,10 @@ package com.youssef.kotlinflowts.app.editor
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.app.editor.components.BorderColorConfig
 import com.youssef.kotlinflowts.app.editor.components.CopyCodeButton
@@ -42,6 +36,12 @@ fun EditorSample(
         item {
             editor.selectedEditorComponent?.let { compEditor ->
                 EditorTitle(compEditor)
+
+                KfOption(
+                    label = "Disable Title",
+                    selected = compEditor.disabled,
+                    onClick = { compEditor.changeDisableTitle() }
+                )
 
                 BorderColorConfig(compEditor, isCollapsed)
 

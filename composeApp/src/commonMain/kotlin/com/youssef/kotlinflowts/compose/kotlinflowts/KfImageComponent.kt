@@ -109,10 +109,12 @@ private fun KfImageComponentImpl(
 ) {
     val component = remember(editor) { editor.comp }
 
-    Text(
-        editor.title,
-        modifier = Modifier.testTag("${component.id}-preview-title").padding(bottom = 8.dp)
-    )
+    if (!editor.disableTitle)
+        Text(
+            editor.title,
+            modifier = Modifier.testTag("${component.id}-preview-title").padding(bottom = 8.dp)
+        )
+
     val attachments by derivedStateOf { editor.fileValue.toList() }
 
     RawImageComponent(

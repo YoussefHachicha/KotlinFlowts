@@ -3,17 +3,19 @@ package com.youssef.kotlinflowts.editor.kotlinflowts.internal
 import com.youssef.kotlinflowts.editor.kotlinflowts.collections.CompCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.internal.ColumnComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ChartComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DateComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DateFieldFieldComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DropdownComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.FileComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ImageComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.MultiSelectComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.NumberComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.NumberFieldComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.SignatureComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TableComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextAreaComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextFieldAreaComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextFieldComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.row.internal.RowComponentEditorImpl
 import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
@@ -21,17 +23,18 @@ import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ChartComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ColumnComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.components.DateComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.DateFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.DropdownComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.FileComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ImageComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.MultiSelectComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.components.NumberComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.NumberFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.RowComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.SignatureComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TableComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.components.TextAreaComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldAreaComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,7 +55,7 @@ internal class CompCollectionImpl(
     private val _all: MutableStateFlow<List<ComponentEditor>> = MutableStateFlow(all())
     override val all: StateFlow<List<ComponentEditor>> = _all
 
-    val componentsEditor: MutableList<ComponentEditor> =  all().toMutableList()
+    val componentsEditor: MutableList<ComponentEditor> = all().toMutableList()
 
     init {
         scope.launch {
@@ -92,7 +95,7 @@ internal class CompCollectionImpl(
         val ids = positions.map { it.componentId }
         return componentsEditor.filter {
             it.comp.depth == 1 &&
-            it.comp.id in ids
+                    it.comp.id in ids
         }.sortedBy { df ->
             positions.first { it.componentId == df.comp.id }.y
         }
@@ -104,7 +107,8 @@ internal class CompCollectionImpl(
         val ids = positions.map { it.componentId }
         val filteredComponents = componentsEditor.filter { component ->
             val hasId = component.id in ids
-            val isLayoutType = component.type == Component.Type.column || component.type == Component.Type.row
+            val isLayoutType =
+                component.type == Component.Type.column || component.type == Component.Type.row
             hasId && isLayoutType
         }
         return filteredComponents
@@ -147,14 +151,19 @@ internal class CompCollectionImpl(
         return builder(look(key, type) ?: return null)
     }
 
-    override fun text(key: String) =
+    override fun text(key: String): TextComponentEditor? =
         buildEditor(key, Component.Type.text) { component: TextComponent ->
             TextComponentEditorImpl(app, component, onChange)
         }
 
-    override fun textarea(key: String) =
-        buildEditor(key, Component.Type.textarea) { component: TextAreaComponent ->
-            TextAreaComponentEditorImpl(app, component, onChange)
+    override fun textField(key: String) =
+        buildEditor(key, Component.Type.textField) { component: TextFieldComponent ->
+            TextFieldComponentEditorImpl(app, component, onChange)
+        }
+
+    override fun textFieldArea(key: String) =
+        buildEditor(key, Component.Type.textFieldArea) { component: TextFieldAreaComponent ->
+            TextFieldAreaComponentEditorImpl(app, component, onChange)
         }
 
     override fun signature(key: String) =
@@ -162,14 +171,14 @@ internal class CompCollectionImpl(
             SignatureComponentEditorImpl(app, component, onChange)
         }
 
-    override fun date(key: String) =
-        buildEditor(key, Component.Type.date) { component: DateComponent ->
-            DateComponentEditorImpl(app, component, onChange)
+    override fun dateField(key: String) =
+        buildEditor(key, Component.Type.dateField) { component: DateFieldComponent ->
+            DateFieldFieldComponentEditorImpl(app, component, onChange)
         }
 
-    override fun number(key: String) =
-        buildEditor(key, Component.Type.number) { component: NumberComponent ->
-            NumberComponentEditorImpl(app, component, onChange)
+    override fun numberField(key: String) =
+        buildEditor(key, Component.Type.numberField) { component: NumberFieldComponent ->
+            NumberFieldComponentEditorImpl(app, component, onChange)
         }
 
     override fun dropdown(key: String) =

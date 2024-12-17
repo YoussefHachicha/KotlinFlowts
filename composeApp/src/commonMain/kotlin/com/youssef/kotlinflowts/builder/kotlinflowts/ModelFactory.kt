@@ -5,7 +5,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.File
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableFile
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableScreen
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
-import com.youssef.kotlinflowts.models.kotlinflowts.components.DateComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.DateFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.DropdownComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.MultiSelectComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
@@ -17,7 +17,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.table.Column
 import com.youssef.kotlinflowts.models.kotlinflowts.components.table.Row
 import com.youssef.kotlinflowts.models.kotlinflowts.toChartComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.toColumnComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.toDateComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.toDateFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.toDropdownComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.toFile
 import com.youssef.kotlinflowts.models.kotlinflowts.toFileComponent
@@ -25,14 +25,15 @@ import com.youssef.kotlinflowts.models.kotlinflowts.toImageComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.toMultiSelectComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.toMutableFile
 import com.youssef.kotlinflowts.models.kotlinflowts.toMutableScreen
-import com.youssef.kotlinflowts.models.kotlinflowts.toNumberComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.toNumberFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.toScreen
 import com.youssef.kotlinflowts.models.kotlinflowts.toPosition
 import com.youssef.kotlinflowts.models.kotlinflowts.toRowComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.toSignatureComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.toTableComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.toTextAreaComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.toTextComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.toTextFieldAreaComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.toTextFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.AXIS_X_MAX
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.AXIS_X_MIN
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.AXIS_X_TITLE
@@ -112,9 +113,9 @@ internal fun textComponent(
     depth: Int,
     builderId: String,
     value: String?
-) = valueBasedComponent(id, title, identifier, Component.Type.text, readonly, depth, builderId, value).toTextComponent()
+) = valueBasedComponent(id, title, identifier, Component.Type.textField, readonly, depth, builderId, value).toTextComponent()
 
-internal fun textAreaComponent(
+internal fun textFieldComponent(
     id: String,
     title: String,
     identifier: String,
@@ -122,7 +123,17 @@ internal fun textAreaComponent(
     depth: Int,
     builderId: String,
     value: String?
-) = valueBasedComponent(id, title, identifier, Component.Type.textarea, readonly, depth, builderId, value).toTextAreaComponent()
+) = valueBasedComponent(id, title, identifier, Component.Type.textField, readonly, depth, builderId, value).toTextFieldComponent()
+
+internal fun textFieldAreaComponent(
+    id: String,
+    title: String,
+    identifier: String,
+    readonly: Boolean,
+    depth: Int,
+    builderId: String,
+    value: String?
+) = valueBasedComponent(id, title, identifier, Component.Type.textFieldArea, readonly, depth, builderId, value).toTextFieldAreaComponent()
 
 internal fun signatureComponent(
     id: String,
@@ -134,7 +145,7 @@ internal fun signatureComponent(
     value: String?
 ) = valueBasedComponent(id, title, identifier, Component.Type.signature, readonly, depth, builderId, value).toSignatureComponent()
 
-internal fun numberComponent(
+internal fun numberFieldComponent(
     id: String,
     title: String,
     identifier: String,
@@ -142,9 +153,9 @@ internal fun numberComponent(
     depth: Int,
     builderId: String,
     value: Number?
-) = valueBasedComponent(id, title, identifier, Component.Type.number, readonly, depth, builderId, value?.toDouble()).toNumberComponent()
+) = valueBasedComponent(id, title, identifier, Component.Type.numberField, readonly, depth, builderId, value?.toDouble()).toNumberFieldComponent()
 
-internal fun dateComponent(
+internal fun dateFieldComponent(
     id: String,
     title: String,
     identifier: String,
@@ -161,9 +172,9 @@ internal fun dateComponent(
     Component::disabled.name to readonly,
     Component::depth.name to depth,
     Component::builderId.name to builderId,
-    DateComponent::format.name to format,
-    Component::type.name to Component.Type.date.name
-).toDateComponent()
+    DateFieldComponent::format.name to format,
+    Component::type.name to Component.Type.dateField.name
+).toDateFieldComponent()
 
 internal fun dropdownComponent(
     id: String,

@@ -34,12 +34,12 @@ internal class RowEditorImpl(
     }
 
     override fun text(key: String): TextCellEditor? {
-        val column = find<TextColumn>(key, Component.Type.text) ?: return null
+        val column = find<TextColumn>(key, Component.Type.textField) ?: return null
         return TextCellEditorImpl(app, field, column, row, onChange)
     }
 
     override fun text(index: Int): TextCellEditor? {
-        val column = take<TextColumn>(index, Component.Type.text) ?: return null
+        val column = take<TextColumn>(index, Component.Type.textField) ?: return null
         return TextCellEditorImpl(app, field, column, row, onChange)
     }
 
