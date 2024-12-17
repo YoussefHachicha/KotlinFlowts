@@ -23,6 +23,7 @@ internal fun HandleMultiSelectEditor(compEditor: MultiSelectComponentEditor) {
 
     OutlinedTextField(
         value = newOption,
+        enabled = !compEditor.disabled,
         onValueChange = { newOption = it },
         label = { Text("Option") }
     )

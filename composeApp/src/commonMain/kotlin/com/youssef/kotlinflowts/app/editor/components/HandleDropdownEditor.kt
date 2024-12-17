@@ -38,7 +38,8 @@ internal fun HandleDropdownEditor(compEditor: DropdownComponentEditor) {
         onClick = {
             compEditor.addOption(newOption)
             newOption = ""
-        }
+        },
+        enabled = !compEditor.disabled
     ) {
         Text("Add Option")
     }

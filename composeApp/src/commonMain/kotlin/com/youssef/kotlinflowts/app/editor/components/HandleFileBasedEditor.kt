@@ -22,6 +22,7 @@ internal fun HandleFileBasedEditor(compEditor: FileBasedComponentEditor) {
 
             OutlinedTextField(
                 value = url,
+                enabled = !compEditor.disabled,
                 onValueChange = { url = it },
                 label = { Text("Url") }
             )
