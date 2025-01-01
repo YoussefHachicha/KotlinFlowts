@@ -30,7 +30,7 @@ interface CompCollection: LayoutCollection {
 
     override fun find(key: String): ComponentEditor?
 
-    override val all: StateFlow<List<ComponentEditor>>
+    override val all: List<ComponentEditor>
 
     fun text(key: String): TextComponentEditor?
 

@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface LayoutBuilder {
     val identity: IdentityGenerator
     val app: MutableApp
-    val components: StateFlow<List<Component>>
+    val components: List<Component>
     val depth: Int
     val builderId: String
 
@@ -335,7 +335,7 @@ interface LayoutBuilder {
             depth = depth,
             builderId = builderId,
             identifier = identifier ?: "component-$uid",
-            components = builder.components.value
+            components = builder.components
         )
     }
 
@@ -358,7 +358,7 @@ interface LayoutBuilder {
             depth = depth,
             builderId = builderId,
             identifier = identifier ?: "component-$uid",
-            components = builder.components.value
+            components = builder.components
         )
     }
 }

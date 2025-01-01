@@ -55,7 +55,7 @@ private fun KfNumberComponentImpl(
 ) {
     val component = remember(editor) { editor.comp }
     if (!editor.disableTitle)
-        KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
 
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = editor.value } }
 

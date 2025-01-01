@@ -48,7 +48,6 @@ fun App(
     modifier: Modifier = Modifier,
     onChangeScreen: (Screen) -> Unit,
 ) {
-
     LaunchedEffect(currentScreen) {
         onChangeScreen(currentScreen)
         editor.selectedEditorComponent = null

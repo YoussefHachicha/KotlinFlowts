@@ -52,43 +52,40 @@ internal class CompCollectionImpl(
 
     override fun all() = app.components.map { it.toEditor() }
 
-    private val _all: MutableStateFlow<List<ComponentEditor>> = MutableStateFlow(all())
-    override val all: StateFlow<List<ComponentEditor>> = _all
+    override val all:List<ComponentEditor> = all()
 
-    val componentsEditor: MutableList<ComponentEditor> = all().toMutableList()
+    private val componentsEditor: MutableList<ComponentEditor> = all().toMutableList()
 
-    init {
-        scope.launch {
-            app.builders["mainBuilder"]?.components?.collect {
-                synchronizeComponents(it)
-            }
-        }
-    }
+    private val components = app.builders["mainBuilder"]?.components.orEmpty()
 
-    private fun synchronizeComponents(newComponents: List<Component>) {
-        val existingEditorsMap = componentsEditor.associateBy { it.id }
-
-        val updatedComponents = mutableListOf<ComponentEditor>()
-
-        newComponents.forEach { component ->
-            val existingEditor = existingEditorsMap[component.id]
-
-            if (existingEditor != null) {
-                existingEditor.updateFromComponent(component)
-                updatedComponents.add(existingEditor)
-            } else {
-                updatedComponents.add(component.toEditor())
-            }
-        }
-
-        componentsEditor.clear()
-        componentsEditor.addAll(updatedComponents)
-        _all.value = updatedComponents
-    }
-
-    private fun ComponentEditor.updateFromComponent(component: Component) {
-        this.title = component.title
-    }
+//    init {
+//        scope.launch {
+//            app.builders["mainBuilder"]?.components?.collect {
+//                synchronizeComponents(it)
+//            }
+//        }
+//    }
+//
+//    private fun synchronizeComponents(newComponents: List<Component>) {
+//        val existingEditorsMap = componentsEditor.associateBy { it.id }
+//
+//        val updatedComponents = mutableListOf<ComponentEditor>()
+//
+//        newComponents.forEach { component ->
+//            val existingEditor = existingEditorsMap[component.id]
+//
+//            if (existingEditor != null) {
+//                updatedComponents.add(existingEditor)
+//            } else {
+//                updatedComponents.add(component.toEditor())
+//            }
+//        }
+//
+//        componentsEditor.clear()
+//        componentsEditor.addAll(updatedComponents)
+//        _all.value = updatedComponents
+//    }
+//
 
     override fun from(screen: Screen): List<ComponentEditor> {
         val positions = screen.positions
@@ -138,7 +135,7 @@ internal class CompCollectionImpl(
 
     override fun find(key: String): ComponentEditor? {
         val component =
-            all.value.find { it.identifier == key || it.id == key || it.title == key }
+            all.find { it.identifier == key || it.id == key || it.title == key }
                 ?: return null
         return component
     }

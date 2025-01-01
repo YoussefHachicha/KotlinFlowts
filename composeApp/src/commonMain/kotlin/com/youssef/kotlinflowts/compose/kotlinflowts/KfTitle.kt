@@ -8,34 +8,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
-import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
-
-@Composable
-internal fun KfTitle(
-    component: ComponentEditor,
-    modifier: Modifier = Modifier,
-    bottomPadding: Int = 2
-) = KfTitle(component.title, modifier, bottomPadding)
 
 @Composable
 internal fun ColumnScope.KfTitle(
-    component: ComponentEditor,
+    title: String,
     modifier: Modifier = Modifier,
     bottomPadding: Int = 2
-) = KfTitle(component.title, modifier, bottomPadding)
+) = Text(title, modifier = modifier.padding(bottom = bottomPadding.dp))
 
 @Composable
 internal fun RowScope.KfTitle(
-    component: ComponentEditor,
+    title: String,
     modifier: Modifier = Modifier,
     bottomPadding: Int = 2
-) = KfTitle(component.title, modifier, bottomPadding)
+) = Text(title, modifier = modifier.padding(bottom = bottomPadding.dp))
 
 @Composable
 internal fun KfTitle(
     title: String,
     modifier: Modifier = Modifier,
     bottomPadding: Int = 2
-) {
-    Text(title, modifier = modifier.padding(bottom = bottomPadding.dp))
-}
+) = Text(title, modifier = modifier.padding(bottom = bottomPadding.dp))

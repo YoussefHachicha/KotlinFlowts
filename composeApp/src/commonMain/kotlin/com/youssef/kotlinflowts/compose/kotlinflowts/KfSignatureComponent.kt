@@ -69,7 +69,6 @@ import com.youssef.kotlinflowts.compose.kotlinflowts.utils.toByteArray
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
-import com.youssef.kotlinflowts.models.kotlinflowts.components.SignatureComponent
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
@@ -123,7 +122,7 @@ private fun KfSignatureComponentImpl(
         mutableStateOf(s)
     }
     if (!editor.disableTitle)
-        KfTitle(editor, modifier = Modifier.testTag("${component.id}-preview-title"))
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-preview-title"))
 
     Surface(
         modifier = Modifier
@@ -266,7 +265,7 @@ private fun Capture(
                     modifier = Modifier.fillMaxWidth().height(60.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(horizontalArrangement = Arrangement.Start) { KfTitle(component) }
+                    Row(horizontalArrangement = Arrangement.Start) { KfTitle(component.title) }
                     Row(
                         horizontalArrangement = Arrangement.End,
                         modifier = Modifier.fillMaxWidth()

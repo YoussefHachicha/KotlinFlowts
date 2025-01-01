@@ -81,7 +81,7 @@ private fun KfDropComponentImpl(
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.select(selected) } }
 
     if (!editor.disableTitle)
-        KfTitle(editor, modifier = Modifier.testTag("${component.id}-title"))
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
 
     RawDropComponent(
         options = options,

@@ -124,7 +124,7 @@ internal fun KfTableComponent(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         if (!editor.disableTitle)
-                            KfTitle(editor, modifier = Modifier, 4)
+                            KfTitle(editor.title, modifier = Modifier, 4)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             if (selectedRow.size == 1) {
@@ -368,7 +368,7 @@ private fun Preview(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        KfTitle(editor)
+        KfTitle(editor.title)
         Row {
             TextButton(onClick = onClick, contentPadding = PaddingValues(0.dp), shape = RoundedCornerShape(2.dp)) {
                 Text("View")
