@@ -7,6 +7,8 @@
 ![badge][badge-windows]
 ![badge][badge-web]
 
+![KotlinFlowts logo](docs/images/kotlinflowts-high-resolution-logo)
+
 ## Features
 
 ### Key Features:

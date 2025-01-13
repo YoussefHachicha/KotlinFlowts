@@ -2,7 +2,6 @@ package com.youssef.kotlinflowts.editor.kotlinflowts
 
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.internal.ColumnComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.AnyComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.BlockComponentEditorImpl
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ChartComponentEditorImpl
@@ -39,7 +38,6 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldAreaComp
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
-import kotlinx.coroutines.flow.StateFlow
 
 interface LayoutCollection {
     val app: App
@@ -66,7 +64,7 @@ interface LayoutCollection {
         else /*  is UnknownComponent */ -> AnyComponentEditor(app, this, onChange)
     }
 
-    fun getAll(): List<ComponentEditor>
+    fun getAllComponents(): List<ComponentEditor>
 
     fun find(key: String): ComponentEditor?
 

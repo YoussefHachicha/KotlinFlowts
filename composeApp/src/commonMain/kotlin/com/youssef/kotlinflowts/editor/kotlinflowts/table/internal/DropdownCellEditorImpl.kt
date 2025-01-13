@@ -31,7 +31,7 @@ internal class DropdownCellEditorImpl(
         _options.addAll(column.options)
     }
 
-    override var selected: Option2? by mutableStateOf(getSelected())
+    override var selected: Option2? by mutableStateOf(getSelectedOption())
 
     private fun find(key: String?) = options.find { it.id == key || it.value == key }
 
@@ -46,7 +46,7 @@ internal class DropdownCellEditorImpl(
 
     override fun select(option: Option2?) = select(option?.id)
 
-    override fun getSelected(): Option2? = find(row.cells[column.id] as? String)
+    override fun getSelectedOption(): Option2? = find(row.cells[column.id] as? String)
 
     override fun addOption(value: String) {
         val option = value.toOption()
