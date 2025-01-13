@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/images/kotlinflowts-high-resolution-logo.png" alt="" height="1500" width="400" title="KotlinFlowts"></p>
+
 # KotlinFlowts
 
 ![badge][badge-android]
@@ -6,8 +8,6 @@
 ![badge][badge-mac]
 ![badge][badge-windows]
 ![badge][badge-web]
-
-![KotlinFlowts logo](docs/images/kotlinflowts-high-resolution-logo)
 
 ## Features
 
