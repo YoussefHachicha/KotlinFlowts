@@ -104,8 +104,7 @@ fun App(
                 is DateFieldComponentEditor -> KfDateTimeFieldComponent(
                     editor = it,
                     mode = mode,
-                    format = currentScreen.positions.firstOrNull { it.componentId == it.id }?.format
-                        ?: it.comp.format,
+                    format = null,
                     onSignal = it::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,
