@@ -13,7 +13,7 @@ internal class SignatureComponentEditorImpl(
 ) : AbstractValueBasedComponentEditor<String, SignatureComponent>(app, comp, onChange), SignatureComponentEditor {
     override fun generateCode(): String {
         return """
-            Text("Signature component")
+            Text("${this.value}")
         """.trimIndent()
     }
 
@@ -22,3 +22,4 @@ internal class SignatureComponentEditorImpl(
         notifyChange(value)
     }
 }
+

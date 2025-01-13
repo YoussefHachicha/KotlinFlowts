@@ -16,6 +16,12 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.CopyAll
+import androidx.compose.material.icons.filled.Copyright
+import androidx.compose.material.icons.filled.FileCopy
+import androidx.compose.material.icons.filled.FolderCopy
 import androidx.compose.material.icons.filled.GeneratingTokens
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -95,15 +101,20 @@ fun ScreenNavigator(
         VerticalDivider()
 
         // Button B - Always stuck to the end
+
         IconButton(
             onClick = { generateCode() },
             modifier = Modifier.weight(0.1f)
         ) {
             Icon(
-                Icons.Default.GeneratingTokens,
+                Icons.Default.Code,
                 contentDescription = "Generate"
             )
         }
+
+
     }
 }
+
+
 

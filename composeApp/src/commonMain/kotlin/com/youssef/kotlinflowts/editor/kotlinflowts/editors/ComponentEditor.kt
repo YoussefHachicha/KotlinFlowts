@@ -32,4 +32,3 @@ interface ComponentEditor {
     fun changeDisableTitle() { disableTitle = !disableTitle }
 
 }
-
