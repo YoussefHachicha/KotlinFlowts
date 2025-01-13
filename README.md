@@ -36,6 +36,86 @@ To run the desktop application:
 To run the web application:
 - Run `./gradlew :composeApp:jsBrowserDevelopmentRun`
 
+## For Devs:
+
+### App Builder DSL
+
+A declarative way to build your applications using a simple and intuitive Kotlin DSL.
+
+#### Basic Structure
+
+```kotlin
+buildApp {
+    name("MyApp")              // Set your app name
+    screen("User Profile") {   // Create a screen
+        // Add components here
+    }
+}
+```
+#### Available Components
+- Layout Components
+
+row { } - Creates a horizontal container for components
+
+column { } - Creates a vertical container for components
+
+- Input Components
+
+textField("Label") - Single-line text input
+
+textFieldArea("Label") - Multi-line text input
+
+numberField("Label") - Numeric input field
+
+dateField("Label") - Date picker component
+
+dropdown("Label") - Single-select dropdown menu
+
+multiSelect("Label") - Multi-select dropdown menu
+
+- Display Components
+
+text("Label") - Static text display
+
+image("Label") - Image upload/display component
+
+signature("Label") - Signature capture component
+
+#### Example Usage
+
+```kotlin
+buildApp {
+    name("Employee Directory")
+    
+    screen("Personal Information") {
+        row {
+            textField("First Name")
+            textField("Last Name")
+        }
+        column {
+            textFieldArea("Address")
+            numberField("Phone Number")
+            dateField("Date of Birth")
+        }
+        row {
+            dropdown("Department")
+            multiSelect("Skills")
+        }
+        signature("Employee Signature")
+    }
+    
+    screen("Documents") {
+        column {
+            text("Please upload required documents")
+            image("Profile Photo")
+            image("ID Card")
+        }
+    }
+}
+```
+
+Each component can be customized further with properties and event handlers.
+
 ## Contribute
 
 Welcome, contribute!
