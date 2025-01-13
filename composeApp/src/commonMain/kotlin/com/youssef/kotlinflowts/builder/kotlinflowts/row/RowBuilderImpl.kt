@@ -18,7 +18,7 @@ class RowBuilderImpl(
     override val depth: Int,
     override var builderId: String,
     override val onChange: ((ChangeEvent) -> Unit)?,
-): RowBuilder {
+) : RowBuilder {
     private val _components = mutableStateListOf<ComponentEditor>()
     override val components: List<ComponentEditor> = _components
 
@@ -29,7 +29,15 @@ class RowBuilderImpl(
     }
 
     override fun delete(id: String) {
-        _components.removeIf { it.id == id }
-        app.components.removeIf { it.id == id }
+        val componentIndex = _components.indexOfFirst { it.id == id }
+        if (componentIndex != -1) {
+            _components.removeAt(componentIndex)
+        }
+
+        // Find and remove from app.components
+        val appComponentIndex = app.components.indexOfFirst { it.id == id }
+        if (appComponentIndex != -1) {
+            app.components.removeAt(appComponentIndex)
+        }
     }
 }

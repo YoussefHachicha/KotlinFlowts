@@ -29,7 +29,7 @@ internal class ColumnCollectionImpl(
 
     override val all = app.builders[component.id]?.components.orEmpty()
 
-    override fun all(): List<ComponentEditor> = app.builders[component.id]?.components.orEmpty()
+    override fun getAll(): List<ComponentEditor> = app.builders[component.id]?.components.orEmpty()
 
     override fun find(key: String): ComponentEditor? {
         val comp = component.value.find { it.id == key || it.title == key } ?: return null

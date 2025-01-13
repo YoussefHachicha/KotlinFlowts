@@ -18,7 +18,7 @@ interface MultiSelectComponentEditor : ComponentEditor {
 
     fun unselect(option: Option2?)
 
-    fun selected(): List<Option2>
+    fun getSelected(): List<Option2>
 
     fun addOption(value: String)
 

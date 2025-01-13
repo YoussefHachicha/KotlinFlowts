@@ -210,7 +210,7 @@ internal fun KfTableComponent(
 
                                     is DropdownCellEditor -> RawDropComponent(
                                         options = cell.options,
-                                        value = cell.selected()?.value?.let { listOf(it) } ?: emptyList(),
+                                        value = cell.getSelected()?.value?.let { listOf(it) } ?: emptyList(),
                                         readonly = false,
                                         borders = false,
                                         multiple = false,
@@ -398,7 +398,7 @@ private fun Preview(
                 col != -1 && row == -1 -> Text(text = component.columns[col].title, modifier = modifier)
                 else /* col != -1 && row != -1 */ -> when (val cell = editor.rows.get(row)?.col(col)) {
                     is TextCellEditor -> Text(text = cell.value ?: "", modifier = modifier)
-                    is DropdownCellEditor -> Text(text = cell.selected()?.value ?: "", modifier = modifier)
+                    is DropdownCellEditor -> Text(text = cell.getSelected()?.value ?: "", modifier = modifier)
                     is ImageCellEditor -> Text(text = "${cell.fileValue.size}", modifier = modifier)
                 }
             }

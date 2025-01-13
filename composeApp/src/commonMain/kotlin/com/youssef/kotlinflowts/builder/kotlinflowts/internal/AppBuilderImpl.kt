@@ -75,9 +75,23 @@ class AppBuilderImpl(
     }
 
     override fun delete(id: String) {
-        cursor().positions.removeIf { it.componentId == id }
-        app.components.removeIf { it.id == id }
-        _components.removeIf { it.id == id }
+        val positions = cursor().positions
+        val cursorComponentIndex = positions.indexOfFirst { it.componentId == id }
+        if (cursorComponentIndex != -1) {
+            positions.removeAt(cursorComponentIndex)
+        }
+
+        val componentIndex = _components.indexOfFirst { it.id == id }
+        if (componentIndex != -1) {
+            _components.removeAt(componentIndex)
+        }
+
+        // Find and remove from app.components
+        val appComponentIndex = app.components.indexOfFirst { it.id == id }
+        if (appComponentIndex != -1) {
+            app.components.removeAt(appComponentIndex)
+        }
         addCompUpdate++
+
     }
 }

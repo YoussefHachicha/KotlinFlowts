@@ -22,7 +22,7 @@ internal class RowComponentEditorImpl(
     override fun generateCode(): String {
         return CodeFormatter.generateContainerCode(
             containerType = comp.type,
-            components = rowComponents.all()
+            components = rowComponents.getAll()
         )
     }
 }

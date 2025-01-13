@@ -48,7 +48,7 @@ internal class CompCollectionImpl(
     override val identity: IdentityGenerator,
     override val onChange: ((ChangeEvent) -> Unit)?
 ) : CompCollection {
-    override fun all() = app.builders["mainBuilder"]?.components.orEmpty()
+    override fun getAll() = app.builders["mainBuilder"]?.components.orEmpty()
     override val all: List<ComponentEditor> = app.builders["mainBuilder"]?.components.orEmpty()
 
     override fun from(screen: Screen): List<ComponentEditor> {

@@ -29,6 +29,10 @@ To build the application bundle for Android:
 To run the desktop application:
 - Run `./gradlew :composeApp:run`
 
+### Web/Js
+To run the web application:
+- Run `./gradlew :composeApp:jsBrowserDevelopmentRun`
+
 ## Contribute
 
 Welcome, contribute!

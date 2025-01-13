@@ -77,7 +77,7 @@ private fun KfSelectComponentImpl(
     val options by derivedStateOf { editor.options.toList() }
 
     val values = remember(editor) {
-        mutableStateListOf(*editor.selected().map { it.id }.toTypedArray())
+        mutableStateListOf(*editor.getSelected().map { it.id }.toTypedArray())
     }
 
     val focus = remember(onSignal) { FocusManager(onSignal) { } }

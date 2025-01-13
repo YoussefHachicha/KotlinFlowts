@@ -17,10 +17,9 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldAreaCompone
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
-import kotlinx.coroutines.flow.StateFlow
 
 interface CompCollection: LayoutCollection {
-    override fun all(): List<ComponentEditor>
+    override fun getAll(): List<ComponentEditor>
 
     fun from(screen: String): List<ComponentEditor>
 
