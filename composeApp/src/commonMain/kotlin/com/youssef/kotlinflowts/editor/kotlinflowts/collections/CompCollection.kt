@@ -19,7 +19,7 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 
 interface CompCollection: LayoutCollection {
-    override fun getAll(): List<ComponentEditor>
+    override fun getAllComponents(): List<ComponentEditor>
 
     fun from(screen: String): List<ComponentEditor>
 

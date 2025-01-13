@@ -30,7 +30,7 @@ internal class DropdownComponentEditorImpl(
 
     private fun look(key: String?): Option2? = options.firstOrNull { it.id == key || it.value == key }
 
-    override fun getSelected(): Option2? = look(this.comp.value)
+    override fun getSelectedOption(): Option2? = look(this.comp.value)
 
     override var selected: Option2? by mutableStateOf(null)
 

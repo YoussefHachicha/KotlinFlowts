@@ -76,7 +76,7 @@ private fun KfDropComponentImpl(
 
     val options by derivedStateOf { editor.options.toList() }
 
-    var selected by remember(editor) { mutableStateOf(editor.getSelected()?.value) }
+    var selected by remember(editor) { mutableStateOf(editor.getSelectedOption()?.value) }
 
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.select(selected) } }
 

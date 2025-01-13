@@ -36,19 +36,13 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.TextComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldAreaComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
 internal class CompCollectionImpl(
     override val app: MutableApp,
     override val identity: IdentityGenerator,
     override val onChange: ((ChangeEvent) -> Unit)?
 ) : CompCollection {
-    override fun getAll() = app.builders["mainBuilder"]?.components.orEmpty()
+    override fun getAllComponents() = app.builders["mainBuilder"]?.components.orEmpty()
     override val all: List<ComponentEditor> = app.builders["mainBuilder"]?.components.orEmpty()
 
     override fun from(screen: Screen): List<ComponentEditor> {
