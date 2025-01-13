@@ -9,7 +9,7 @@ interface DropdownEditor {
 
     fun select(option: Option2?)
 
-    fun selected(): Option2?
+    fun getSelected(): Option2?
 
     val selected: Option2?
 

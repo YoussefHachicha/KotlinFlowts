@@ -30,7 +30,7 @@ internal class DropdownComponentEditorImpl(
 
     private fun look(key: String?): Option2? = options.firstOrNull { it.id == key || it.value == key }
 
-    override fun selected(): Option2? = look(this.comp.value)
+    override fun getSelected(): Option2? = look(this.comp.value)
 
     override var selected: Option2? by mutableStateOf(null)
 
@@ -47,8 +47,12 @@ internal class DropdownComponentEditorImpl(
 
     override fun removeOption(id: String) {
         if (!_options.map { it.id }.contains(id)) return
-        if (_options.removeIf { it.id == id }) {
-            comp.options.removeIf { it.id == id }
+        val optionIndex = _options.indexOfFirst { it.id == id }
+        if (optionIndex != -1) {
+            val compOptionIndex = comp.options.indexOfFirst { it.id == id }
+            if (compOptionIndex != -1) {
+                comp.options.removeAt(compOptionIndex)
+            }
             selected = null
             notifyChange(_options.map { it.toMap() }.toMutableList())
         }

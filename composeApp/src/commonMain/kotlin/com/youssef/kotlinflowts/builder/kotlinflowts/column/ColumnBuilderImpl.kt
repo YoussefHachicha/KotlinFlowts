@@ -23,7 +23,15 @@ class ColumnBuilderImpl(
     }
 
     override fun delete(id: String) {
-        _components.removeIf { it.id == id }
-        app.components.removeIf { it.id == id }
+        val componentIndex = _components.indexOfFirst { it.id == id }
+        if (componentIndex != -1) {
+            _components.removeAt(componentIndex)
+        }
+
+        // Find and remove from app.components
+        val appComponentIndex = app.components.indexOfFirst { it.id == id }
+        if (appComponentIndex != -1) {
+            app.components.removeAt(appComponentIndex)
+        }
     }
 }

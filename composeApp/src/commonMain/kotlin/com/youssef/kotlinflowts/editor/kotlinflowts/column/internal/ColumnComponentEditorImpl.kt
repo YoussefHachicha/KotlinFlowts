@@ -22,7 +22,7 @@ internal class ColumnComponentEditorImpl(
     override fun generateCode(): String {
         return CodeFormatter.generateContainerCode(
             containerType = comp.type,
-            components = columnComponents.all()
+            components = columnComponents.getAll()
         )
     }
 }

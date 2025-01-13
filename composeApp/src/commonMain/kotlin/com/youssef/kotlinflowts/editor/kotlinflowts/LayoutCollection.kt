@@ -66,7 +66,7 @@ interface LayoutCollection {
         else /*  is UnknownComponent */ -> AnyComponentEditor(app, this, onChange)
     }
 
-    fun all(): List<ComponentEditor>
+    fun getAll(): List<ComponentEditor>
 
     fun find(key: String): ComponentEditor?
 

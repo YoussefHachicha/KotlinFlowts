@@ -31,7 +31,7 @@ internal class MultiSelectComponentEditorImpl(
 
     override var selected: Option2? by mutableStateOf(null)
 
-    override fun selected(): List<Option2> {
+    override fun getSelected(): List<Option2> {
         val found = mutableListOf<Option2>()
         val value = this.comp.value ?: return emptyList()
         for (option in value) found.add(look(option) ?: continue)
@@ -51,8 +51,13 @@ internal class MultiSelectComponentEditorImpl(
 
     override fun removeOption(id: String) {
         if (!_options.map { it.id }.contains(id)) return
-        if (_options.removeIf { it.id == id }) {
-            comp.options.removeIf { it.id == id }
+        val optionIndex = _options.indexOfFirst { it.id == id }
+
+        if (optionIndex != -1) {
+            val compOptionIndex = comp.options.indexOfFirst { it.id == id }
+            if (compOptionIndex != -1) {
+                comp.options.removeAt(compOptionIndex)
+            }
             selected = null
             notifyChange(_options.map { it.toMap() }.toMutableList())
         }

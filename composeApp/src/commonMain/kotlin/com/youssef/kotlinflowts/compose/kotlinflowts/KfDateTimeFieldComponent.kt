@@ -38,6 +38,9 @@ import androidx.compose.ui.window.Dialog
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateFieldComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 @Composable
 internal fun KfDateTimeFieldComponent(
@@ -81,7 +84,7 @@ private fun KfDateTimeComponentImpl(
     onSignal: (Signal<Long?>) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    val value = component.value?.let { java.time.Instant.ofEpochMilli(it) }
+    val value = component.value?.let { kotlinx.datetime.Instant.fromEpochMilliseconds(it) }
     var dialog by remember { mutableStateOf(false) }
     val readonly = remember(component, mode) { editor.disabled || mode == Mode.readonly }
 
@@ -108,7 +111,7 @@ private fun KfDateTimeComponentImpl(
         initialDisplayMode = if (mode == Mode.readonly) DisplayMode.Input else DisplayMode.Picker
     )
 
-    val t = value?.atZone(java.time.ZoneId.systemDefault())
+    val t = value?.toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault())
 
     val time = rememberTimePickerState(
         initialHour = t?.hour ?: 0,
@@ -148,7 +151,7 @@ private fun KfDateTimeComponentImpl(
 
     if (dialog) Dialog(onDismissRequest = {
         dialog = false
-        onSignal(Signal.Blur(value?.toEpochMilli()))
+        onSignal(Signal.Blur(value?.epochSeconds))
     }) {
         Surface(modifier = Modifier.fillMaxWidth(0.95f)) {
             Column(modifier = Modifier.padding(8.dp).fillMaxWidth()) {
@@ -171,7 +174,7 @@ private fun KfDateTimeComponentImpl(
                         modifier = Modifier.testTag("${component.id}-input-cancel"),
                         onClick = {
                             dialog = false
-                            onSignal(Signal.Blur(value?.toEpochMilli()))
+                            onSignal(Signal.Blur(value?.epochSeconds))
                         },
                         shape = RoundedCornerShape(8.dp),
                     ) {
@@ -216,11 +219,10 @@ private fun KfDateTimeComponentImpl(
 
 private fun String.format(date: Long?, hr: Int?, min: Int?): String {
     if (date != null) {
-        val dateTime = java.time.Instant.ofEpochMilli(date)
-            .atZone(java.time.ZoneId.systemDefault())
+        val dateTime = Clock.System.now().toLocalDateTime(TimeZone.UTC)
 
         return this.replace("{YYYY}", dateTime.year.toString().padStart(4, '0'))
-            .replace("{MM}", dateTime.monthValue.toString().padStart(2, '0'))
+            .replace("{MM}", dateTime.monthNumber.toString().padStart(2, '0'))
             .replace("{DD}", dateTime.dayOfMonth.toString().padStart(2, '0'))
             .replace("{hh}", (hr ?: 0).toString().padStart(2, '0'))
             .replace("{mm}", (min ?: 0).toString().padStart(2, '0'))
