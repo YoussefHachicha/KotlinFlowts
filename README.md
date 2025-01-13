@@ -53,33 +53,34 @@ buildApp {
 }
 ```
 #### Available Components
-- Layout Components
 
-row { } - Creates a horizontal container for components
+##### Layout Components
 
-column { } - Creates a vertical container for components
+- row { } - Creates a horizontal container for components
 
-- Input Components
+- column { } - Creates a vertical container for components
 
-textField("Label") - Single-line text input
+##### Input Components
 
-textFieldArea("Label") - Multi-line text input
+- textField("Label") - Single-line text input
 
-numberField("Label") - Numeric input field
+- textFieldArea("Label") - Multi-line text input
 
-dateField("Label") - Date picker component
+- numberField("Label") - Numeric input field
 
-dropdown("Label") - Single-select dropdown menu
+- dateField("Label") - Date picker component
 
-multiSelect("Label") - Multi-select dropdown menu
+- dropdown("Label") - Single-select dropdown menu
 
-- Display Components
+- multiSelect("Label") - Multi-select dropdown menu
 
-text("Label") - Static text display
+##### Display Components
 
-image("Label") - Image upload/display component
+- text("Label") - Static text display
 
-signature("Label") - Signature capture component
+- image("Label") - Image upload/display component
+
+- signature("Label") - Signature capture component
 
 #### Example Usage
 
