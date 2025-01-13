@@ -17,10 +17,10 @@
 - **Edit Components**: Modify and update existing components to suit your needs.
 - **Generate Code**: Automatically generate the necessary code for screens and components.
 
-### Demo
+### Desktop Demo
 Take a look at the interactive demo below to see these features in action:
 
-[![Watch the demo](https://img.youtube.com/vi/Gj1MaFLyTiQ/maxresdefault.jpg)](https://youtu.be/Gj1MaFLyTiQ)
+[![Watch the demo](https://img.youtube.com/vi/svuioMgov5A/maxresdefault.jpg)](https://youtu.be/svuioMgov5A)
 
 ## Running the Application
 
