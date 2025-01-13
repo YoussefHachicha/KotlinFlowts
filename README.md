@@ -19,6 +19,16 @@ Take a look at the interactive demo below to see these features in action:
 
 [![Watch the demo](https://img.youtube.com/vi/Gj1MaFLyTiQ/maxresdefault.jpg)](https://youtu.be/Gj1MaFLyTiQ)
 
+## Running the Application
+
+### Android
+To build the application bundle for Android:
+- Run `./gradlew :composeApp:assembleDebug`
+
+### Desktop
+To run the desktop application:
+- Run `./gradlew :composeApp:run`
+
 ## Contribute
 
 Welcome, contribute!

@@ -94,16 +94,16 @@ fun App() {
                 )
             }
 
-
             Panel("Editor") {
                 EditorSample(
                     editor = editor,
-                ) { id, builderId ->
-                    appBuilder.app.builders[builderId]?.delete(id)
-                    if (editor.selectedEditorComponent?.id == id) {
-                        editor.selectedEditorComponent = null
+                    delete = { id, builderId ->
+                        appBuilder.app.builders[builderId]?.delete(id)
+                        if (editor.selectedEditorComponent?.id == id) {
+                            editor.selectedEditorComponent = null
+                        }
                     }
-                }
+                )
             }
         }
     }

@@ -77,7 +77,7 @@ class AppBuilderImpl(
     override fun delete(id: String) {
         cursor().positions.removeIf { it.componentId == id }
         app.components.removeIf { it.id == id }
-        _components.removeIf { it.id != id }
+        _components.removeIf { it.id == id }
         addCompUpdate++
     }
 }
