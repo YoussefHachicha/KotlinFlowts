@@ -14,7 +14,7 @@ internal fun DeleteButton(
 ) {
     TextButton(
         onClick = {
-            delete(compEditor.id, compEditor.comp.builderId)
+            delete(compEditor.comp.id, compEditor.comp.builderId)
         },
         colors = ButtonDefaults.textButtonColors(contentColor = Color.Red)
     ) {
