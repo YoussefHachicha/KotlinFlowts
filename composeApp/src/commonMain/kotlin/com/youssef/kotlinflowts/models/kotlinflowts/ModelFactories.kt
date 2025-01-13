@@ -1,39 +1,23 @@
 package com.youssef.kotlinflowts.models.kotlinflowts
 
 
-import com.youssef.kotlinflowts.editor.kotlinflowts.column.internal.ColumnComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.AnyComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.BlockComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ChartComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DateComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DropdownComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.FileComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ImageComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.MultiSelectComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.NumberComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.RichTextComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.SignatureComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TableComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextAreaComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextComponentEditorImpl
-import com.youssef.kotlinflowts.editor.kotlinflowts.row.internal.RowComponentEditorImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.BlockComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ChartComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ColumnComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.components.DateComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.DateFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.DropdownComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.components.FileComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.ImageComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.MultiSelectComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.components.NumberComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.NumberFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.RichTextComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.RowComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.SignatureComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TableComponent
-import com.youssef.kotlinflowts.models.kotlinflowts.components.TextAreaComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.TextComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldAreaComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.UnknownComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.chart.Line
 import com.youssef.kotlinflowts.models.kotlinflowts.components.chart.Point
@@ -42,18 +26,19 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.chart.internal.Po
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.BlockComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.ChartComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.ColumnComponentImpl
-import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.DateComponentImpl
+import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.DateFieldComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.DropdownComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.FileComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.ImageComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.MultiSelectComponentImpl
-import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.NumberComponentImpl
+import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.NumberFieldComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.RichTextComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.RowComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.SignatureComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.TableComponentImpl
-import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.TextAreaComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.TextComponentImpl
+import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.TextFieldAreaComponentImpl
+import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.TextFieldComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.internal.UnknownComponentImpl
 import com.youssef.kotlinflowts.models.kotlinflowts.components.table.Column
 import com.youssef.kotlinflowts.models.kotlinflowts.components.table.Row
@@ -102,14 +87,16 @@ inline fun MutableMap<String, Any?>.toPosition(): ComponentPosition = ComponentP
 // Component
 inline fun MutableMap<String, Any?>.toTextComponent(): TextComponent = TextComponentImpl(this)
 
-inline fun MutableMap<String, Any?>.toTextAreaComponent(): TextAreaComponent = TextAreaComponentImpl(this)
+inline fun MutableMap<String, Any?>.toTextFieldComponent(): TextFieldComponent = TextFieldComponentImpl(this)
+
+inline fun MutableMap<String, Any?>.toTextFieldAreaComponent(): TextFieldAreaComponent = TextFieldAreaComponentImpl(this)
 
 inline fun MutableMap<String, Any?>.toSignatureComponent(): SignatureComponent = SignatureComponentImpl(this)
 
-inline fun MutableMap<String, Any?>.toNumberComponent(): NumberComponent = NumberComponentImpl(this)
+inline fun MutableMap<String, Any?>.toNumberFieldComponent(): NumberFieldComponent = NumberFieldComponentImpl(this)
 
 
-inline fun MutableMap<String, Any?>.toDateComponent(): DateComponent = DateComponentImpl(this)
+inline fun MutableMap<String, Any?>.toDateFieldComponent(): DateFieldComponent = DateFieldComponentImpl(this)
 
 inline fun MutableMap<String, Any?>.toDropdownComponent(): DropdownComponent = DropdownComponentImpl(this)
 
@@ -122,8 +109,8 @@ inline fun MutableMap<String, Any?>.toImageComponent(): ImageComponent = ImageCo
 inline fun MutableMap<String, Any?>.toRow(): Row = RowImpl(this)
 
 inline fun MutableMap<String, Any?>.toColumn(): Column = when (type()) {
-    Component.Type.text -> TextColumnImpl(this)
-    Component.Type.dropdown -> DropDownColumnImpl(this)
+    Component.Type.textField -> TextColumnImpl(this)
+    Component.Type.dropdown  -> DropDownColumnImpl(this)
     Component.Type.image -> ImageColumnImpl(this)
     else -> UnknownColumnImpl(this)
 }
@@ -147,13 +134,14 @@ inline fun MutableMap<String, Any?>.toColumnComponent(): ColumnComponent = Colum
 inline fun MutableMap<String, Any?>.toRowComponent(): RowComponent = RowComponentImpl(this)
 
 inline fun MutableMap<String, Any?>.toComponent(): Component = when (type()) {
-        Component.Type.text -> toTextComponent()
-        Component.Type.textarea -> toTextAreaComponent()
-        Component.Type.number -> toNumberComponent()
-        Component.Type.dropdown -> toDropdownComponent()
+        Component.Type.text         -> toTextComponent()
+        Component.Type.textField     -> toTextFieldComponent()
+        Component.Type.textFieldArea -> toTextFieldAreaComponent()
+        Component.Type.numberField   -> toNumberFieldComponent()
+        Component.Type.dropdown      -> toDropdownComponent()
         Component.Type.multiSelect -> toMultiSelectComponent()
-        Component.Type.date -> toDateComponent()
-        Component.Type.signature -> toSignatureComponent()
+        Component.Type.dateField   -> toDateFieldComponent()
+        Component.Type.signature   -> toSignatureComponent()
         Component.Type.image -> toImageComponent()
         Component.Type.file -> toFileComponent()
         Component.Type.table -> toTableComponent()

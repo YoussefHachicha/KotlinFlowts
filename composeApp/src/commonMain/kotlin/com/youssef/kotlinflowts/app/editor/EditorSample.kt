@@ -1,20 +1,27 @@
 package com.youssef.kotlinflowts.app.editor
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.youssef.kotlinflowts.app.editor.components.BorderColorConfig
+import com.youssef.kotlinflowts.app.editor.components.CopyCodeButton
+import com.youssef.kotlinflowts.app.editor.components.DeleteButton
+import com.youssef.kotlinflowts.app.editor.components.EditorTitle
+import com.youssef.kotlinflowts.app.editor.components.HandleDropdownEditor
+import com.youssef.kotlinflowts.app.editor.components.HandleFileBasedEditor
+import com.youssef.kotlinflowts.app.editor.components.HandleMultiSelectEditor
+import com.youssef.kotlinflowts.app.editor.components.HandleValueBasedEditor
+import com.youssef.kotlinflowts.compose.kotlinflowts.KfOption
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.AppEditor
-import com.youssef.kotlinflowts.utils.colorPicker.ColorConfig
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DropdownComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.FileBasedComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.MultiSelectComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ValueBasedComponentEditor
 
 @Composable
 fun EditorSample(
@@ -24,44 +31,44 @@ fun EditorSample(
     val isCollapsed = remember { true }
 
     LazyColumn(
-        modifier = Modifier
-            .padding(8.dp)
+        modifier = Modifier.padding(8.dp)
     ) {
         item {
             editor.selectedEditorComponent?.let { compEditor ->
-                val dd = compEditor.comp
-                OutlinedTextField(
-                    value = compEditor.title,
-                    onValueChange = {
-                        compEditor.changeTitle(it)
-                    },
-                    label = { Text("Title") }
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Border Color:")
-                    ColorConfig(
-                        selectedColor = compEditor.borderColor,
-                        onColorChanged = {
-                            compEditor.changeBorderColor(it)
-                        },
-                        isCollapsed = isCollapsed,
-                        isRow = isCollapsed
-                    )
-                }
-                TextButton(
-                    onClick = {
-                        delete(compEditor.id, compEditor.comp.builderId)
+                EditorTitle(compEditor)
 
-                    }
-                ) {
-                    Text("Delete")
+                KfOption(
+                    label = "Disable Title",
+                    selected = compEditor.disableTitle,
+                    onClick = { compEditor.changeDisableTitle() }
+                )
+
+                BorderColorConfig(compEditor, isCollapsed)
+
+                KfOption(
+                    label = "Disable",
+                    selected = compEditor.disabled,
+                    onClick = { compEditor.changeDisabled() }
+                )
+
+                CopyCodeButton(compEditor)
+
+                DeleteButton(compEditor, delete)
+
+                Spacer(modifier = Modifier.padding(8.dp))
+
+                HorizontalDivider()
+
+                Spacer(modifier = Modifier.padding(8.dp))
+
+                when (compEditor) {
+                    is ValueBasedComponentEditor<*> -> HandleValueBasedEditor(compEditor)
+                    is FileBasedComponentEditor -> HandleFileBasedEditor(compEditor)
+                    is DropdownComponentEditor -> HandleDropdownEditor(compEditor)
+                    is MultiSelectComponentEditor -> HandleMultiSelectEditor(compEditor)
+                    else -> {}
                 }
             }
-
         }
     }
 }

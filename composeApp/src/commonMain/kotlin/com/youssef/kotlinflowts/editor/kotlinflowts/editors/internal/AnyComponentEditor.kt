@@ -11,11 +11,12 @@ import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 
 @PublishedApi
-internal open class AnyComponentEditor<out F : Component>(
+internal open class AnyComponentEditor<out C : Component>(
     app: App,
-    override val comp: F,
-    onChange: ((ChangeEvent) -> Unit)?
-) : EventTrigger<F>(app, comp, onChange), ComponentEditor {
+    override val comp: C,
+    onChange: ((ChangeEvent) -> Unit)?,
+    private val initialTitle: String = comp.title
+) : EventTrigger<C>(app, comp, onChange), ComponentEditor {
 
     override var id: String
         get() = this.comp.id
@@ -25,14 +26,12 @@ internal open class AnyComponentEditor<out F : Component>(
         get() = this.comp.identifier
         set(value) {}
 
-    override var title: String
-        get() = this.comp.title
-        set(value) {
-            this.comp.title = value
-        }
-
+    override var title: String by mutableStateOf(initialTitle)
     override var borderColor: Color by mutableStateOf(Color.Gray)
-    override var padding: Int by mutableIntStateOf(0)
+    override var disabled: Boolean by mutableStateOf(false)
+    override var disableTitle: Boolean by mutableStateOf(false)
 
     override val type get() = comp.type
+
 }
+

@@ -6,24 +6,23 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextAreaComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldAreaComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 
 @Composable
-internal fun KfTextArea(
+internal fun KfTextFieldArea(
     modifier: Modifier = Modifier,
-    editor: TextAreaComponentEditor,
+    editor: TextFieldAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
 ) = Column(modifier) {
@@ -31,9 +30,9 @@ internal fun KfTextArea(
 }
 
 @Composable
-internal fun ColumnScope.KfTextArea(
+internal fun ColumnScope.KfTextFieldArea(
     modifier: Modifier = Modifier,
-    editor: TextAreaComponentEditor,
+    editor: TextFieldAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
 ) = Column(modifier) {
@@ -41,9 +40,9 @@ internal fun ColumnScope.KfTextArea(
 }
 
 @Composable
-internal fun RowScope.KfTextArea(
+internal fun RowScope.KfTextFieldArea(
     modifier: Modifier = Modifier,
-    editor: TextAreaComponentEditor,
+    editor: TextFieldAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
 ) = Column(modifier.weight(1f)) {
@@ -52,24 +51,32 @@ internal fun RowScope.KfTextArea(
 
 @Composable
 internal fun KfTextAreaImpl(
-    editor: TextAreaComponentEditor,
+    editor: TextFieldAreaComponentEditor,
     mode: Mode,
     onSignal: (Signal<String>) -> Unit
 ) {
     val component = remember(editor) { editor.comp }
-    var value by remember { mutableStateOf(component.value ?: "") }
-    val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = value } }
 
-    Text(component.title, modifier = Modifier.testTag("${component.id}-title"))
-    Spacer(modifier = Modifier.height(4.dp))
+    if (!editor.disableTitle)
+        Text(editor.title, modifier = Modifier
+            .padding(bottom = 4.dp)
+            .testTag("${component.id}-title")
+        )
+
+    val focus = remember(onSignal) { FocusManager(onSignal) { editor.value = editor.value } }
+
     OutlinedTextField(
-        value = value,
+        value = editor.value ?: "",
         onValueChange = {
-            value = it
+            editor.value = it
             onSignal(Signal.Change(it))
         },
-        readOnly = component.disabled || mode == Mode.readonly,
+        readOnly = editor.disabled || mode == Mode.readonly,
         minLines = 5,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = editor.borderColor,
+            unfocusedBorderColor = editor.borderColor,
+        ),
         modifier = Modifier.testTag("${component.id}-body")
             .fillMaxWidth()
             .onFocusChanged(focus.handler)

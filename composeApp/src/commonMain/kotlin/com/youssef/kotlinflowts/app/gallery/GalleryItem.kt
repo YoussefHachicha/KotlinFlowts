@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -119,13 +120,13 @@ fun GalleryItem(
                 childLayouts.forEachIndexed { index, layout ->
                     when (layout) {
                         is ColumnComponentEditor -> {
-                            val layouts = remember(layout.columnComponents.all) {
-                                mutableStateOf(layout.columnComponents.all.value.filter { it.isLayout() })
+                            val layouts by derivedStateOf {
+                                layout.columnComponents.all.filter { it.isLayout() }.toList()
                             }
 
                             GalleryItem(
                                 text = "${layout.title} #${index + 1}",
-                                childLayouts = layouts.value,
+                                childLayouts = layouts,
                                 layoutId = layout.id,
                             ) {
                                 onClick(layout.id)
@@ -133,13 +134,13 @@ fun GalleryItem(
                         }
 
                         is RowComponentEditor    -> {
-                            val layouts = remember(layout.rowComponents.all) {
-                                mutableStateOf(layout.rowComponents.all.value.filter { it.isLayout() })
+                            val layouts by derivedStateOf {
+                                layout.rowComponents.all.filter { it.isLayout() }.toList()
                             }
 
                             GalleryItem(
                                 text = "${layout.title} #${index + 1}",
-                                childLayouts = layouts.value,
+                                childLayouts = layouts,
                                 layoutId = layout.id,
                             ) {
                                 onClick(layout.id)

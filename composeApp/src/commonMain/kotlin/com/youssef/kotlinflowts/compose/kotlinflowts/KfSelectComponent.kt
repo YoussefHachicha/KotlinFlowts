@@ -18,6 +18,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,7 +37,7 @@ internal fun KfSelectComponent(
     modifier: Modifier = Modifier,
     editor: MultiSelectComponentEditor,
     mode: Mode,
-    multiple: Boolean,
+    multiple: Boolean = editor.multiple,
     onSignal: (Signal<List<String>>) -> Unit
 ) = Column(modifier) {
     KfSelectComponentImpl(editor, mode, multiple, onSignal)
@@ -46,7 +48,7 @@ internal fun ColumnScope.KfSelectComponent(
     modifier: Modifier = Modifier,
     editor: MultiSelectComponentEditor,
     mode: Mode,
-    multiple: Boolean,
+    multiple: Boolean = editor.multiple,
     onSignal: (Signal<List<String>>) -> Unit
 ) = Column(modifier) {
     KfSelectComponentImpl(editor, mode, multiple, onSignal)
@@ -57,7 +59,7 @@ internal fun RowScope.KfSelectComponent(
     modifier: Modifier = Modifier,
     editor: MultiSelectComponentEditor,
     mode: Mode,
-    multiple: Boolean,
+    multiple: Boolean = editor.multiple,
     onSignal: (Signal<List<String>>) -> Unit
 ) = Column(modifier.weight(1f)) {
     KfSelectComponentImpl(editor, mode, multiple, onSignal)
@@ -72,14 +74,16 @@ private fun KfSelectComponentImpl(
     onSignal: (Signal<List<String>>) -> Unit
 ) {
     val component = remember(editor) { editor.comp }
-    val options = remember(editor) { editor.options }
+    val options by derivedStateOf { editor.options.toList() }
 
     val values = remember(editor) {
         mutableStateListOf(*editor.selected().map { it.id }.toTypedArray())
     }
 
     val focus = remember(onSignal) { FocusManager(onSignal) { } }
-    KfTitle(component, modifier = Modifier.testTag("${component.id}-title"))
+    if (!editor.disableTitle)
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+
     Surface(
         color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.2f),
         shape = RoundedCornerShape(10.dp),
@@ -94,7 +98,7 @@ private fun KfSelectComponentImpl(
                     selected = option.id in values,
                     modifier = Modifier.semantics { contentDescription = option.value },
                     onClick = {
-                        if (component.disabled || mode == Mode.readonly) return@KfOption
+                        if (editor.disabled || mode == Mode.readonly) return@KfOption
                         if (!multiple) values.clear()
                         if (option.id in values) {
                             editor.unselect(option)
@@ -118,7 +122,7 @@ private fun KfSelectComponentImpl(
 }
 
 @Composable
-private fun KfOption(
+fun KfOption(
     label: String,
     selected: Boolean,
     onClick: () -> Unit,

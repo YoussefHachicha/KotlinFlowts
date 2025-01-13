@@ -23,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.outlined.BarChart
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -88,10 +89,11 @@ private fun KfChartComponentImpl(
     val component = remember(editor) { editor.comp }
     var capturing by remember { mutableStateOf(false) }
     val lines = remember(component.value) { mutableStateListOf(*(component.value ?: emptyList()).toTypedArray()) }
-    val readonly = component.disabled || mode == Mode.readonly
+    val readonly = editor.disabled || mode == Mode.readonly
 
-    KfTitle(component.title, modifier = Modifier.testTag("${component.id}-preview-title"))
-    Spacer(modifier = Modifier.height(8.dp))
+    if (!editor.disableTitle)
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-preview-title"), 8)
+
     OutlinedButton(
         onClick = {
             capturing = true
@@ -118,7 +120,7 @@ private fun KfChartComponentImpl(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    KfTitle(component.title, modifier = Modifier.testTag("${component.id}-capture-title"))
+                    KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-capture-title"))
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = "${component.id}-capture-close",

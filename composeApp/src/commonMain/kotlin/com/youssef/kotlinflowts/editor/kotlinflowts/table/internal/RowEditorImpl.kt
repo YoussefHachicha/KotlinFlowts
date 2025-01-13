@@ -34,12 +34,12 @@ internal class RowEditorImpl(
     }
 
     override fun text(key: String): TextCellEditor? {
-        val column = find<TextColumn>(key, Component.Type.text) ?: return null
+        val column = find<TextColumn>(key, Component.Type.textField) ?: return null
         return TextCellEditorImpl(app, field, column, row, onChange)
     }
 
     override fun text(index: Int): TextCellEditor? {
-        val column = take<TextColumn>(index, Component.Type.text) ?: return null
+        val column = take<TextColumn>(index, Component.Type.textField) ?: return null
         return TextCellEditorImpl(app, field, column, row, onChange)
     }
 
@@ -55,18 +55,18 @@ internal class RowEditorImpl(
 
     override fun dropdown(key: String): DropdownCellEditor? {
         val column = find<DropdownColumn>(key, Component.Type.dropdown) ?: return null
-        return DropdownCellEditorImpl(app, field, column, row, onChange)
+        return DropdownCellEditorImpl(app, field, identity, column, row, onChange)
     }
 
     override fun dropdown(index: Int): DropdownCellEditor? {
         val column = take<DropdownColumn>(index, Component.Type.dropdown) ?: return null
-        return DropdownCellEditorImpl(app, field, column, row, onChange)
+        return DropdownCellEditorImpl(app, field, identity, column, row, onChange)
     }
 
     private fun Column.toEditor() = when(this) {
         is TextColumn -> TextCellEditorImpl(app, field, this, row, onChange)
         is ImageColumn -> ImageCellEditorImpl(app, field, identity, this, row, onChange)
-        is DropdownColumn -> DropdownCellEditorImpl(app, field, this, row, onChange)
+        is DropdownColumn -> DropdownCellEditorImpl(app, field,  identity,this, row, onChange)
         else -> UnknownCellEditor
     }
 

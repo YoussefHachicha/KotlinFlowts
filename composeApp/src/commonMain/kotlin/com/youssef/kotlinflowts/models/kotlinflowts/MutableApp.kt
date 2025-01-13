@@ -3,6 +3,7 @@ package com.youssef.kotlinflowts.models.kotlinflowts
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.App
 import com.youssef.kotlinflowts.builder.kotlinflowts.LayoutBuilder
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.ComponentId
 
 interface MutableApp : App {

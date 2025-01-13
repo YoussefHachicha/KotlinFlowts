@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,9 +33,19 @@ fun ComponentsGallerySample(
         mutableStateOf(editor.components.layoutsFrom(currentScreen))
     }
 
-    val componentsTypes = Component.Type.entries
+    val componentsTypes = remember {
+        Component.Type.entries.filterNot {
+            it == Component.Type.richText ||
+                    it == Component.Type.table ||
+                    it == Component.Type.chart ||
+                    it == Component.Type.file ||
+                    it == Component.Type.block ||
+                    it == Component.Type.unknown
+
+        }
+    }
     var expanded by remember { mutableStateOf(false) }
-    var selectedComponentType by remember { mutableStateOf(Component.Type.text) }
+    var selectedComponentType by remember { mutableStateOf(Component.Type.textField) }
 
     LazyColumn(
         modifier = Modifier

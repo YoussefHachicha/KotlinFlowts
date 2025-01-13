@@ -109,16 +109,17 @@ private fun KfImageComponentImpl(
 ) {
     val component = remember(editor) { editor.comp }
 
-    Text(
-        component.title,
-        modifier = Modifier.testTag("${component.id}-preview-title").padding(bottom = 8.dp)
-    )
+    if (!editor.disableTitle)
+        Text(editor.title, modifier = Modifier.testTag("${component.id}-preview-title").padding(bottom = 8.dp))
+
+    val attachments by derivedStateOf { editor.fileValue.toList() }
 
     RawImageComponent(
         id = component.id,
         title = component.title,
-        uploaded = editor.value,
-        readonly = component.disabled || mode == Mode.readonly,
+        borderColor = editor.borderColor,
+        uploaded = attachments,
+        readonly = editor.disabled || mode == Mode.readonly,
         onUpload = onUpload,
         onDialog = { opened ->
 
@@ -135,6 +136,7 @@ private fun KfImageComponentImpl(
             FirstImagePreview(
                 id = component.id,
                 params = params,
+                borderColor = editor.borderColor,
                 onFocus = {
                     onSignal(if (it.hasFocus) Signal.Focus else Signal.Blur(Unit))
                 },
@@ -152,6 +154,7 @@ private fun KfImageComponentImpl(
 internal fun RawImageComponent(
     id: String,
     title: String,
+    borderColor: Color,
     uploaded: List<Attachment>,
     readonly: Boolean,
     onUpload: (suspend () -> List<String>)? = null,
@@ -160,13 +163,16 @@ internal fun RawImageComponent(
     onRemoved: (List<String>) -> Unit,
     preview: @Composable (params: PreviewParams) -> Unit,
 ) {
-    val value = remember { mutableStateListOf(*uploaded.map { it.url }.toTypedArray()) }
+    val value = remember(uploaded) {
+        mutableStateListOf(*uploaded.map { it.url }.toTypedArray())
+    }
+
     val selected = remember { mutableStateListOf<String>() }
     var isDialogOpened by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
     val params by remember(value, selected, isDialogOpened) {
-        derivedStateOf {
+        mutableStateOf(
             PreviewParams(
                 value = value,
                 selected = selected,
@@ -179,7 +185,7 @@ internal fun RawImageComponent(
                 scope = scope,
                 onAdded = onAdded
             )
-        }
+        )
     }
 
     preview(params)
@@ -197,6 +203,7 @@ internal fun RawImageComponent(
                     if (!readonly) Row(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
                         UploadLabel(
                             onClick = params::onUploadHandler,
+                            borderColor = borderColor,
                             modifier = Modifier.testTag("$id-body-upload").padding(8.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
@@ -237,6 +244,7 @@ internal fun RawImageComponent(
                         Picture(
                             url = it,
                             selected = marked,
+                            borderColor = borderColor,
                             margin = 4.dp,
                             onSelectorClicked = { url: String ->
                                 if (marked) selected.remove(url) else selected.add(url)
@@ -257,12 +265,14 @@ internal fun RawImageComponent(
 internal fun FirstImagePreview(
     id: String,
     params: PreviewParams,
+    borderColor: Color,
     onFocus: (FocusState) -> Unit,
     onRemove: (String) -> Unit
 ) = Column(modifier = Modifier.testTag("$id-preview").fillMaxWidth()) {
     when (val first = params.value.firstOrNull()) {
         null -> UploadLabel(
             modifier = Modifier.testTag("$id-preview-label").fillMaxWidth().height(200.dp),
+            borderColor = borderColor,
             onClick = {
                 if (params.onUpload == null || params.readonly) return@UploadLabel
                 onFocus(ActiveFocusState)
@@ -273,6 +283,7 @@ internal fun FirstImagePreview(
         else -> Box {
             Picture(
                 url = first,
+                borderColor = borderColor,
                 selected = params.selected.contains(first),
                 onDelete = { url: String ->
                     params.value.remove(url)
@@ -307,6 +318,7 @@ internal fun FirstImagePreview(
 @Composable
 internal fun UploadLabel(
     modifier: Modifier = Modifier,
+    borderColor: Color,
     onClick: () -> Unit,
 ) = Row(
     verticalAlignment = Alignment.CenterVertically,
@@ -315,7 +327,7 @@ internal fun UploadLabel(
         .dashedBorder(
             width = 2.dp,
             radius = 8.dp,
-            color = LocalContentColor.current
+            color = borderColor
         )
         .padding(4.dp)
         .background(color = LocalContentColor.current.copy(alpha = 0.2f), RoundedCornerShape(8.dp))
@@ -330,6 +342,7 @@ internal fun UploadLabel(
 @Composable
 internal fun Picture(
     url: String,
+    borderColor: Color,
     selected: Boolean,
     onSelectorClicked: ((String) -> Unit)? = null,
     onDelete: ((String) -> Unit)? = null,
@@ -340,7 +353,7 @@ internal fun Picture(
         .padding(margin)
         .border(
             width = 2.dp,
-            color = LocalContentColor.current.copy(alpha = 0.2f),
+            color = borderColor,
             shape = RoundedCornerShape(8.dp)
         ).padding(4.dp)
         .then(modifier)

@@ -1,11 +1,10 @@
 package com.youssef.kotlinflowts.models.kotlinflowts.components.core
 
-import androidx.compose.ui.Modifier
 import com.youssef.kotlinflowts.models.kotlinflowts.Mappable
 
 interface Component : Mappable {
     val id: String
-    var title: String
+    val title: String
     val identifier: String
     val type: Type
     val disabled: Boolean
@@ -14,11 +13,12 @@ interface Component : Mappable {
 
     enum class Type {
         text,
-        textarea,
-        number,
+        textField,
+        textFieldArea,
+        numberField,
         dropdown,
         multiSelect,
-        date,
+        dateField,
         richText,
         signature,
         table,

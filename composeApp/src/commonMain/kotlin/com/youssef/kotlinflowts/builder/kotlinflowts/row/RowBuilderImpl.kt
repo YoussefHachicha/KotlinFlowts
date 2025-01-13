@@ -1,5 +1,8 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts.row
 
+import androidx.compose.runtime.mutableStateListOf
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
+import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.ComponentPosition
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
@@ -14,17 +17,19 @@ class RowBuilderImpl(
     override val app: MutableApp,
     override val depth: Int,
     override var builderId: String,
+    override val onChange: ((ChangeEvent) -> Unit)?,
 ): RowBuilder {
-    private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
-    override val components: StateFlow<List<Component>> = _components
+    private val _components = mutableStateListOf<ComponentEditor>()
+    override val components: List<ComponentEditor> = _components
 
-    override fun add(component: Component, position: ComponentPosition) {
-        _components.update { it + component }
-        app.components.add(component)
+
+    override fun add(component: ComponentEditor, position: ComponentPosition) {
+        _components.add(component)
+        app.components.add(component.comp)
     }
 
     override fun delete(id: String) {
-        _components.update { it.filter { it.id != id } }
+        _components.removeIf { it.id == id }
         app.components.removeIf { it.id == id }
     }
 }

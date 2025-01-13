@@ -3,17 +3,18 @@ package com.youssef.kotlinflowts.editor.kotlinflowts.collections
 import com.youssef.kotlinflowts.editor.kotlinflowts.LayoutCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.column.ColumnComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateFieldComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DropdownComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.FileComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ImageComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.MultiSelectComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberFieldComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TableComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextAreaComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldAreaComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 import kotlinx.coroutines.flow.StateFlow
@@ -29,17 +30,19 @@ interface CompCollection: LayoutCollection {
 
     override fun find(key: String): ComponentEditor?
 
-    override val all: StateFlow<List<ComponentEditor>>
+    override val all: List<ComponentEditor>
 
     fun text(key: String): TextComponentEditor?
 
-    fun textarea(key: String): TextAreaComponentEditor?
+    fun textField(key: String): TextFieldComponentEditor?
+
+    fun textFieldArea(key: String): TextFieldAreaComponentEditor?
 
     fun signature(key: String): SignatureComponentEditor?
 
-    fun number(key: String): NumberComponentEditor?
+    fun numberField(key: String): NumberFieldComponentEditor?
 
-    fun date(key: String): DateComponentEditor?
+    fun dateField(key: String): DateFieldComponentEditor?
 
     fun dropdown(key: String): DropdownComponentEditor?
 

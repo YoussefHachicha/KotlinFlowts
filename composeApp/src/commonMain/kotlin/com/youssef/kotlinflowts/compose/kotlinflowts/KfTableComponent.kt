@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFontFamilyResolver
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -98,7 +99,7 @@ internal fun KfTableComponent(
     val uploadHandler = if (onUpload != null) {
         suspend {
             val event = ComponentEvent(
-                component = editor.comp,
+                componentEditor = editor,
                 screen = screen
             )
             onUpload(event)
@@ -122,7 +123,9 @@ internal fun KfTableComponent(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        KfTitle(component, modifier = Modifier.padding(bottom = 4.dp))
+                        if (!editor.disableTitle)
+                            KfTitle(editor.title, modifier = Modifier, 4)
+
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             if (selectedRow.size == 1) {
                                 val width = with(density) { measurer.measure("More").size.width.toDp() + 40.dp }
@@ -220,13 +223,14 @@ internal fun KfTableComponent(
                                         id = "${component.id}-$row:$col",
                                         title = cell.column.title,
                                         readonly = mode == Mode.readonly,
-                                        uploaded = cell.value,
+                                        uploaded = cell.fileValue,
                                         onUpload = uploadHandler,
                                         onDialog = {},
                                         onAdded = { cell.add(it) },
+                                        borderColor = editor.borderColor,
                                         onRemoved = { cell.remove(it) },
                                     ) {
-                                        UploadLabel(modifier = Modifier.fillMaxWidth(), onClick = it::openModal)
+                                        UploadLabel(modifier = Modifier.fillMaxWidth(), borderColor = editor.borderColor, onClick = it::openModal)
                                     }
                                 }
                             }
@@ -259,8 +263,9 @@ internal fun KfTableComponent(
             ) {
                 Surface(modifier = Modifier.fillMaxSize(0.8f)) {
                     RowCapture(
-                        title = component.title,
+                        title = editor.title,
                         columns = component.columns,
+                        borderColor = editor.borderColor,
                         mode = mode,
                         onUpload = uploadHandler,
                         onClose = { subDialog = false }
@@ -278,6 +283,7 @@ private enum class UIView {
 @Composable
 private fun RowCapture(
     title: String,
+    borderColor: Color,
     columns: List<Column>,
     mode: Mode,
     onUpload: (suspend () -> List<String>)?,
@@ -314,6 +320,7 @@ private fun RowCapture(
             is ImageColumn -> RawImageComponent(
                 id = column.id,
                 title = column.title,
+                borderColor = borderColor,
                 readonly = mode == Mode.readonly,
                 onDialog = {},
                 uploaded = emptyList(),
@@ -321,7 +328,7 @@ private fun RowCapture(
                 onAdded = {},
                 onRemoved = {}
             ) {
-                FirstImagePreview(id = "new-row", params = it, onFocus = {}, onRemove = {})
+                FirstImagePreview(id = "new-row", params = it, borderColor= borderColor, onFocus = {}, onRemove = {})
             }
 
             else -> Text("Unsupported table column type '${column.type}'")
@@ -361,7 +368,7 @@ private fun Preview(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        KfTitle(component)
+        KfTitle(editor.title)
         Row {
             TextButton(onClick = onClick, contentPadding = PaddingValues(0.dp), shape = RoundedCornerShape(2.dp)) {
                 Text("View")
@@ -392,7 +399,7 @@ private fun Preview(
                 else /* col != -1 && row != -1 */ -> when (val cell = editor.rows.get(row)?.col(col)) {
                     is TextCellEditor -> Text(text = cell.value ?: "", modifier = modifier)
                     is DropdownCellEditor -> Text(text = cell.selected()?.value ?: "", modifier = modifier)
-                    is ImageCellEditor -> Text(text = "${cell.value.size}", modifier = modifier)
+                    is ImageCellEditor -> Text(text = "${cell.fileValue.size}", modifier = modifier)
                 }
             }
         }
@@ -400,8 +407,8 @@ private fun Preview(
 }
 
 private fun colWidth(type: Component.Type, preview: Boolean) = when (type) {
-    Component.Type.text -> 150.dp
-    Component.Type.dropdown -> 200.dp
+    Component.Type.textField -> 150.dp
+    Component.Type.dropdown  -> 200.dp
     Component.Type.image -> if (preview) 100.dp else 200.dp
     else -> 100.dp
 }

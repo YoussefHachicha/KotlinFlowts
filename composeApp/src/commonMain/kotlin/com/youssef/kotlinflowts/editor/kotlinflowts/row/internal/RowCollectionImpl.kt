@@ -2,6 +2,7 @@ package com.youssef.kotlinflowts.editor.kotlinflowts.row.internal
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateListOf
 import com.youssef.kotlinflowts.editor.kotlinflowts.LayoutCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.EventTrigger
@@ -28,20 +29,10 @@ internal class RowCollectionImpl(
     component: RowComponent,
     override val onChange: ((ChangeEvent) -> Unit)?
 ) : EventTrigger<RowComponent>(app, component, onChange), LayoutCollection {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
-    init {
-        scope.launch {
-            app.builders[component.id]?.components?.collect {
-                _all.value = it.map { it.toEditor() }
-            }
-        }
-    }
+    override val all = app.builders[component.id]?.components.orEmpty()
 
-    private val _all: MutableStateFlow<List<ComponentEditor>> = MutableStateFlow(emptyList())
-    override val all: StateFlow<List<ComponentEditor>> = _all
-
-    override fun all(): List<ComponentEditor> = _all.value
+    override fun all(): List<ComponentEditor> = app.builders[component.id]?.components.orEmpty()
 
     override fun find(key: String): ComponentEditor? {
         val comp = component.value.find { it.id == key || it.title == key } ?: return null

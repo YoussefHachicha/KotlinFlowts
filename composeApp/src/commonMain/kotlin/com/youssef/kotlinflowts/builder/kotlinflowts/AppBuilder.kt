@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts
 
+import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableScreen
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen

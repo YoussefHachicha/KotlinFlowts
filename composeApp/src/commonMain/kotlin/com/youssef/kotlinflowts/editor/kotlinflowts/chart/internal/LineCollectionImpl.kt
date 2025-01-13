@@ -38,6 +38,7 @@ internal class LineCollectionImpl(
             Line::title.name to title,
             Line::description.name to description
         ).toLine()
+
         component.value.add(line)
         notifyChange(component.value.map { it.toMap() }.toMutableList())
         return LineEditorImpl(identity, line)

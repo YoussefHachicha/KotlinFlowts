@@ -12,24 +12,24 @@ interface ComponentEditor {
 
     fun generateCode(): String {
         return """
-            Text(
-                text = "${type.name}",
-            )
+            //"${type.name} is not supported yet"
+            //"contributions are welcome 😊"  
         """.trimIndent()
     }
 
     var borderColor: Color
-    var padding: Int
+    var disabled: Boolean
+    var disableTitle: Boolean
 
     fun isLayout(): Boolean = type == Component.Type.column || type == Component.Type.row
 
-    fun changeTitle(title: String) {
-        comp.title = title
-    }
+    fun changeTitle(title: String) { this.title = title }
 
-    fun changeBorderColor(color: Color) {
-        borderColor = color
-    }
+    fun changeBorderColor(color: Color) { borderColor = color }
+
+    fun changeDisabled() { disabled = !disabled }
+
+    fun changeDisableTitle() { disableTitle = !disableTitle }
 
 }
 

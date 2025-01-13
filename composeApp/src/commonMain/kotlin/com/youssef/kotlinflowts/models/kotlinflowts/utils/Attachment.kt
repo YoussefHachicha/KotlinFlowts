@@ -4,7 +4,7 @@ import com.youssef.kotlinflowts.models.kotlinflowts.Mappable
 
 interface Attachment : Mappable {
     val id: String
-    val url: String
+    var url: String
     val fileName: String?
     val filePath: String?
     val download: String

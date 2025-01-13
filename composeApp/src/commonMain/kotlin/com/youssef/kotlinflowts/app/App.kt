@@ -9,12 +9,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import com.youssef.kotlinflowts.app.editor.EditorSample
 import com.youssef.kotlinflowts.app.gallery.ComponentsGallerySample
@@ -30,6 +33,8 @@ fun App() {
     MaterialTheme {
         val appBuilder = remember { Service.getAppBuilder() }
         val editor = rememberEditor(appBuilder.app)
+        val clipboardManager = LocalClipboardManager.current
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.fillMaxSize()
         ) {
@@ -47,7 +52,7 @@ fun App() {
             Column(modifier = Modifier.weight(1f)) {
 
                 val screens = remember(editor, appBuilder.addScreenUpdate) {
-                     editor.screens.raw()
+                    editor.screens.raw()
                 }
 
                 var currentScreen by remember(screens) {
@@ -66,6 +71,7 @@ fun App() {
                         appBuilder.updateCursor(it.toMutableScreen())
                     }
                 }
+
                 ScreenNavigator(
                     screens = screens,
                     currentScreen = currentScreen,
@@ -77,10 +83,12 @@ fun App() {
                     },
                     generateCode = {
                         val comp = editor.components.from(currentScreen)
-                        val result = comp.joinToString(separator = "\n") {
-                            it.generateCode()
-                        }
-                        println(currentScreen.generateCode(result))
+                        val result = comp.joinToString(separator = "\n") { it.generateCode() }
+                        clipboardManager.setText(
+                            annotatedString = buildAnnotatedString {
+                                append(text = currentScreen.generateCode(result))
+                            }
+                        )
                     },
                     modifier = Modifier.weight(0.1f),
                 )
@@ -100,4 +108,5 @@ fun App() {
         }
     }
 }
+
 

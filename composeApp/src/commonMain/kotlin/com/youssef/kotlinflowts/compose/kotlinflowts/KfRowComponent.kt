@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -26,7 +28,6 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
 import com.youssef.kotlinflowts.utils.clickableNoIndication
-import com.youssef.kotlinflowts.utils.hoverSelect
 
 @Composable
 internal fun KfRowComponent(
@@ -41,7 +42,9 @@ internal fun KfRowComponent(
     select: (ComponentEditor) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    val rowComponents by editor.rowComponents.all.collectAsState()
+    val rowComponents by derivedStateOf {
+        editor.rowComponents.all.toList()
+    }
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
 
@@ -58,13 +61,15 @@ internal fun KfRowComponent(
             .clickableNoIndication(onClick = { select(editor) })
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
+        if (!editor.disableTitle)
+            KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
             this.KfLayoutComposable(
-                component = component,
                 screen = screen,
                 selectedComponentId = selectedComponentId,
                 componentEditors = rowComponents,
@@ -93,7 +98,9 @@ internal fun RowScope.KfRowComponent(
     select: (ComponentEditor) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    val rowComponents by editor.rowComponents.all.collectAsState()
+    val rowComponents by derivedStateOf {
+        editor.rowComponents.all.toList()
+    }
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
 
@@ -111,13 +118,14 @@ internal fun RowScope.KfRowComponent(
             .clickableNoIndication(onClick = { select(editor) })
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
+        if (!editor.disableTitle)
+            KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
             this.KfLayoutComposable(
-                component = component,
                 screen = screen,
                 selectedComponentId = selectedComponentId,
                 componentEditors = rowComponents,

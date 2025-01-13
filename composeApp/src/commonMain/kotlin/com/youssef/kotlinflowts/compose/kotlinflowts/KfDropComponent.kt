@@ -16,6 +16,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -36,7 +37,7 @@ internal fun KfDropComponent(
     modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
-    multiple: Boolean,
+    multiple: Boolean = editor.multiple,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier) {
     KfDropComponentImpl(editor, mode, multiple, onSignal)
@@ -47,7 +48,7 @@ internal fun ColumnScope.KfDropComponent(
     modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
-    multiple: Boolean,
+    multiple: Boolean = editor.multiple,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier) {
     KfDropComponentImpl(editor, mode, multiple, onSignal)
@@ -58,7 +59,7 @@ internal fun RowScope.KfDropComponent(
     modifier: Modifier = Modifier,
     editor: DropdownComponentEditor,
     mode: Mode,
-    multiple: Boolean,
+    multiple: Boolean = editor.multiple,
     onSignal: (Signal<String?>) -> Unit,
 ) = Column(modifier.weight(1f)) {
     KfDropComponentImpl(editor, mode, multiple, onSignal)
@@ -73,22 +74,30 @@ private fun KfDropComponentImpl(
 ) {
     val component = remember(editor) { editor.comp }
 
+    val options by derivedStateOf { editor.options.toList() }
+
     var selected by remember(editor) { mutableStateOf(editor.selected()?.value) }
 
     val focus = remember(onSignal) { FocusManager(onSignal) { editor.select(selected) } }
 
-    KfTitle(component, modifier = Modifier.testTag("${component.id}-title"))
+    if (!editor.disableTitle)
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+
     RawDropComponent(
-        options = component.options,
+        options = options,
         value = selected?.let { listOf(it) } ?: emptyList(),
-        readonly = component.disabled || mode == Mode.readonly,
+        readonly = editor.disabled || mode == Mode.readonly,
         multiple = multiple,
         borders = true,
+        borderColor = editor.borderColor,
         onChange = {
             selected = it.firstOrNull()?.value
+            editor.select(it.lastOrNull())
             onSignal(Signal.Change(selected))
         },
-        modifier = Modifier.testTag("${component.id}-body").onFocusChanged(focus.handler)
+        modifier = Modifier
+            .testTag("${component.id}-body")
+            .onFocusChanged(focus.handler)
     )
 }
 
@@ -100,6 +109,7 @@ internal fun RawDropComponent(
     options: List<Option2>,
     value: List<String>,
     readonly: Boolean,
+    borderColor: Color = Color.Transparent,
     multiple: Boolean,
     borders: Boolean,
     onChange: (List<Option2>) -> Unit,
@@ -118,6 +128,7 @@ internal fun RawDropComponent(
         onExpandedChange = { expanded = !readonly && it },
         modifier = modifier.fillMaxWidth()
     ) {
+
         OutlinedTextField(
             value = values.joinToString(", ") { it.value },
             maxLines = 4,
@@ -125,14 +136,17 @@ internal fun RawDropComponent(
             onValueChange = {},
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
             colors = if (borders) {
-                OutlinedTextFieldDefaults.colors()
-            } else {
                 OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent,
+                    focusedBorderColor = borderColor,
+                    unfocusedBorderColor = borderColor,
                 )
+            } else {
+                OutlinedTextFieldDefaults.colors()
             },
-            modifier = Modifier.fillMaxWidth().menuAnchor().clickable { expanded = !readonly }
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor()
+                .clickable { expanded = !readonly }
         )
 
         ExposedDropdownMenu(

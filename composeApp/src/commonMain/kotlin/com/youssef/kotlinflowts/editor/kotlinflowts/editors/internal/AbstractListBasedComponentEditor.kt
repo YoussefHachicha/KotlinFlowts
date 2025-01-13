@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal
 
+import androidx.compose.runtime.mutableStateListOf
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ListBasedComponentEditor
 import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.Mappable
@@ -13,7 +14,7 @@ internal abstract class AbstractListBasedComponentEditor<V : Mappable>(
     onChange: ((ChangeEvent) -> Unit)?
 ) : AnyComponentEditor<ListBasedComponent<V>>(app, comp, onChange), ListBasedComponentEditor<V> {
 
-    override val value = Value()
+     override val value = Value()
 
     inner class Value : AbstractList<V>(), MutableList<V> {
         private val source get() = this@AbstractListBasedComponentEditor.comp.value

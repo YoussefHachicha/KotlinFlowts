@@ -18,6 +18,7 @@ import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -34,14 +35,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateFieldComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun KfDateTimeComponent(
+internal fun KfDateTimeFieldComponent(
     modifier: Modifier = Modifier,
-    editor: DateComponentEditor,
+    editor: DateFieldComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
@@ -50,9 +51,9 @@ internal fun KfDateTimeComponent(
 }
 
 @Composable
-internal fun ColumnScope.KfDateTimeComponent(
+internal fun ColumnScope.KfDateTimeFieldComponent(
     modifier: Modifier = Modifier,
-    editor: DateComponentEditor,
+    editor: DateFieldComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
@@ -61,9 +62,9 @@ internal fun ColumnScope.KfDateTimeComponent(
 }
 
 @Composable
-internal fun RowScope.KfDateTimeComponent(
+internal fun RowScope.KfDateTimeFieldComponent(
     modifier: Modifier = Modifier,
-    editor: DateComponentEditor,
+    editor: DateFieldComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
@@ -74,7 +75,7 @@ internal fun RowScope.KfDateTimeComponent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun KfDateTimeComponentImpl(
-    editor: DateComponentEditor,
+    editor: DateFieldComponentEditor,
     format: String?,
     mode: Mode,
     onSignal: (Signal<Long?>) -> Unit,
@@ -82,7 +83,7 @@ private fun KfDateTimeComponentImpl(
     val component = remember(editor) { editor.comp }
     val value = component.value?.let { java.time.Instant.ofEpochMilli(it) }
     var dialog by remember { mutableStateOf(false) }
-    val readonly = remember(component, mode) { component.disabled || mode == Mode.readonly }
+    val readonly = remember(component, mode) { editor.disabled || mode == Mode.readonly }
 
     val pattern = remember {
         format?.replace("YYYY", "{YYYY}")
@@ -129,16 +130,19 @@ private fun KfDateTimeComponentImpl(
     }
 
     Column(modifier = Modifier.testTag(component.id).fillMaxWidth()) {
-        KfTitle(
-            component,
-            modifier = Modifier.testTag("${component.id}-title")
-        )
+        if (!editor.disableTitle)
+            KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
+
         OutlinedTextField(
             value = pattern.format(date.selectedDateMillis, time.hour, time.minute),
             onValueChange = {},
             interactionSource = interaction,
             modifier = Modifier.testTag("${component.id}-body-output").fillMaxWidth(),
-            readOnly = true
+            readOnly = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = editor.borderColor,
+                unfocusedBorderColor = editor.borderColor,
+            ),
         )
     }
 

@@ -13,26 +13,25 @@ import com.youssef.kotlinflowts.editor.kotlinflowts.column.ColumnComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.BlockComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ChartComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DateFieldComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.DropdownComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ImageComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.MultiSelectComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.NumberFieldComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.RichTextComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TableComponentEditor
-import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextAreaComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldAreaComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.TextFieldComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.row.RowComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.ComponentEvent
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 import com.youssef.kotlinflowts.models.kotlinflowts.Screen
-import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
 import com.youssef.kotlinflowts.utils.hoverSelect
 
 @Composable
 internal fun RowScope.KfLayoutComposable(
-    component: Component,
     screen: Screen,
     selectedComponentId: String,
     componentEditors: List<ComponentEditor>,
@@ -44,16 +43,27 @@ internal fun RowScope.KfLayoutComposable(
     select: (ComponentEditor) -> Unit,
 ) {
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(component, screen))
-        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(component, screen))
-        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(component, screen))
+        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(this, screen))
+        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(this, screen))
+        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(this, screen))
     }
+
     componentEditors.forEach { componentEditor ->
         val isSelected by remember(selectedComponentId) { mutableStateOf(selectedComponentId == componentEditor.id) }
 
         key(componentEditor.id) {  // Use key for stable identity
             when (componentEditor) {
-                is TextComponentEditor        -> KfTextComponent(
+                is TextComponentEditor -> KfTextComponent(
+                    editor = componentEditor,
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
+                )
+
+
+                is TextFieldComponentEditor -> KfTextFieldComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit,
@@ -63,7 +73,7 @@ internal fun RowScope.KfLayoutComposable(
                     ),
                 )
 
-                is NumberComponentEditor      -> KfNumberComponent(
+                is NumberFieldComponentEditor -> KfNumberFieldComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit,
@@ -73,7 +83,7 @@ internal fun RowScope.KfLayoutComposable(
                     ),
                 )
 
-                is DateComponentEditor        -> KfDateTimeComponent(
+                is DateFieldComponentEditor -> KfDateTimeFieldComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     format = componentEditor.comp.format,
@@ -87,7 +97,6 @@ internal fun RowScope.KfLayoutComposable(
                 is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    multiple = true,
                     onSignal = componentEditor::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,
@@ -98,7 +107,6 @@ internal fun RowScope.KfLayoutComposable(
                 is DropdownComponentEditor    -> KfDropComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    multiple = false,
                     onSignal = componentEditor::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,
@@ -139,7 +147,7 @@ internal fun RowScope.KfLayoutComposable(
                     ),
                 )
 
-                is TextAreaComponentEditor    -> KfTextArea(
+                is TextFieldAreaComponentEditor -> KfTextFieldArea(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit,
@@ -210,7 +218,6 @@ internal fun RowScope.KfLayoutComposable(
 
 @Composable
 internal fun ColumnScope.KfLayoutComposable(
-    component: Component,
     screen: Screen,
     selectedComponentId: String,
     componentEditors: List<ComponentEditor>,
@@ -222,16 +229,26 @@ internal fun ColumnScope.KfLayoutComposable(
     select: (ComponentEditor) -> Unit,
 ) {
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
-        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(component, screen))
-        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(component, screen))
-        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(component, screen))
+        is Signal.Focus  -> onFocus?.invoke(ComponentEvent(this, screen))
+        is Signal.Blur   -> onBlur?.invoke(ComponentEvent(this, screen))
+        is Signal.Change -> onComponentChange?.invoke(ComponentEvent(this, screen))
     }
+
     componentEditors.forEach { componentEditor ->
         val isSelected by remember(selectedComponentId) { mutableStateOf(selectedComponentId == componentEditor.id) }
 
         key(componentEditor.id) {  // Use key for stable identity
             when (componentEditor) {
-                is TextComponentEditor        -> KfTextComponent(
+                is TextComponentEditor -> KfTextComponent(
+                    editor = componentEditor,
+                    onSignal = componentEditor::emit,
+                    modifier = Modifier.hoverSelect(
+                        isSelected = isSelected,
+                        onSelect = { select(componentEditor) }
+                    ),
+                )
+
+                is TextFieldComponentEditor -> KfTextFieldComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit,
@@ -241,7 +258,7 @@ internal fun ColumnScope.KfLayoutComposable(
                     ),
                 )
 
-                is NumberComponentEditor      -> KfNumberComponent(
+                is NumberFieldComponentEditor -> KfNumberFieldComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit,
@@ -251,7 +268,7 @@ internal fun ColumnScope.KfLayoutComposable(
                     ),
                 )
 
-                is DateComponentEditor        -> KfDateTimeComponent(
+                is DateFieldComponentEditor -> KfDateTimeFieldComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
                     format = componentEditor.comp.format,
@@ -265,7 +282,6 @@ internal fun ColumnScope.KfLayoutComposable(
                 is MultiSelectComponentEditor -> KfSelectComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    multiple = true,
                     onSignal = componentEditor::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,
@@ -276,7 +292,6 @@ internal fun ColumnScope.KfLayoutComposable(
                 is DropdownComponentEditor    -> KfDropComponent(
                     editor = componentEditor,
                     mode = Mode.fill,
-                    multiple = false,
                     onSignal = componentEditor::emit,
                     modifier = Modifier.hoverSelect(
                         isSelected = isSelected,
@@ -317,7 +332,7 @@ internal fun ColumnScope.KfLayoutComposable(
                     ),
                 )
 
-                is TextAreaComponentEditor    -> KfTextArea(
+                is TextFieldAreaComponentEditor -> KfTextFieldArea(
                     editor = componentEditor,
                     mode = Mode.fill,
                     onSignal = componentEditor::emit,

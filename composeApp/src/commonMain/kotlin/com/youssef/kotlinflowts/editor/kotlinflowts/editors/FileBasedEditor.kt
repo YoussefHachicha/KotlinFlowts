@@ -3,7 +3,7 @@ package com.youssef.kotlinflowts.editor.kotlinflowts.editors
 import com.youssef.kotlinflowts.models.kotlinflowts.utils.Attachment
 
 interface FileBasedEditor {
-    val value: List<Attachment>
+    val fileValue: List<Attachment>
 
     fun add(url: String)
 
@@ -14,4 +14,6 @@ interface FileBasedEditor {
     fun remove(key: String?)
 
     fun remove(keys: List<String>)
+
+    fun clear()
 }

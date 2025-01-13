@@ -21,7 +21,7 @@ internal class TableColumnsBuilderImplTable(
         val column = mutableMapOf<String, Any?>(
             ID to (id ?: identity.generate()),
             Column::title.name to title,
-            Column::type.name to Component.Type.text.name,
+            Column::type.name to Component.Type.textField.name,
             TextColumn::value.name to value
         ).toColumn()
         columns.add(column)

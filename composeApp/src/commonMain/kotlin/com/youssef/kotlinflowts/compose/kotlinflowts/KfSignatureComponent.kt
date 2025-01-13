@@ -69,7 +69,6 @@ import com.youssef.kotlinflowts.compose.kotlinflowts.utils.toByteArray
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.SignatureComponentEditor
 import com.youssef.kotlinflowts.manager.kotlinflowts.Mode
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
-import com.youssef.kotlinflowts.models.kotlinflowts.components.SignatureComponent
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
@@ -122,7 +121,9 @@ private fun KfSignatureComponentImpl(
         }
         mutableStateOf(s)
     }
-    KfTitle(component, modifier = Modifier.testTag("${component.id}-preview-title"))
+    if (!editor.disableTitle)
+        KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-preview-title"))
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -131,10 +132,10 @@ private fun KfSignatureComponentImpl(
             .semantics { contentDescription = state.toContentDescription() }
             .border(
                 width = 1.dp,
-                color = LocalContentColor.current.copy(alpha = 0.6f),
+                color = editor.borderColor,
                 shape = RoundedCornerShape(4.dp)
             ).clickable {
-                if (component.disabled || mode == Mode.readonly) return@clickable
+                if (editor.disabled || mode == Mode.readonly) return@clickable
                 onSignal(Signal.Focus)
                 state = state.toCapturing()
             }
@@ -143,20 +144,20 @@ private fun KfSignatureComponentImpl(
             is State.Preview   -> Preview(
                 url = s.url,
                 onClicked = {
-                    if (component.disabled || mode == Mode.readonly) return@Preview
+                    if (editor.disabled || mode == Mode.readonly) return@Preview
                     state = s.toCapturing()
                     onSignal(Signal.Focus)
                 }
             )
 
             is State.Capturing -> Capture(
-                component = component,
+                component = editor,
                 url = s.url,
                 onCaptured = {
                     state = if (it == null) State.Empty else State.Preview(it)
                     onSignal(Signal.Change(it))
                     onSignal(Signal.Blur(it))
-                    editor.value = it
+//                    editor.value = it
                 },
                 onCanceled = {
                     state = if (s.url == null) State.Empty else State.Preview(s.url)
@@ -192,7 +193,7 @@ private sealed interface State {
 @OptIn(ExperimentalEncodingApi::class)
 @Composable
 private fun Capture(
-    component: SignatureComponent,
+    component: SignatureComponentEditor,
     url: String? = null,
     onCaptured: (String?) -> Unit,
     onCanceled: () -> Unit,
@@ -203,8 +204,6 @@ private fun Capture(
     var cleared by remember { mutableStateOf(false) }
 
     val paths = remember { mutableStateListOf<Path>() }
-
-    var text by remember { mutableStateOf("") }
 
     val measurer = TextMeasurer(
         defaultFontFamilyResolver = LocalFontFamilyResolver.current,
@@ -220,6 +219,30 @@ private fun Capture(
         fontFamily = FontFamily.Cursive,
         color = color
     )
+    val density = LocalDensity.current
+
+    val buttonAction = {
+        if ((component.value ?: "").isEmpty() && paths.isEmpty()) {
+            if (cleared) {
+                 onCaptured(null)
+            }
+        }
+        val width = size?.width?.toInt() ?: 0
+        val height = size?.height?.toInt() ?: 0
+
+        val scope = CanvasDrawScope()
+        val bitmap = ImageBitmap(width, height)
+        val canvas = androidx.compose.ui.graphics.Canvas(bitmap)
+        scope.draw(
+            density = density,
+            layoutDirection = LayoutDirection.Ltr,
+            canvas = canvas,
+            size = Size(width.toFloat(), height.toFloat())
+        ) {
+            drawSignature(measurer, style, paths, points, component.value ?: "", Color.Black)
+        }
+        onCaptured("data:image/png;base64," + Base64.encode(bitmap.toByteArray()))
+    }
 
     Dialog(
         onDismissRequest = onCanceled,
@@ -242,7 +265,7 @@ private fun Capture(
                     modifier = Modifier.fillMaxWidth().height(60.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(horizontalArrangement = Arrangement.Start) { KfTitle(component) }
+                    Row(horizontalArrangement = Arrangement.Start) { KfTitle(component.title) }
                     Row(
                         horizontalArrangement = Arrangement.End,
                         modifier = Modifier.fillMaxWidth()
@@ -267,14 +290,16 @@ private fun Capture(
                         }
 
 
-                        if (v != null || paths.isNotEmpty() || text.isNotEmpty()) DeleteOption(
-                            component = component,
+                        if (v != null || paths.isNotEmpty() || (component.value
+                                ?: "").isNotEmpty()
+                        ) DeleteOption(
+                            component = component.comp,
                             deleting = deleting,
                             onDelete = { deleting = true },
                             onConfirm = {
                                 value = null
                                 paths.clear()
-                                text = ""
+                                component.value = ""
                                 cleared = true
                                 deleting = false
                             },
@@ -304,21 +329,32 @@ private fun Capture(
                         )
                 ) {
                     when {
-                        v != null && !drawing && paths.isEmpty() && text.isEmpty() -> Image(v, v)
-                        else                                                       -> Canvas(
+                        v != null && !drawing && paths.isEmpty() && (component.value
+                            ?: "").isEmpty() -> Image(v, v)
+
+                        else                 -> Canvas(
                             modifier = Modifier.fillMaxWidth().height(200.dp)
                         ) {
                             if (size == null) {
                                 size = this.size
                             }
-                            drawSignature(measurer, style, paths, points, text, color)
+                            drawSignature(
+                                measurer,
+                                style,
+                                paths,
+                                points,
+                                component.value ?: "",
+                                color
+                            )
                         }
                     }
                 }
 
                 OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = component.value ?: "",
+                    onValueChange = {
+                        component.value = it
+                    },
                     placeholder = { Text("Type signature") },
                     modifier = Modifier.testTag("${component.id}-capture-text").fillMaxWidth()
                         .padding(top = 12.dp)
@@ -338,7 +374,6 @@ private fun Capture(
                     modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
                 )
 
-                val density = LocalDensity.current
                 Row(
                     horizontalArrangement = Arrangement.End,
                     modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
@@ -353,30 +388,7 @@ private fun Capture(
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
                         modifier = Modifier.testTag("${component.id}-capture-submit"),
-                        onClick = {
-                            if (text.isEmpty() && paths.isEmpty()) {
-                                if (cleared) {
-                                    return@Button onCaptured(null)
-                                } else {
-                                    return@Button
-                                }
-                            }
-                            val width = size?.width?.toInt() ?: return@Button
-                            val height = size?.height?.toInt() ?: return@Button
-
-                            val scope = CanvasDrawScope()
-                            val bitmap = ImageBitmap(width, height)
-                            val canvas = androidx.compose.ui.graphics.Canvas(bitmap)
-                            scope.draw(
-                                density = density,
-                                layoutDirection = LayoutDirection.Ltr,
-                                canvas = canvas,
-                                size = Size(width.toFloat(), height.toFloat())
-                            ) {
-                                drawSignature(measurer, style, paths, points, text, Color.Black)
-                            }
-                            onCaptured("data:image/png;base64," + Base64.encode(bitmap.toByteArray()))
-                        },
+                        onClick = { buttonAction() },
                         shape = RoundedCornerShape(8.dp),
                     ) {
                         Text("Submit")

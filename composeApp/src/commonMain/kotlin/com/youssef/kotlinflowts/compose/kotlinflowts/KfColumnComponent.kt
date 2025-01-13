@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -39,7 +40,9 @@ internal fun KfColumnComponent(
     select: (ComponentEditor) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    val columnComponents by editor.columnComponents.all.collectAsState()
+    val columnComponents by derivedStateOf {
+        editor.columnComponents.all.toList()
+    }
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
 
@@ -53,14 +56,13 @@ internal fun KfColumnComponent(
             )
             .hoverable(interactionSource = interactionSource)
             .clickableNoIndication(onClick = { select(editor) })
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
-        Spacer(modifier = Modifier.height(2.dp))
+        if (!editor.disableTitle)
+            KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"))
 
         this.KfLayoutComposable(
             componentEditors = columnComponents,
-            component = component,
             screen = screen,
             onBlur = onBlur,
             selectedComponentId = selectedComponentId,
@@ -86,7 +88,9 @@ internal fun RowScope.KfColumnComponent(
     select: (ComponentEditor) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    val columnComponents by editor.columnComponents.all.collectAsState()
+    val columnComponents by derivedStateOf {
+        editor.columnComponents.all.toList()
+    }
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
 
@@ -101,14 +105,13 @@ internal fun RowScope.KfColumnComponent(
             )
             .hoverable(interactionSource = interactionSource)
             .clickableNoIndication(onClick = { select(editor) })
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        KfTitle(component.title, modifier = Modifier.testTag("${component.id}-title"))
-        Spacer(modifier = Modifier.height(2.dp))
+        if (!editor.disableTitle)
+            KfTitle(editor.title, modifier = Modifier.testTag("${component.id}-title"), 2)
 
         this.KfLayoutComposable(
             componentEditors = columnComponents,
-            component = component,
             screen = screen,
             onBlur = onBlur,
             selectedComponentId = selectedComponentId,

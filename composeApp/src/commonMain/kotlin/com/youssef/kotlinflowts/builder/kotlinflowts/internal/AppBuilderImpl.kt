@@ -1,31 +1,30 @@
 package com.youssef.kotlinflowts.builder.kotlinflowts.internal
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.youssef.kotlinflowts.builder.kotlinflowts.AppBuilder
 import com.youssef.kotlinflowts.builder.kotlinflowts.file
 import com.youssef.kotlinflowts.builder.kotlinflowts.screen
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
+import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.ComponentPosition
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableScreen
-import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
 
 class AppBuilderImpl(
     override val app: MutableApp,
-    override val identity: IdentityGenerator
+    override val identity: IdentityGenerator,
+    override val onChange: ((ChangeEvent) -> Unit)? = null
 ) : AppBuilder {
     override var addCompUpdate by mutableStateOf(0)
     var addScreenUpdate by mutableStateOf(0)
 
-    private val _components: MutableStateFlow<List<Component>> = MutableStateFlow(mutableListOf())
-    override val components: StateFlow<List<Component>> = _components.asStateFlow()
+    private val _components = mutableStateListOf<ComponentEditor>()
+    override val components: List<ComponentEditor> = _components
     override val depth: Int = 1
     override val builderId: String = "mainBuilder"
 
@@ -68,17 +67,17 @@ class AppBuilderImpl(
         return s
     }
 
-    override fun add(component: Component, position: ComponentPosition) {
+    override fun add(component: ComponentEditor, position: ComponentPosition) {
         cursor().positions.add(position)
-        app.components.add(component)
-        _components.update { it + component }
+        app.components.add(component.comp)
+        _components.add(component)
         addCompUpdate++
     }
 
     override fun delete(id: String) {
         cursor().positions.removeIf { it.componentId == id }
         app.components.removeIf { it.id == id }
-        _components.update { it.filter { it.id != id } }
+        _components.removeIf { it.id != id }
         addCompUpdate++
     }
 }

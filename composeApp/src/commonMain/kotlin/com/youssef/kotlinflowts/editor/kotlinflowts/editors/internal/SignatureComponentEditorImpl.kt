@@ -16,4 +16,9 @@ internal class SignatureComponentEditorImpl(
             Text("Signature component")
         """.trimIndent()
     }
+
+    override fun changeValue(value: String) {
+        this.value = value
+        notifyChange(value)
+    }
 }
