@@ -48,49 +48,13 @@ internal class CompCollectionImpl(
     override val identity: IdentityGenerator,
     override val onChange: ((ChangeEvent) -> Unit)?
 ) : CompCollection {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-
-    override fun all() = app.components.map { it.toEditor() }
-
-    override val all:List<ComponentEditor> = all()
-
-    private val componentsEditor: MutableList<ComponentEditor> = all().toMutableList()
-
-    private val components = app.builders["mainBuilder"]?.components.orEmpty()
-
-//    init {
-//        scope.launch {
-//            app.builders["mainBuilder"]?.components?.collect {
-//                synchronizeComponents(it)
-//            }
-//        }
-//    }
-//
-//    private fun synchronizeComponents(newComponents: List<Component>) {
-//        val existingEditorsMap = componentsEditor.associateBy { it.id }
-//
-//        val updatedComponents = mutableListOf<ComponentEditor>()
-//
-//        newComponents.forEach { component ->
-//            val existingEditor = existingEditorsMap[component.id]
-//
-//            if (existingEditor != null) {
-//                updatedComponents.add(existingEditor)
-//            } else {
-//                updatedComponents.add(component.toEditor())
-//            }
-//        }
-//
-//        componentsEditor.clear()
-//        componentsEditor.addAll(updatedComponents)
-//        _all.value = updatedComponents
-//    }
-//
+    override fun all() = app.builders["mainBuilder"]?.components.orEmpty()
+    override val all: List<ComponentEditor> = app.builders["mainBuilder"]?.components.orEmpty()
 
     override fun from(screen: Screen): List<ComponentEditor> {
         val positions = screen.positions
         val ids = positions.map { it.componentId }
-        return componentsEditor.filter {
+        return all.filter {
             it.comp.depth == 1 &&
                     it.comp.id in ids
         }.sortedBy { df ->
@@ -102,7 +66,7 @@ internal class CompCollectionImpl(
         if (screen == null) return emptyList()
         val positions = screen.positions
         val ids = positions.map { it.componentId }
-        val filteredComponents = componentsEditor.filter { component ->
+        val filteredComponents = all.filter { component ->
             val hasId = component.id in ids
             val isLayoutType =
                 component.type == Component.Type.column || component.type == Component.Type.row

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -41,7 +42,9 @@ internal fun KfRowComponent(
     select: (ComponentEditor) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    val rowComponents by editor.rowComponents.all.collectAsState()
+    val rowComponents by derivedStateOf {
+        editor.rowComponents.all.toList()
+    }
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
 
@@ -95,7 +98,9 @@ internal fun RowScope.KfRowComponent(
     select: (ComponentEditor) -> Unit,
 ) {
     val component = remember(editor) { editor.comp }
-    val rowComponents by editor.rowComponents.all.collectAsState()
+    val rowComponents by derivedStateOf {
+        editor.rowComponents.all.toList()
+    }
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
 

@@ -61,6 +61,8 @@ fun App(
         mutableStateOf(editor.components.from(currentScreen))
     }
 
+//    app.builders["mainBuilder"]?.components
+
     fun <T> ComponentEditor.emit(signal: Signal<T>) = when (signal) {
         is Signal.Focus  -> onFocus?.invoke(ComponentEvent(this, currentScreen))
         is Signal.Blur   -> onBlur?.invoke(ComponentEvent(this, currentScreen))

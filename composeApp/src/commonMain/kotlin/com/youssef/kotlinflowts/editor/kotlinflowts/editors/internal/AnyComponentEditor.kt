@@ -15,7 +15,7 @@ internal open class AnyComponentEditor<out C : Component>(
     app: App,
     override val comp: C,
     onChange: ((ChangeEvent) -> Unit)?,
-//    private val initialTitle: String = comp.title
+    private val initialTitle: String = comp.title
 ) : EventTrigger<C>(app, comp, onChange), ComponentEditor {
 
     override var id: String
@@ -26,7 +26,7 @@ internal open class AnyComponentEditor<out C : Component>(
         get() = this.comp.identifier
         set(value) {}
 
-    override var title: String by mutableStateOf("")
+    override var title: String by mutableStateOf(initialTitle)
     override var borderColor: Color by mutableStateOf(Color.Gray)
     override var disabled: Boolean by mutableStateOf(false)
     override var disableTitle: Boolean by mutableStateOf(false)
@@ -34,3 +34,4 @@ internal open class AnyComponentEditor<out C : Component>(
     override val type get() = comp.type
 
 }
+

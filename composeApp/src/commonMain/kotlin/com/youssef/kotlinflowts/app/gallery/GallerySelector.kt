@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,12 +51,13 @@ fun GallerySelector(
                 itemsIndexed(layoutComponents) { index, layout ->
                     when (layout) {
                         is ColumnComponentEditor -> {
-                            val layouts =
-                                remember(layout.columnComponents.all) { mutableStateOf(layout.columnComponents.all.value.filter { it.isLayout() }) }
+                            val layouts by derivedStateOf {
+                                layout.columnComponents.all.filter { it.isLayout() }.toList()
+                            }
 
                             GalleryItem(
                                 text = "${layout.title} #${index + 1}",
-                                childLayouts = layouts.value,
+                                childLayouts = layouts,
                                 layoutId = layout.id,
                             ) {
                                 onExpandChange(false)
@@ -64,12 +66,13 @@ fun GallerySelector(
                         }
 
                         is RowComponentEditor    -> {
-                            val layouts =
-                                remember(layout.rowComponents.all) { mutableStateOf(layout.rowComponents.all.value.filter { it.isLayout() }) }
+                            val layouts by derivedStateOf {
+                                layout.rowComponents.all.filter { it.isLayout() }.toList()
+                            }
 
                             GalleryItem(
                                 text = "${layout.title} #${index + 1}",
-                                childLayouts = layouts.value,
+                                childLayouts = layouts,
                                 layoutId = layout.id,
                             ) {
                                 onExpandChange(false)

@@ -6,9 +6,44 @@ import com.youssef.kotlinflowts.builder.kotlinflowts.column.ColumnBuilderImpl
 import com.youssef.kotlinflowts.builder.kotlinflowts.row.RowBuilderImpl
 import com.youssef.kotlinflowts.builder.kotlinflowts.table.TableColumnBuilder
 import com.youssef.kotlinflowts.builder.kotlinflowts.table.TableColumnsBuilderImplTable
+import com.youssef.kotlinflowts.editor.kotlinflowts.column.internal.ColumnComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.AnyComponentEditor
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.BlockComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ChartComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DateFieldFieldComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.DropdownComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.FileComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.ImageComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.MultiSelectComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.NumberFieldComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.RichTextComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.SignatureComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TableComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextFieldAreaComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.TextFieldComponentEditorImpl
+import com.youssef.kotlinflowts.editor.kotlinflowts.row.internal.RowComponentEditorImpl
+import com.youssef.kotlinflowts.events.kotlinflowts.ChangeEvent
 import com.youssef.kotlinflowts.models.kotlinflowts.ComponentPosition
 import com.youssef.kotlinflowts.models.kotlinflowts.IdentityGenerator
 import com.youssef.kotlinflowts.models.kotlinflowts.MutableApp
+import com.youssef.kotlinflowts.models.kotlinflowts.components.BlockComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.ChartComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.ColumnComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.DateFieldComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.DropdownComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.FileComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.ImageComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.MultiSelectComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.NumberFieldComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.RichTextComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.RowComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.SignatureComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.TableComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.TextComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldAreaComponent
+import com.youssef.kotlinflowts.models.kotlinflowts.components.TextFieldComponent
 import com.youssef.kotlinflowts.models.kotlinflowts.components.chart.Axis
 import com.youssef.kotlinflowts.models.kotlinflowts.components.chart.Line
 import com.youssef.kotlinflowts.models.kotlinflowts.components.core.Component
@@ -19,9 +54,31 @@ import kotlinx.coroutines.flow.StateFlow
 interface LayoutBuilder {
     val identity: IdentityGenerator
     val app: MutableApp
-    val components: List<Component>
+    val components: List<ComponentEditor>
     val depth: Int
     val builderId: String
+    val onChange: ((ChangeEvent) -> Unit)?
+
+    fun Component.toEditor(): ComponentEditor = when (this) {
+        is TextComponent                -> TextComponentEditorImpl(app, this, onChange)
+        is TextFieldComponent           -> TextFieldComponentEditorImpl(app, this, onChange)
+        is TextFieldAreaComponent       -> TextFieldAreaComponentEditorImpl(app, this, onChange)
+        is NumberFieldComponent         -> NumberFieldComponentEditorImpl(app, this, onChange)
+        is DropdownComponent            -> DropdownComponentEditorImpl(app, this, identity, onChange)
+        is MultiSelectComponent         -> MultiSelectComponentEditorImpl(app, this, identity, onChange)
+        is DateFieldComponent           -> DateFieldFieldComponentEditorImpl(app, this, onChange)
+        is SignatureComponent           -> SignatureComponentEditorImpl(app, this, onChange)
+        is TableComponent               -> TableComponentEditorImpl(app, this, identity, onChange)
+        is ChartComponent               -> ChartComponentEditorImpl(app, this, identity, onChange)
+        is ImageComponent               -> ImageComponentEditorImpl(app, this, identity, onChange)
+        is FileComponent                -> FileComponentEditorImpl(app, this, identity, onChange)
+        is RichTextComponent            -> RichTextComponentEditorImpl(app, this)
+        is BlockComponent               -> BlockComponentEditorImpl(app, this)
+        is ColumnComponent              -> ColumnComponentEditorImpl(app, this, identity, onChange)
+        is RowComponent                 -> RowComponentEditorImpl(app, this, identity, onChange)
+        else /*  is UnknownComponent */ -> AnyComponentEditor(app, this, onChange)
+    }
+
 
     private fun add(component: Component) {
         val position = componentPosition(
@@ -32,10 +89,12 @@ interface LayoutBuilder {
             builderId = builderId,
             format = null
         )
-        add(component, position)
+        add(component.toEditor(), position)
     }
 
-    fun add(component: Component, position: ComponentPosition)
+
+
+    fun add(component: ComponentEditor, position: ComponentPosition)
 
     fun addBuilder(wrapped: Pair<String, LayoutBuilder>){
         app.builders[wrapped.first] = wrapped.second
@@ -178,7 +237,7 @@ interface LayoutBuilder {
             builderId = builderId,
             format = format
         )
-        add(component, position)
+        add(component.toEditor(), position)
     }
 
     private fun String.toOption() = option(id = identity.generate(), value = this)
@@ -326,7 +385,7 @@ interface LayoutBuilder {
         components: (LayoutBuilder.() -> Unit)? = null
     ) = buildComponent(id) { uid ->
         val builderDepth = depth + 1
-        val builder = ColumnBuilderImpl(identity, app, builderDepth, uid)
+        val builder = ColumnBuilderImpl(identity, app, builderDepth, uid, onChange)
         addBuilder(uid to builder)
         components?.invoke(builder)
         columnComponent(
@@ -335,7 +394,7 @@ interface LayoutBuilder {
             depth = depth,
             builderId = builderId,
             identifier = identifier ?: "component-$uid",
-            components = builder.components
+            components = builder.components.map { it.comp }
         )
     }
 
@@ -348,7 +407,7 @@ interface LayoutBuilder {
         components: (LayoutBuilder.() -> Unit)? = null
     ) = buildComponent(id) { uid ->
         val builderDepth = depth + 1
-        val builder = RowBuilderImpl(identity, app, builderDepth, uid)
+        val builder = RowBuilderImpl(identity, app, builderDepth, uid, onChange)
         addBuilder(uid to builder)
 
         components?.invoke(builder)
@@ -358,7 +417,7 @@ interface LayoutBuilder {
             depth = depth,
             builderId = builderId,
             identifier = identifier ?: "component-$uid",
-            components = builder.components
+            components = builder.components.map { it.comp }
         )
     }
 }

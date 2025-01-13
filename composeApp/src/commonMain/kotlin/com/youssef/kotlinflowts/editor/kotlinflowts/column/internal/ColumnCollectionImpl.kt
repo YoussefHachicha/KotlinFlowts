@@ -1,5 +1,6 @@
 package com.youssef.kotlinflowts.editor.kotlinflowts.column.internal
 
+import androidx.compose.runtime.mutableStateListOf
 import com.youssef.kotlinflowts.editor.kotlinflowts.LayoutCollection
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.ComponentEditor
 import com.youssef.kotlinflowts.editor.kotlinflowts.editors.internal.EventTrigger
@@ -25,20 +26,10 @@ internal class ColumnCollectionImpl(
     component: ColumnComponent,
     override val onChange: ((ChangeEvent) -> Unit)?
 ) : EventTrigger<ColumnComponent>(app, component, onChange), LayoutCollection {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-    //ok so my issue here i need my builder here so that i can get my components from it
-    init {
-        scope.launch {
-            app.builders[component.id]?.components?.collect {
-                _all.value = it.map { it.toEditor() }
-            }
-        }
-    }
 
-    private val _all: MutableStateFlow<List<ComponentEditor>> = MutableStateFlow(emptyList())
-    override val all: StateFlow<List<ComponentEditor>> = _all
+    override val all = app.builders[component.id]?.components.orEmpty()
 
-    override fun all(): List<ComponentEditor> = _all.value
+    override fun all(): List<ComponentEditor> = app.builders[component.id]?.components.orEmpty()
 
     override fun find(key: String): ComponentEditor? {
         val comp = component.value.find { it.id == key || it.title == key } ?: return null
