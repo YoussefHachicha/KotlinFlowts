@@ -5,6 +5,7 @@
 ![badge][badge-linux]
 ![badge][badge-mac]
 ![badge][badge-windows]
+![badge][badge-web]
 
 ## Features
 
@@ -42,3 +43,4 @@ Welcome, contribute!
 [badge-linux]: http://img.shields.io/badge/-linux-2D3F6C.svg?style=flat
 [badge-windows]: http://img.shields.io/badge/-windows-4D76CD.svg?style=flat
 [badge-mac]: http://img.shields.io/badge/-macos-111111.svg?style=flat
+[badge-web]: https://img.shields.io/badge/-web-3498db.svg?style=flat
