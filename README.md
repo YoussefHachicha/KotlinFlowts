@@ -88,30 +88,30 @@ buildApp {
 buildApp {
     name("Employee Directory")
     
-    screen("Personal Information") {
-        row {
-            textField("First Name")
-            textField("Last Name")
-        }
-        column {
-            textFieldArea("Address")
-            numberField("Phone Number")
-            dateField("Date of Birth")
-        }
-        row {
-            dropdown("Department")
-            multiSelect("Skills")
-        }
-        signature("Employee Signature")
+    screen("Personal Information") 
+    row {
+        textField("First Name")
+        textField("Last Name")
+    }
+    column {
+        textFieldArea("Address")
+        numberField("Phone Number")
+        dateField("Date of Birth")
+    }
+    row {
+        dropdown("Department")
+        multiSelect("Skills")
+    }
+    signature("Employee Signature")
+    
+    
+    screen("Documents") 
+    column {
+        text("Please upload required documents")
+        image("Profile Photo")
+        image("ID Card")
     }
     
-    screen("Documents") {
-        column {
-            text("Please upload required documents")
-            image("Profile Photo")
-            image("ID Card")
-        }
-    }
 }
 ```
 
