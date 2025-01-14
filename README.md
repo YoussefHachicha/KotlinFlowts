@@ -47,9 +47,9 @@ A declarative way to build your applications using a simple and intuitive Kotlin
 ```kotlin
 buildApp {
     name("MyApp")              // Set your app name
-    screen("User Profile") {   // Create a screen
-        // Add components here
-    }
+    screen("User Profile")   // Create a screen
+    // Add components here
+    
 }
 ```
 #### Available Components
